@@ -20,10 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e95c4a4f-0e4d-492a-a75a-9c856ab0d6bf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/UDP_server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/tcp_exo_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../client/tcp_exo_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/echo_srv.py" beforeDir="false" afterPath="$PROJECT_DIR$/echo_srv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,9 +47,30 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client/client1.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../password" />
   </component>
-  <component name="RunManager" selected="Python.echo_srv">
+  <component name="RunManager" selected="Python.Password">
+    <configuration name="Password" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../password" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../password/Password.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="true" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="UDP_server" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="server" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -65,27 +84,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UDP_server.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Unnamed" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="server" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -116,17 +114,17 @@
       <method v="2" />
     </configuration>
     <configuration name="echo_srv" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="server" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="/usr/bin/python3.6" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/echo_srv.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -136,13 +134,37 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="tcp_exo_client" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python3.6" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../client/tcp_exo_client.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.Unnamed" />
       <item itemvalue="Python.UDP_server" />
       <item itemvalue="Python.echo_srv" />
+      <item itemvalue="Python.tcp_exo_client" />
+      <item itemvalue="Python.Password" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Password" />
+        <item itemvalue="Python.tcp_exo_client" />
         <item itemvalue="Python.echo_srv" />
       </list>
     </recent_temporary>
@@ -168,35 +190,58 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="418" y="197" width="1084" height="736" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601736210239">
+    <state x="418" y="197" width="1084" height="810" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602100897963">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="418" y="197" width="1084" height="736" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601736210239" />
+    <state x="418" y="197" width="1084" height="810" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1602100897963" />
+    <state x="418" y="197" width="1084" height="762" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601740245734" />
     <state x="800" y="294" width="309" height="516" key="EnvironmentVariablesDialog" timestamp="1601736184031">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="800" y="294" width="309" height="516" key="EnvironmentVariablesDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601736184031" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1601738304047">
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1602100467912">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601738304047" />
-    <state width="1897" height="287" key="GridCell.Tab.0.bottom" timestamp="1601738675237">
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1602100467912" />
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601740177789" />
+    <state width="1897" height="374" key="GridCell.Tab.0.bottom" timestamp="1602100574299">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601738675237" />
-    <state width="1897" height="287" key="GridCell.Tab.0.center" timestamp="1601738675236">
+    <state width="1897" height="374" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574299" />
+    <state width="1897" height="287" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
+    <state width="1897" height="374" key="GridCell.Tab.0.center" timestamp="1602100574298">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601738675236" />
-    <state width="1897" height="287" key="GridCell.Tab.0.left" timestamp="1601738675236">
+    <state width="1897" height="374" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574298" />
+    <state width="1897" height="287" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
+    <state width="1897" height="374" key="GridCell.Tab.0.left" timestamp="1602100574297">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601738675236" />
-    <state width="1897" height="287" key="GridCell.Tab.0.right" timestamp="1601738675236">
+    <state width="1897" height="374" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574297" />
+    <state width="1897" height="287" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
+    <state width="1897" height="374" key="GridCell.Tab.0.right" timestamp="1602100574298">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="287" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601738675236" />
+    <state width="1897" height="374" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574298" />
+    <state width="1897" height="287" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
+    <state width="1897" height="344" key="GridCell.Tab.1.bottom" timestamp="1602003090829">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="344" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1602003090829" />
+    <state width="1897" height="344" key="GridCell.Tab.1.center" timestamp="1602003090828">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="344" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1602003090828" />
+    <state width="1897" height="344" key="GridCell.Tab.1.left" timestamp="1602003090828">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="344" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1602003090828" />
+    <state width="1897" height="344" key="GridCell.Tab.1.right" timestamp="1602003090828">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="1897" height="344" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1602003090828" />
   </component>
 </project>

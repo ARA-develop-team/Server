@@ -1,7 +1,7 @@
 import socket
 
 IP = input('')
-port = input('')
+port = int(input())
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((IP, port))

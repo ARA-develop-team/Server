@@ -15,6 +15,7 @@ while server:
         client, addr = sock.accept()
     except KeyboardInterrupt:
         sock.close()
+        print("KeyboardInterrupt")
         break
     else:
         client.send(b"Welcome")
@@ -22,14 +23,19 @@ while server:
         while server:
             try:
                 result = client.recv(1024)
-            except ConnectionResetError:
-                print("Connection with ", client, addr, " lost")
-                break
-            else:
                 print('Incoming message', result.decode('utf-8'))
                 ans = input()
                 ans = bytes(ans, 'utf-8')
                 client.send(ans)
+            except ConnectionResetError:
+                print("Connection with ", client, addr, " lost")
+                break
+
+            # else:
+                # print('Incoming message', result.decode('utf-8'))
+                # ans = input()
+                # ans = bytes(ans, 'utf-8')
+                # client.send(ans)
 
 
 #         print(str(result))
