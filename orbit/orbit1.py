@@ -8,10 +8,23 @@ biasx = 0
 biasy = 0
 speed_b = 0.2
 
+
 def distance(obj_1_x, obj_1_y, obj_2_x, obj_2_y):
-    dis = math.sqrt(((obj_2_x  - obj_1_x)**2) + ((obj_2_y  - obj_1_y)**2))
+    dis = math.sqrt(((obj_2_x - obj_1_x)**2) + ((obj_2_y - obj_1_y)**2))
     return dis
 
+
+def direction_between_two_point(x1, y1, x2, y2):
+    return [x2 - x1, y1 - y2]
+
+
+def combining_vectors(list_vector):
+    comb_vector = [0, 0]
+    for vector in list_vector:
+        comb_vector[0] += vector[0]
+        comb_vector[1] += vector[1]
+    return comb_vector
+print(combining_vectors([[2, 1], [1, 2], [0, 3]]))
 
 class Object:
     def __init__(self, x, y, color, radius, weight, impulse):
