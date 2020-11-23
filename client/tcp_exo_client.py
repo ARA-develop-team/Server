@@ -1,6 +1,6 @@
 import socket
 
-IP = '176.38.153.161'
+IP = '176'
 port = 8585
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

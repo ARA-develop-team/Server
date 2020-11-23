@@ -22,7 +22,7 @@
     <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/tcp_exo_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/tcp_exo_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orbit/orbit1.py" beforeDir="false" afterPath="$PROJECT_DIR$/orbit/orbit1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/messenger_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/messenger_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +40,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TestPython" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -132,22 +132,22 @@
     </state>
     <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl/0.0.1093.574@0.0.1093.574" timestamp="1606121286970" />
     <state x="738" y="283" width="424" height="513" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601735974557" />
-    <state width="1038" height="113" key="GridCell.Tab.0.bottom" timestamp="1606123251224">
+    <state width="1038" height="113" key="GridCell.Tab.0.bottom" timestamp="1606124192944">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606123251224" />
-    <state width="1038" height="113" key="GridCell.Tab.0.center" timestamp="1606123251224">
+    <state width="1038" height="113" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606124192944" />
+    <state width="1038" height="113" key="GridCell.Tab.0.center" timestamp="1606124192944">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.center/0.0.1093.574@0.0.1093.574" timestamp="1606123251224" />
-    <state width="1038" height="113" key="GridCell.Tab.0.left" timestamp="1606123251224">
+    <state width="1038" height="113" key="GridCell.Tab.0.center/0.0.1093.574@0.0.1093.574" timestamp="1606124192944" />
+    <state width="1038" height="113" key="GridCell.Tab.0.left" timestamp="1606124192944">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.left/0.0.1093.574@0.0.1093.574" timestamp="1606123251224" />
-    <state width="1038" height="113" key="GridCell.Tab.0.right" timestamp="1606123251224">
+    <state width="1038" height="113" key="GridCell.Tab.0.left/0.0.1093.574@0.0.1093.574" timestamp="1606124192944" />
+    <state width="1038" height="113" key="GridCell.Tab.0.right" timestamp="1606124192944">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1606123251224" />
+    <state width="1038" height="113" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1606124192944" />
     <state width="1038" height="145" key="GridCell.Tab.1.bottom" timestamp="1606077281381">
       <screen x="0" y="0" width="1093" height="574" />
     </state>

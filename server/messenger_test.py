@@ -55,8 +55,8 @@ class CServer(object):
 """run application"""
 print("*** \n[preparing for launch server]")
 
-IP = "192.168.10.191"       # input("IP: ")
-port = 8585      # int(input("port: "))
+IP = input("IP: ")
+port = int(input("port: "))
 
 server = CServer(IP, port)
 server.launch_server()
