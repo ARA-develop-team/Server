@@ -62,8 +62,8 @@ class Object:
         self.x = zoom_x + centre_x
         self.y = zoom_y + centre_y
 
-        self.radius = int(self.radius * zoom)
-        pygame.draw.circle(window, self.color, (int(self.x), int(self.y)), self.radius, self.radius)
+        self.radius = self.radius * zoom
+        pygame.draw.circle(window, self.color, (int(self.x), int(self.y)), int(self.radius), int(self.radius))
 
     def force_of_attraction(self, stranger_weight, distance):
         F = self.G * ((stranger_weight * self.weight) / (distance ** 2))  # F - force of attraction
@@ -87,19 +87,23 @@ for a in range(0, 4
     planets.append(Object(x, y, color, radius, weight, impulse))
 # end of test code
 
-
+planets.append(Object(0, 0, (0, 0, 255), 6.3, 10, 0))
+planets.append(Object(150000, 0, (250, 200, 0), 696, 10, 0))
 pygame.init()
 while run:
     pygame.time.delay(time_speed)
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             run = False
+        if e.type == pygame.MOUSEMOTION:
+            centre_x = e.pos[0]
+            centre_y = e.pos[1]
         if e.type == pygame.MOUSEBUTTONDOWN:
             # zoom
-            if e.button == 4:
+            if e.button == 5:
                 zoom = zoom / 2
                 print(zoom)
-            if e.button == 5:
+            if e.button == 4:
                 zoom = zoom * 2
                 print(zoom)
 
@@ -110,9 +114,9 @@ while run:
     if keys[pygame.K_s]:
         biasy -= speed_b
     if keys[pygame.K_a]:
-        biasx -= speed_b
-    if keys[pygame.K_d]:
         biasx += speed_b
+    if keys[pygame.K_d]:
+        biasx -= speed_b
 
     window.fill((10, 10, 10))
 
