@@ -40,10 +40,8 @@ def vector(x1, y1, x2, y2, speed):  # считает направление ме
     v_x_2 = x2 - x1
     v_y_2 = y2 - y1
     if v_x_2 != 0 or v_y_2 != 0:  # это нужно для того что бы в формула не делила на ноль
-        print(v_x_2, v_y_2, math.sqrt(v_x_2 ** 2 + v_y_2 ** 2), speed ** 2)
         v_x = v_x_2 / math.sqrt((v_x_2 ** 2 + v_y_2 ** 2) / speed ** 2)
         v_y = v_y_2 / math.sqrt((v_x_2 ** 2 + v_y_2 ** 2) / speed ** 2)
-        print('=' + str(v_x), str(v_y))
     else:
         v_x, v_y = 0, 0
     return v_x, v_y
@@ -61,11 +59,9 @@ def classic_curvature_of_space():
             length = distance(planets[obj].x, planets[obj].y, planets[obj_2].x, planets[obj_2].y)
             f = planets[obj].force_of_attraction(planets[obj_2].weight, length)
             dir = vector(planets[obj].x, planets[obj].y, planets[obj_2].x, planets[obj_2].y, 1)
-            print(dir)
 
             planets[obj].exert_force(f, dir)
             planets[obj_2].exert_force(f, [-dir[0], -dir[1]])
-            print(str(obj) + ' + ' + str(obj_2) + ' F = ' + str(f))
 
 
 # print(combining_vectors([[2, 1], [1, 2], [0, 3]]))
@@ -121,7 +117,7 @@ class Object:
 """test code"""
 # distance = 55.76 * (10 ** 6)
 planets = []
-for a in range(0, 5
+for a in range(0, 15
                ):
     x = random.randint(5, 455)
     y = random.randint(5, 455)
