@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e95c4a4f-0e4d-492a-a75a-9c856ab0d6bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../game/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../game/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e95c4a4f-0e4d-492a-a75a-9c856ab0d6bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +46,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../game/main.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../game" />
   </component>
   <component name="RunManager" selected="Python.messenger_test">
     <configuration name="UDP_server" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -190,7 +187,7 @@
       <workItem from="1605891125204" duration="2421000" />
       <workItem from="1605986639187" duration="2450000" />
       <workItem from="1606058880998" duration="1591000" />
-      <workItem from="1606143158664" duration="750000" />
+      <workItem from="1606143158664" duration="866000" />
     </task>
     <servers />
   </component>
@@ -223,11 +220,11 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="800" y="294" width="309" height="516" key="EnvironmentVariablesDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601736184031" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1606143631445">
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1606144021973">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1602100467912" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1606143631445" />
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1606144021973" />
     <state width="1874" height="385" key="GridCell.Tab.0.bottom" timestamp="1605989627350">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
