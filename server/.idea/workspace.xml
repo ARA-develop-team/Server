@@ -20,11 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e95c4a4f-0e4d-492a-a75a-9c856ab0d6bf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../orbit/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/messenger_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messenger_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/messenger_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +49,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/messenger_test.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../game" />
   </component>
   <component name="RunManager" selected="Python.messenger_test">
     <configuration name="UDP_server" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -192,7 +189,8 @@
       <workItem from="1605727801431" duration="596000" />
       <workItem from="1605891125204" duration="2421000" />
       <workItem from="1605986639187" duration="2450000" />
-      <workItem from="1606058880998" duration="937000" />
+      <workItem from="1606058880998" duration="1591000" />
+      <workItem from="1606143158664" duration="345000" />
     </task>
     <servers />
   </component>

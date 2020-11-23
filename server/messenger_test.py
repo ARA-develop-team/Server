@@ -44,7 +44,7 @@ class CServer(object):
         while True:     # change in the future
             try:
                 result = client_join.recv(1024)
-                mess_time = datetime.datetime.now()
+                # incoming_mess_time = datetime.datetime.now()
                 print('Incoming message', result.decode('utf-8'))
 
             except ConnectionResetError:
