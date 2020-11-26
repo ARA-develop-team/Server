@@ -20,8 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/tcp_exo_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/tcp_exo_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/client_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/client_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/main.py" afterDir="false" />
     </list>
@@ -45,6 +45,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunManager" selected="Python.orbit1">
     <configuration name="client_game" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -209,6 +210,10 @@
       <screen x="0" y="0" width="1093" height="574" />
     </state>
     <state width="1038" height="145" key="GridCell.Tab.1.right/0.0.1093.574@0.0.1093.574" timestamp="1606077281381" />
+    <state x="-2" y="0" key="SettingsEditor" timestamp="1606391595266">
+      <screen x="0" y="0" width="1093" height="574" />
+    </state>
+    <state x="-2" y="0" key="SettingsEditor/0.0.1093.574@0.0.1093.574" timestamp="1606391595266" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
