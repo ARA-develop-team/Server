@@ -1,3 +1,4 @@
+import pickle
 import socket
 import threading
 
@@ -9,6 +10,8 @@ class CClient(object):
         self.port = serv_port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.working = True
+        self.my_date = []
+        self.serv_date = []
 
     def connection_to_server(self):
         self.sock.connect((self.IP, self.port))
@@ -20,13 +23,13 @@ class CClient(object):
 
     def listening_serv(self):
         while self.working:
-            serv_date = self.sock.recv(1024)
-            print(serv_date)   # delete in the future
+            self.serv_date = self.sock.recv(1024)
+            print(self.serv_date)   # delete in the future
 
     def transmission_to_server(self):
         while self.working:
-            my_date = 'hi'
-            my_date = bytes(my_date, 'utf-8')
+            my_date = pickle.dumps(self.my_date)
+            # my_date = bytes(self.my_date, 'utf-8')
             self.sock.send(my_date)
 
 

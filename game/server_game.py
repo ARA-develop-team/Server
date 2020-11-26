@@ -1,5 +1,6 @@
 import threading
 import socket
+import pickle
 import datetime
 
 
@@ -48,8 +49,9 @@ class CServer(object):
         thread_listening.start()
 
         while True:  # change in the future
-            serv_date = "Hello Roma! Press F to respect 8585"
-            serv_date = bytes(serv_date, 'utf-8')
+            # serv_date = "Hello Roma! Press F to respect 8585"
+            # serv_date = bytes(serv_date, 'utf-8')
+            serv_date = pickle.dumps(self.clients_date)
             client_join.send(serv_date)
             print("date_was_transformed")
 

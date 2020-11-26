@@ -40,6 +40,7 @@ color = (r, g, b)
 
 #  player = CPlayer()     # change in future
 client_thread = threading.Thread(target=client())
+
 run = True
 while run:
     for e in pygame.event.get():
