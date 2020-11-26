@@ -1,4 +1,6 @@
 import pygame
+import threading
+from client_game import CClient
 
 pygame.init()
 
@@ -19,7 +21,16 @@ class CPlayer:
     def draw(self):
         pygame.draw.circle(window, self.color, [self.x, self.y], self.size, self.size)
 
+    def client(self):
+        IP = 1  # input("IP: ")
+        port = 1  # int(input("port: "))
 
+        client = CClient(IP, port)
+        client.connection_to_server()
+
+
+player = CPlayer()     # change in future
+client_thread = threading.Thread(target=player.client())
 run = True
 while run:
     for e in pygame.event.get():

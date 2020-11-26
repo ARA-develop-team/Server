@@ -27,11 +27,11 @@ class CClient(object):
         self.sock.send(my_date)
 
 
-IP = 1   # input("IP: ")
-port = 1  # int(input("port: "))
-
-client = CClient(IP, port)
-client.connection_to_server()
+# IP = 1   # input("IP: ")
+# port = 1  # int(input("port: "))
+#
+# client = CClient(IP, port)
+# client.connection_to_server()
 
 #     result = sock.recv(1024)
 #     print(result)
