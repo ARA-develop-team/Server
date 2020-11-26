@@ -47,9 +47,11 @@ class CServer(object):
         thread_listening = threading.Thread(target=self.listening_client, args=())
         thread_listening.start()
 
-        # while True:  # change in the future
-        #     serv_date = bytes(serv_date, 'utf-8')
-        #     client_join.send(serv_date)
+        while True:  # change in the future
+            serv_date = "Hello Roma! Press F to respect 8585"
+            serv_date = bytes(serv_date, 'utf-8')
+            client_join.send(serv_date)
+            print("date_was_transformed")
 
             # try:
             #     result = client_join.recv(1024)
@@ -77,7 +79,7 @@ class CServer(object):
 """run application"""
 print("*** \n[preparing for launch server]")
 
-IP = " "  # input("IP: ")
+IP = "192.168.10.191"  # input("IP: ")
 port = int(input("port: "))
 
 server = CServer(IP, port)
