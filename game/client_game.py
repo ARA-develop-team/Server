@@ -33,8 +33,8 @@ class CClient(object):
             self.sock.send(my_date)
 
 
-# IP = '176.38.153.161'   # input("IP: ")
-# port = 8585  # int(input("port: "))
+# IP = ''   # input("IP: ")
+# port =   # int(input("port: "))
 #
 # client = CClient(IP, port)
 # client.connection_to_server()

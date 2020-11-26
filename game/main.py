@@ -1,7 +1,8 @@
 import pygame
 import random
 import threading
-import client_game
+from client_game import CClient
+# import client_game
 
 pygame.init()
 
