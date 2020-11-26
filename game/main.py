@@ -19,13 +19,25 @@ class CPlayer:
     def draw(self):
         pygame.draw.circle(window, self.color, [self.x, self.y], self.size, self.size)
 
-
+x = 0
+y = 0
 run = True
 while run:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             run = False
 
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+    if keys[pygame.K_s]:
+    if keys[pygame.K_a]:
+    if keys[pygame.K_d]:
+
+    """отправка данных на сервер"""
+
+    """принятие данных с сервера"""
+
+    '''прорисовка'''
     window.fill((100, 100, 100))
 
     pygame.display.update()

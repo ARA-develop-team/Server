@@ -19,16 +19,19 @@ class CClient(object):
         thread_transmission.start()
 
     def listening_serv(self):
-        serv_date = self.sock.recv(1024)
-        print(serv_date)   # delete in the future
+        while self.working:
+            serv_date = self.sock.recv(1024)
+            print(serv_date)   # delete in the future
 
-    def transmission_to_server(self, my_date):
-        my_date = bytes(my_date, 'utf-8')
-        self.sock.send(my_date)
+    def transmission_to_server(self):
+        while self.working:
+            my_date = 'hi'
+            my_date = bytes(my_date, 'utf-8')
+            self.sock.send(my_date)
 
 
-IP = 1   # input("IP: ")
-port = 1  # int(input("port: "))
+IP = '176.38.153.161'   # input("IP: ")
+port = 8585  # int(input("port: "))
 
 client = CClient(IP, port)
 client.connection_to_server()

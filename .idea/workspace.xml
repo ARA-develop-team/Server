@@ -21,6 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/tcp_exo_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/tcp_exo_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/client_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/client_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,12 +41,33 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Mygame/Game" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.orbit1">
+    <configuration name="client_game" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/game" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/game/client_game.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Server" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,9 +133,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.orbit1" />
+        <item itemvalue="Python.client_game" />
         <item itemvalue="Python.tcp_exo_client" />
+        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -148,27 +172,27 @@
     </state>
     <state x="0" y="0" key="#Project_Structure/0.0.1093.574@0.0.1093.574" timestamp="1603647793131" />
     <state x="334" y="0" key="#Project_Structure/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1601739909935" />
-    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl" timestamp="1606145139489">
+    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl" timestamp="1606145258646">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl/0.0.1093.574@0.0.1093.574" timestamp="1606145139489" />
+    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl/0.0.1093.574@0.0.1093.574" timestamp="1606145258646" />
     <state x="738" y="283" width="424" height="513" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601735974557" />
-    <state width="1038" height="113" key="GridCell.Tab.0.bottom" timestamp="1606143922013">
+    <state width="1038" height="378" key="GridCell.Tab.0.bottom" timestamp="1606153388547">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606143922013" />
-    <state width="1038" height="113" key="GridCell.Tab.0.center" timestamp="1606143922012">
+    <state width="1038" height="378" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606153388547" />
+    <state width="1038" height="378" key="GridCell.Tab.0.center" timestamp="1606153388547">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.center/0.0.1093.574@0.0.1093.574" timestamp="1606143922012" />
-    <state width="1038" height="113" key="GridCell.Tab.0.left" timestamp="1606143922012">
+    <state width="1038" height="378" key="GridCell.Tab.0.center/0.0.1093.574@0.0.1093.574" timestamp="1606153388547" />
+    <state width="1038" height="378" key="GridCell.Tab.0.left" timestamp="1606153388547">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.left/0.0.1093.574@0.0.1093.574" timestamp="1606143922012" />
-    <state width="1038" height="113" key="GridCell.Tab.0.right" timestamp="1606143922013">
+    <state width="1038" height="378" key="GridCell.Tab.0.left/0.0.1093.574@0.0.1093.574" timestamp="1606153388547" />
+    <state width="1038" height="378" key="GridCell.Tab.0.right" timestamp="1606153388547">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
-    <state width="1038" height="113" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1606143922013" />
+    <state width="1038" height="378" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1606153388547" />
     <state width="1038" height="145" key="GridCell.Tab.1.bottom" timestamp="1606077281381">
       <screen x="0" y="0" width="1093" height="574" />
     </state>
