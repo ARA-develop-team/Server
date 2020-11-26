@@ -30,7 +30,7 @@ class CPlayer:
 
 
 player = CPlayer()     # change in future
-client_thread = threading.Thread(target=player.client())
+client_thread = threading.Thread(target=player.client, args=())
 run = True
 while run:
     for e in pygame.event.get():

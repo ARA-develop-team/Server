@@ -9,6 +9,8 @@ class CClient(object):
         self.port = serv_port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.working = True
+        self.my_date = []
+        self.serv_date = []
 
     def connection_to_server(self):
         self.sock.connect((self.IP, self.port))
