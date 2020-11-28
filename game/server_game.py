@@ -1,7 +1,6 @@
 import threading
 import socket
 import pickle
-import datetime
 
 
 class CServer(object):
@@ -68,14 +67,20 @@ class CServer(object):
         listen_client = self.no_listen_clients.pop()
         while self.working:
             try:
-                serv_date = listen_client.recv(1024)
-                print(serv_date)  # delete in the future
+                client_date = listen_client.recv(1024)
+                print(client_date)  # delete in the future
 
             except ConnectionResetError:
                 print("ConnectionResetError")
 
             else:
-                print("date is ", serv_date)
+                client_date_list = [listen_client, client_date]
+                if len(self.clients_date) != 0:
+                    for one_list in self.clients_date:
+                        if one_list.count(listen_client) != 0:
+                            self.clients_date.remove(one_list)
+
+                self.clients_date.append(client_date_list)
 
 
 """run application"""
