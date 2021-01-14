@@ -67,6 +67,17 @@ def classic_curvature_of_space():
 # print(combining_vectors([[2, 1], [1, 2], [0, 3]]))
 
 
+class Camera:
+    def __init__(self, x, y, zoom):
+        self.x = x
+        self.y = y
+        self.zoom = zoom
+
+    def show(self, list_object):
+        for obj in list_object:
+            if self.x - obj.radius < obj.x < self.x + obj.radius + (screen_x * self.zoom) and self.y - obj.radius < obj.y < self.y + obj.radius + (screen_y * self.zoom):
+                obj.draw(self.x, self.y, self.zoom)
+
 class Object:
     def __init__(self, x, y, color, radius, weight, start_impulse, direction):
         self.x = x
@@ -78,22 +89,22 @@ class Object:
         self.dir = direction[0] * start_impulse, direction[1] * start_impulse
         self.G = 6.7 * (10 ** -11)  # G - gravitational constant
 
-    def draw(self, bias_x, bias_y, zoom, centre_x, centre_y):
+    def draw(self, bias_x, bias_y, zoom):
         # work with alternative coordinate system
-        alternative_x = self.x - centre_x + (bias_x * zoom)
-        alternative_y = self.y - centre_y + (bias_y * zoom)
-        zoom_x = alternative_x * zoom
-        zoom_y = alternative_y * zoom
-        if zoom_x == 0:
-            zoom_x = random.randint(-1, 1)
-        if zoom_y == 0:
-            zoom_y = random.randint(-1, 1)
+        # alternative_x = self.x - centre_x + (bias_x * zoom)
+        # alternative_y = self.y - centre_y + (bias_y * zoom)
+        # zoom_x = alternative_x * zoom
+        # zoom_y = alternative_y * zoom
+        # if zoom_x == 0:
+        #     zoom_x = random.randint(-1, 1)
+        # if zoom_y == 0:
+        #     zoom_y = random.randint(-1, 1)
         # comeback to real coordinate system
-        self.x = zoom_x + centre_x
-        self.y = zoom_y + centre_y
+        # self.x = zoom_x + centre_x
+        # self.y = zoom_y + centre_y
 
-        self.radius = self.radius * zoom
-        pygame.draw.circle(window, self.color, (int(self.x), int(self.y)), int(self.radius), int(self.radius))
+        # self.radius = self.radius * zoom
+        pygame.draw.circle(window, self.color, (int(bias_x * zoom - self.x), int(bias_y * zoom - self.y)), int(self.radius * zoom), int(self.radius * zoom))
 
     def force_of_attraction(self, stranger_weight, distance):
         F = self.G * ((stranger_weight * self.weight) / (distance ** 2))  # F - force of attraction
@@ -128,6 +139,7 @@ for a in range(0, 15
     planets.append(Object(x, y, color, radius, weight, impulse, [0, -1]))
 # end of test code
 
+camera = Camera(0, 0, 1)
 planets.append(Object(0, 0, (0, 0, 255), 6.3, 6 * 10**20, 0, [0, 0]))
 #planets.append(Object(150000, 0, (250, 200, 0), 696, 2 * 10**30, 50, [-1, 0]))
 pygame.init()
@@ -144,35 +156,35 @@ while run:
         if e.type == pygame.MOUSEBUTTONDOWN:
             # zoom
             if e.button == 5:
-                zoom = zoom / 2
-                print(zoom)
+                camera.zoom = camera.zoom / 2
+                print(camera.zoom)
             if e.button == 4:
-                zoom = zoom * 2
-                print(zoom)
+                camera.zoom = camera.zoom * 2
+                print(camera.zoom)
 
     keys = pygame.key.get_pressed()
     # movement
     if keys[pygame.K_w]:
-        biasy += speed_b
+        camera.y -= speed_b
     if keys[pygame.K_s]:
-        biasy -= speed_b
+        camera.y += speed_b
     if keys[pygame.K_a]:
-        biasx += speed_b
+        camera.x -= speed_b
     if keys[pygame.K_d]:
-        biasx -= speed_b
+        camera.x += speed_b
 
     window.fill((10, 10, 10))
 
-    for planet in planets:
-        # test code
-        for second_planet in planets:
-            if planet != second_planet:
-                length = distance(planet.x, planet.y, second_planet.x, second_planet.y)
-                # F = planet.force_of_attraction(second_planet.weight, length)
-                # print(int(F))
-        # end of test code
-        planet.draw(biasx, biasy, zoom, centre_x, centre_y)
-
+    # for planet in planets:
+    #     # test code
+    #     for second_planet in planets:
+    #         if planet != second_planet:
+    #             length = distance(planet.x, planet.y, second_planet.x, second_planet.y)
+    #             # F = planet.force_of_attraction(second_planet.weight, length)
+    #             # print(int(F))
+    #     # end of test code
+    #     planet.draw(biasx, biasy, zoom, centre_x, centre_y)
+    camera.show(planets)
     for number in range(len(planets)):
         planets[number].motion()
     classic_curvature_of_space()
