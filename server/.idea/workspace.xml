@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e95c4a4f-0e4d-492a-a75a-9c856ab0d6bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../client/tcp_exo_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/../client/tcp_exo_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/echo_srv.py" beforeDir="false" afterPath="$PROJECT_DIR$/echo_srv.py" afterDir="false" />
-    </list>
+    <list default="true" id="e95c4a4f-0e4d-492a-a75a-9c856ab0d6bf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="JupyterTrust" id="ccdbe67a-e1ed-4eb0-ae3d-09c260c9457a" />
   <component name="ProjectId" id="1iN74kbeB1RvJ6XmZb49IsLi9Y4" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -47,30 +44,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../password" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../game" />
   </component>
-  <component name="RunManager" selected="Python.Password">
-    <configuration name="Password" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="/usr/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../password" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../password/Password.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="true" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.messenger_test">
     <configuration name="UDP_server" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="server" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -83,6 +61,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UDP_server.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -104,6 +83,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/UDP_server.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -125,10 +105,33 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/echo_srv.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="messenger_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python3.6m" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/messenger_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="true" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
@@ -146,6 +149,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../client/tcp_exo_client.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -159,11 +163,11 @@
       <item itemvalue="Python.UDP_server" />
       <item itemvalue="Python.echo_srv" />
       <item itemvalue="Python.tcp_exo_client" />
-      <item itemvalue="Python.Password" />
+      <item itemvalue="Python.messenger_test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Password" />
+        <item itemvalue="Python.messenger_test" />
         <item itemvalue="Python.tcp_exo_client" />
         <item itemvalue="Python.echo_srv" />
       </list>
@@ -177,8 +181,18 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601736007016</updated>
+      <workItem from="1605384378226" duration="116000" />
+      <workItem from="1605712270030" duration="3021000" />
+      <workItem from="1605727801431" duration="596000" />
+      <workItem from="1605891125204" duration="2421000" />
+      <workItem from="1605986639187" duration="2450000" />
+      <workItem from="1606058880998" duration="1591000" />
+      <workItem from="1606143158664" duration="866000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -193,40 +207,44 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="418" y="197" width="1084" height="810" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602100897963">
+    <state x="589" y="220" width="732" height="637" key="#Inspections" timestamp="1605891933372">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="418" y="197" width="1084" height="810" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1602100897963" />
-    <state x="418" y="197" width="1084" height="762" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601740245734" />
+    <state x="589" y="220" width="732" height="637" key="#Inspections/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1605891933372" />
+    <state x="418" y="197" width="1084" height="786" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605712788972">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="418" y="197" width="1084" height="810" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1605712788972" />
+    <state x="418" y="197" width="1084" height="786" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1605384472732" />
     <state x="800" y="294" width="309" height="516" key="EnvironmentVariablesDialog" timestamp="1601736184031">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="800" y="294" width="309" height="516" key="EnvironmentVariablesDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601736184031" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1602100467912">
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1606144021973">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1602100467912" />
-    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601740177789" />
-    <state width="1897" height="374" key="GridCell.Tab.0.bottom" timestamp="1602100574299">
+    <state x="743" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1606144021973" />
+    <state width="1874" height="385" key="GridCell.Tab.0.bottom" timestamp="1605989627350">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="374" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574299" />
-    <state width="1897" height="287" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
-    <state width="1897" height="374" key="GridCell.Tab.0.center" timestamp="1602100574298">
+    <state width="1874" height="374" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1605715294471" />
+    <state width="1874" height="385" key="GridCell.Tab.0.bottom/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1605989627350" />
+    <state width="1874" height="385" key="GridCell.Tab.0.center" timestamp="1605989627349">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="374" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574298" />
-    <state width="1897" height="287" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
-    <state width="1897" height="374" key="GridCell.Tab.0.left" timestamp="1602100574297">
+    <state width="1874" height="374" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1605715294469" />
+    <state width="1874" height="385" key="GridCell.Tab.0.center/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1605989627349" />
+    <state width="1874" height="385" key="GridCell.Tab.0.left" timestamp="1605989627349">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="374" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574297" />
-    <state width="1897" height="287" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
-    <state width="1897" height="374" key="GridCell.Tab.0.right" timestamp="1602100574298">
+    <state width="1874" height="374" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1605715294468" />
+    <state width="1874" height="385" key="GridCell.Tab.0.left/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1605989627349" />
+    <state width="1874" height="385" key="GridCell.Tab.0.right" timestamp="1605989627350">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="374" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1602100574298" />
-    <state width="1897" height="287" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601745916837" />
+    <state width="1874" height="374" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1605715294470" />
+    <state width="1874" height="385" key="GridCell.Tab.0.right/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1605989627350" />
     <state width="1897" height="344" key="GridCell.Tab.1.bottom" timestamp="1602003090829">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -243,5 +261,8 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state width="1897" height="344" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1602003090828" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/server$messenger_test.coverage" NAME="messenger_test Coverage Results" MODIFIED="1605989108938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
