@@ -36,6 +36,20 @@ def combining_vectors(list_vector):
     return comb_vector
 
 
+<<<<<<< HEAD
+def draw_grid(distance):
+    number_line_x = int(screen_x / distance)
+    number_line_y = int(screen_y / distance)
+    for number in range(number_line_x):
+        x = number * distance
+        pygame.draw.line(window, (255, 255, 255), [x + biasx, biasy], [x + biasx, screen_y + biasy])
+    for number in range(number_line_y):
+        y = number * distance
+        pygame.draw.line(window, (255, 255, 255), [biasx, y + biasy], [screen_x + biasx, y + biasy])
+    print(biasy)
+
+print(combining_vectors([[2, 1], [1, 2], [0, 3]]))
+=======
 def vector(x1, y1, x2, y2, speed):  # считает направление между двумя объектами
     v_x_2 = x2 - x1
     v_y_2 = y2 - y1
@@ -59,6 +73,7 @@ def classic_curvature_of_space():
             length = distance(planets[obj].x, planets[obj].y, planets[obj_2].x, planets[obj_2].y)
             f = planets[obj].force_of_attraction(planets[obj_2].weight, length)
             dir = vector(planets[obj].x, planets[obj].y, planets[obj_2].x, planets[obj_2].y, 1)
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
 
             planets[obj].exert_force(f, dir)
             planets[obj_2].exert_force(f, [-dir[0], -dir[1]])
@@ -79,14 +94,23 @@ class Camera:
                 obj.draw(self.x, self.y, self.zoom)
 
 class Object:
+<<<<<<< HEAD
+    def __init__(self, x, y, color, radius, weight, impulse, direction):
+=======
     def __init__(self, x, y, color, radius, weight, start_impulse, direction):
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
         self.x = x
         self.y = y
         self.color = color
         self.radius = radius
         self.weight = weight
+<<<<<<< HEAD
+        self.speed = impulse
+        self.dir = direction
+=======
         self.speed = start_impulse
         self.dir = direction[0] * start_impulse, direction[1] * start_impulse
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
         self.G = 6.7 * (10 ** -11)  # G - gravitational constant
 
     def draw(self, bias_x, bias_y, zoom):
@@ -103,8 +127,13 @@ class Object:
         # self.x = zoom_x + centre_x
         # self.y = zoom_y + centre_y
 
+<<<<<<< HEAD
+        self.radius = self.radius * zoom
+        pygame.draw.circle(window, self.color, (int(self.x) + biasx, int(self.y) + biasy), int(self.radius), int(self.radius))
+=======
         # self.radius = self.radius * zoom
         pygame.draw.circle(window, self.color, (int(bias_x * zoom - self.x), int(bias_y * zoom - self.y)), int(self.radius * zoom), int(self.radius * zoom))
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
 
     def force_of_attraction(self, stranger_weight, distance):
         F = self.G * ((stranger_weight * self.weight) / (distance ** 2))  # F - force of attraction
@@ -128,6 +157,21 @@ class Object:
 """test code"""
 # distance = 55.76 * (10 ** 6)
 planets = []
+<<<<<<< HEAD
+# for a in range(0, 4
+#                ):
+#     x = random.randint(5, 455)
+#     y = random.randint(5, 455)
+#     color = (255, 255, 255)
+#     radius = random.randint(5, 20)
+#     impulse = 0
+#     weight = 5.9726 * (10 ** 24)
+#     planets.append(Object(x, y, color, radius, weight, impulse))
+# end of test code
+
+planets.append(Object(0, 0, (0, 0, 255), 6.3, 10, 0, 0.1))
+planets.append(Object(150000, 0, (250, 200, 0), 696, 10, 0, 0.1))
+=======
 for a in range(0, 15
                ):
     x = random.randint(5, 455)
@@ -142,6 +186,7 @@ for a in range(0, 15
 camera = Camera(0, 0, 1)
 planets.append(Object(0, 0, (0, 0, 255), 6.3, 6 * 10**20, 0, [0, 0]))
 #planets.append(Object(150000, 0, (250, 200, 0), 696, 2 * 10**30, 50, [-1, 0]))
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
 pygame.init()
 f2 = pygame.font.SysFont('arial', 16)
 
@@ -175,6 +220,18 @@ while run:
 
     window.fill((10, 10, 10))
 
+<<<<<<< HEAD
+    for planet in planets:
+        # test code
+        for second_planet in planets:
+            if planet != second_planet:
+                length = distance(planet.x, planet.y, second_planet.x, second_planet.y)
+                # F = planet.force_of_attraction(second_planet.weight, length)
+                # print(int(F))
+        # end of test code
+        planet.draw(biasx, biasy, zoom, centre_x, centre_y)
+    draw_grid(100)
+=======
     # for planet in planets:
     #     # test code
     #     for second_planet in planets:
@@ -193,8 +250,9 @@ while run:
     window.blit(text, (10, 20))
     text2 = f2.render(str(planets[0].dir), 1, (0, 180, 0))
     window.blit(text2, (10, 40))
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
     pygame.display.update()
     zoom = 1
-    biasx = 0
-    biasy = 0
+    # biasx = 0
+    # biasy = 0
 pygame.quit()

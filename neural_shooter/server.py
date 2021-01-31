@@ -30,7 +30,6 @@ def handle_client(conn, addr, number):
                 connected = False
 
             pos_player[number] = msg
-            print(f"[{addr}] send {msg}")
             msg = pickle.dumps(pos_player)
             conn.send(msg)
 
