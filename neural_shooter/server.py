@@ -21,23 +21,26 @@ def handle_client(conn, addr, number):
 
     connected = True
     while connected:
+        # reception length
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
-            msg_length = int(msg_length)
-            msg = conn.recv(msg_length)
-            msg = pickle.loads(msg)
-            if msg == DISCONNECT_MESSAGE:
-                connected = False
+        msg_length = int(msg_length)
+        # reception message
+        msg = conn.recv(msg_length)
 
-            pos_player[number] = msg
-            print(f"[{addr}] send {msg}")
-            msg = pickle.dumps(pos_player)
-            conn.send(msg)
+        # treatment massage
+        msg = pickle.loads(msg) # unpacking message
+        pos_player[number] = msg
+
+        # send length
+        msg = pickle.dumps(pos_player) # packing message
+        msg_length = len(msg)
+        send_length = str(msg_length).encode(FORMAT)
+        send_length += b' ' * (HEADER - len(send_length))
+        conn.send(send_length)
+        # send message
+        conn.send(msg)
 
     conn.close()
-
-def send_client(conn, addr):
-    pass
 
 
 def start():
