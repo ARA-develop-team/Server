@@ -1,12 +1,17 @@
 """game server"""
+
 import socket
 import threading
 import pickle
+import config_parser as parser
+
+file_path = r'server.yml'
+yml_data = parser.getting_data(file_path)
 
 HEADER = 64
-PORT = 5050
-SERVER = socket.gethostbyname(socket.gethostname())
-ADDR = (SERVER, PORT)
+# PORT = 5050
+# SERVER = socket.gethostbyname(socket.gethostname())
+ADDR = (yml_data['IP'], yml_data['PORT'])
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
 
