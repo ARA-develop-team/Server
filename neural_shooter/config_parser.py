@@ -25,7 +25,7 @@ def getting_data(file_name):
 
 
 if __name__ == "__main__":
-    using_file = [r"client.yml", r"server.yml"]      # temp
+    using_file = [r"client.yml", r"server.yml"]      # temp data
     for path in using_file:
         result = getting_data(path)
         print(result)
