@@ -8,9 +8,10 @@ import config_parser as parser
 file_path = r'server.yml'
 yml_data = parser.getting_data(file_path)
 
-HEADER = 64
 # PORT = 5050
 # SERVER = socket.gethostbyname(socket.gethostname())
+
+HEADER = 64
 ADDR = (yml_data['IP'], yml_data['PORT'])
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
@@ -26,27 +27,31 @@ def handle_client(conn, addr, number):
 
     connected = True
     while connected:
+        # reception length
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
-            msg_length = int(msg_length)
-            msg = conn.recv(msg_length)
-            msg = pickle.loads(msg)
-            if msg == DISCONNECT_MESSAGE:
-                connected = False
+        msg_length = int(msg_length)
+        # reception message
+        msg = conn.recv(msg_length)
 
-            pos_player[number] = msg
-            msg = pickle.dumps(pos_player)
-            conn.send(msg)
+        # treatment massage
+        msg = pickle.loads(msg) # unpacking message
+        pos_player[number] = msg
+
+        # send length
+        msg = pickle.dumps(pos_player)  # packing message
+        msg_length = len(msg)
+        send_length = str(msg_length).encode(FORMAT)
+        send_length += b' ' * (HEADER - len(send_length))
+        conn.send(send_length)
+        # send message
+        conn.send(msg)
 
     conn.close()
-
-def send_client(conn, addr):
-    pass
 
 
 def start():
     server.listen()
-    print(f"[LISTENING] Server is listening on {SERVER}")
+    print(f"[LISTENING] Server is listening on {yml_data['IP']}")
     while True:
         conn, addr = server.accept()
         pos_player.append([])

@@ -22,8 +22,18 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
     <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="">
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/neural_shooter/client_f.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_shooter/client.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_shooter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_shooter/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_shooter/temp_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/temp_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_shooter/visual_py.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/visual_py.py" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 1b79ecb7d100d95bcec1250bb5e526d83f8094bc
     </list>
 =======
     <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="" />
@@ -62,18 +72,22 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
 =======
 <<<<<<< HEAD
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+=======
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../3D" />
 =======
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Python3/Projects/TestServer" />
 >>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
 >>>>>>> f4644c4a63dbc5525c573e3fd926133183fbc16d
+>>>>>>> 1b79ecb7d100d95bcec1250bb5e526d83f8094bc
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
-  <component name="RunManager" selected="Python.orbit1">
-    <configuration name="client_game" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="client_f" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Server" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -81,11 +95,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/game" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_shooter" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/game/client_game.py" />
+      <option name="SCRIPT_NAME" value="C:\Roma\Server\neural_shooter\client_f.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -102,11 +116,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/game" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_shooter" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/game/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_shooter/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -136,7 +150,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tcp_exo_client" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Server" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -144,11 +158,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_shooter" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client/tcp_exo_client.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_shooter/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="temp_client" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/neural_shooter" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_shooter/temp_client.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -159,10 +194,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.orbit1" />
-        <item itemvalue="Python.client_game" />
-        <item itemvalue="Python.tcp_exo_client" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.server" />
+        <item itemvalue="Python.temp_client" />
+        <item itemvalue="Python.client_f" />
+        <item itemvalue="Python.orbit1" />
       </list>
     </recent_temporary>
   </component>
@@ -193,6 +229,15 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< HEAD
+    <state x="422" y="132" width="491" height="383" key="FileChooserDialogImpl" timestamp="1611149806023">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl/0.0.1093.574@0.0.1093.574" timestamp="1610910312241" />
+    <state x="422" y="132" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1611149806023" />
+    <state width="1323" height="172" key="GridCell.Tab.0.bottom" timestamp="1612538331046">
+      <screen x="0" y="0" width="1366" height="728" />
+=======
     <state x="334" y="0" key="#Project_Structure" timestamp="1603701969312">
       <screen x="0" y="0" width="1707" height="680" />
     </state>
@@ -235,18 +280,22 @@
     <state width="1038" height="109" key="GridCell.Tab.0.bottom" timestamp="1606583241051">
 >>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
       <screen x="0" y="0" width="1093" height="574" />
+>>>>>>> 1b79ecb7d100d95bcec1250bb5e526d83f8094bc
     </state>
     <state width="1038" height="109" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606583241051" />
-    <state width="1038" height="109" key="GridCell.Tab.0.center" timestamp="1606583241051">
-      <screen x="0" y="0" width="1093" height="574" />
+    <state width="1323" height="172" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1612538331046" />
+    <state width="1323" height="172" key="GridCell.Tab.0.center" timestamp="1612538331045">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1038" height="109" key="GridCell.Tab.0.center/0.0.1093.574@0.0.1093.574" timestamp="1606583241051" />
-    <state width="1038" height="109" key="GridCell.Tab.0.left" timestamp="1606583241050">
-      <screen x="0" y="0" width="1093" height="574" />
+    <state width="1323" height="172" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1612538331045" />
+    <state width="1323" height="172" key="GridCell.Tab.0.left" timestamp="1612538331045">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1038" height="109" key="GridCell.Tab.0.left/0.0.1093.574@0.0.1093.574" timestamp="1606583241050" />
-    <state width="1038" height="109" key="GridCell.Tab.0.right" timestamp="1606583241051">
-      <screen x="0" y="0" width="1093" height="574" />
+    <state width="1323" height="172" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1612538331045" />
+    <state width="1323" height="172" key="GridCell.Tab.0.right" timestamp="1612538331045">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
 <<<<<<< HEAD
     <state width="1038" height="113" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1604245850170" />
@@ -254,6 +303,7 @@
     <state width="1038" height="145" key="GridCell.Tab.1.bottom" timestamp="1603653900719">
 =======
     <state width="1038" height="109" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1606583241051" />
+    <state width="1323" height="172" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1612538331045" />
     <state width="1038" height="145" key="GridCell.Tab.1.bottom" timestamp="1606077281381">
 >>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
       <screen x="0" y="0" width="1093" height="574" />
