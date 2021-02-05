@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
+<<<<<<< HEAD
     <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/neural_shooter/client_f.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_shooter/client.py" beforeDir="false" />
@@ -27,7 +30,21 @@
       <change beforePath="$PROJECT_DIR$/neural_shooter/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_shooter/temp_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/temp_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/neural_shooter/visual_py.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/visual_py.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 1b79ecb7d100d95bcec1250bb5e526d83f8094bc
     </list>
+=======
+    <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="" />
+>>>>>>> 9e09f0c906ea187607b20348752af7ea6bda0543
+=======
+    <list default="true" id="3f10336a-df29-4d1b-b98e-a57299535c34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_shooter/temp_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_shooter/temp_client.py" afterDir="false" />
+    </list>
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,7 +68,19 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+=======
+<<<<<<< HEAD
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+=======
+<<<<<<< HEAD
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../3D" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Python3/Projects/TestServer" />
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
+>>>>>>> f4644c4a63dbc5525c573e3fd926133183fbc16d
+>>>>>>> 1b79ecb7d100d95bcec1250bb5e526d83f8094bc
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -173,7 +202,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -200,6 +229,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< HEAD
     <state x="422" y="132" width="491" height="383" key="FileChooserDialogImpl" timestamp="1611149806023">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -207,6 +237,50 @@
     <state x="422" y="132" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1611149806023" />
     <state width="1323" height="172" key="GridCell.Tab.0.bottom" timestamp="1612538331046">
       <screen x="0" y="0" width="1366" height="728" />
+=======
+    <state x="334" y="0" key="#Project_Structure" timestamp="1603701969312">
+      <screen x="0" y="0" width="1707" height="680" />
+    </state>
+    <state x="0" y="0" key="#Project_Structure/0.0.1093.574@0.0.1093.574" timestamp="1603647793131" />
+<<<<<<< HEAD
+    <state x="334" y="0" key="#Project_Structure/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1603701969312" />
+    <state x="656" y="165" width="424" height="513" key="FileChooserDialogImpl" timestamp="1603887897543">
+      <screen x="0" y="0" width="1707" height="680" />
+    </state>
+    <state x="656" y="165" key="FileChooserDialogImpl/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1603887897543" />
+    <state x="738" y="283" width="424" height="513" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1601735974557" />
+<<<<<<< HEAD
+    <state width="1663" height="162" key="GridCell.Tab.0.bottom" timestamp="1604761924531">
+      <screen x="0" y="0" width="1707" height="680" />
+    </state>
+    <state width="1038" height="145" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1603653900718" />
+    <state width="1663" height="162" key="GridCell.Tab.0.bottom/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1604761924531" />
+    <state width="1663" height="162" key="GridCell.Tab.0.center" timestamp="1604761924531">
+      <screen x="0" y="0" width="1707" height="680" />
+    </state>
+    <state width="1038" height="145" key="GridCell.Tab.0.center/0.0.1093.574@0.0.1093.574" timestamp="1603653900718" />
+    <state width="1663" height="162" key="GridCell.Tab.0.center/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1604761924531" />
+    <state width="1663" height="162" key="GridCell.Tab.0.left" timestamp="1604761924531">
+      <screen x="0" y="0" width="1707" height="680" />
+    </state>
+    <state width="1038" height="145" key="GridCell.Tab.0.left/0.0.1093.574@0.0.1093.574" timestamp="1603653900718" />
+    <state width="1663" height="162" key="GridCell.Tab.0.left/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1604761924531" />
+    <state width="1663" height="162" key="GridCell.Tab.0.right" timestamp="1604761924531">
+      <screen x="0" y="0" width="1707" height="680" />
+    </state>
+    <state width="1038" height="145" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1603653900718" />
+    <state width="1663" height="162" key="GridCell.Tab.0.right/0.0.1707.680/0.-1080.1536.824@0.0.1707.680" timestamp="1604761924531" />
+=======
+    <state width="1038" height="113" key="GridCell.Tab.0.bottom" timestamp="1604245850170">
+=======
+    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl" timestamp="1610910312241">
+      <screen x="0" y="0" width="1093" height="574" />
+    </state>
+    <state x="338" y="104" width="491" height="383" key="FileChooserDialogImpl/0.0.1093.574@0.0.1093.574" timestamp="1610910312241" />
+    <state width="1038" height="109" key="GridCell.Tab.0.bottom" timestamp="1606583241051">
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
+      <screen x="0" y="0" width="1093" height="574" />
+>>>>>>> 1b79ecb7d100d95bcec1250bb5e526d83f8094bc
     </state>
     <state width="1038" height="109" key="GridCell.Tab.0.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606583241051" />
     <state width="1323" height="172" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1612538331046" />
@@ -223,9 +297,15 @@
     <state width="1323" height="172" key="GridCell.Tab.0.right" timestamp="1612538331045">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
+<<<<<<< HEAD
+    <state width="1038" height="113" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1604245850170" />
+>>>>>>> 9e09f0c906ea187607b20348752af7ea6bda0543
+    <state width="1038" height="145" key="GridCell.Tab.1.bottom" timestamp="1603653900719">
+=======
     <state width="1038" height="109" key="GridCell.Tab.0.right/0.0.1093.574@0.0.1093.574" timestamp="1606583241051" />
     <state width="1323" height="172" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1612538331045" />
     <state width="1038" height="145" key="GridCell.Tab.1.bottom" timestamp="1606077281381">
+>>>>>>> 2682890a794dc8913a134a7ae29bd6663518946e
       <screen x="0" y="0" width="1093" height="574" />
     </state>
     <state width="1038" height="145" key="GridCell.Tab.1.bottom/0.0.1093.574@0.0.1093.574" timestamp="1606077281381" />
