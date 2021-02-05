@@ -32,7 +32,7 @@ def handle_client(conn, addr, number):
         pos_player[number] = msg
 
         # send length
-        msg = pickle.dumps(pos_player) # packing message
+        msg = pickle.dumps(pos_player)  # packing message
         msg_length = len(msg)
         send_length = str(msg_length).encode(FORMAT)
         send_length += b' ' * (HEADER - len(send_length))
