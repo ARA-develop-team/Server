@@ -3,10 +3,10 @@ import pickle
 import pygame
 
 HEADER = 64
-PORT = 5050
+PORT = 1
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = ["!DISCONNECT", "!DISCONNECT_FROM_SERVER"]
-SERVER = "176.36.76.192"
+SERVER = ""
 ADDR = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

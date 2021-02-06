@@ -15,6 +15,7 @@ run = True
 while run:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
+            client_f.signing_off()
             run = False
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:

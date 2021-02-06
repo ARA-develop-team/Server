@@ -1,13 +1,11 @@
 """game client (player)"""
+
 import pickle
 import socket
 import config_parser as parser
 
 file_path = r'client.yml'
 yml_data = parser.getting_data(file_path)
-
-# PORT = 1111
-# SERVER = " "
 
 HEADER = 64
 FORMAT = 'utf-8'
@@ -49,3 +47,7 @@ def connect():
     ans = client.recv(ans_length)
     return pickle.loads(ans)
 
+
+def signing_off():      # FIN massage
+    client.shutdown(socket.SHUT_RDWR)
+    client.close()

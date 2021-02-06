@@ -9,9 +9,6 @@ import player
 file_path = r'server.yml'
 yml_data = parser.getting_data(file_path)
 
-# PORT = 5050
-# SERVER = socket.gethostbyname(socket.gethostname())
-
 HEADER = 64
 ADDR = (yml_data['IP'], yml_data['PORT'])
 FORMAT = 'utf-8'
