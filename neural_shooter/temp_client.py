@@ -41,7 +41,7 @@ run = True
 
 window = pygame.display.set_mode((500, 500))
 player_pos = [100, 100]
-speed = 1
+speed = 10
 pygame.init()
 while run:
     for e in pygame.event.get():
@@ -63,8 +63,9 @@ while run:
 
     window.fill((0, 100, 200))
     pos_player = send(player_pos)
+    print(pos_player)
     for pos in pos_player:
         if pos:
-            pygame.draw.circle(window, (0, 0, 0), pos, 10, 10)
+            pygame.draw.circle(window, (100, 0, 0), pos, 10, 10)
     pygame.display.update()
 pygame.quit()

@@ -36,3 +36,16 @@ def data_exchange(msg):
     # reception message
     ans = client.recv(ans_length)
     return pickle.loads(ans)
+
+
+def connect():
+    client.send(b'CONNECT')
+
+    # reception length
+    ans_length = client.recv(HEADER).decode(FORMAT)
+    ans_length = int(ans_length)
+
+    # reception message
+    ans = client.recv(ans_length)
+    return pickle.loads(ans)
+
