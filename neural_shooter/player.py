@@ -4,11 +4,16 @@ import pygame
 
 
 class Player(object):
-    def __init__(self, pos, color):
+    def __init__(self, pos, color, color_lines):
         self.pos = pos
         self.color = color
+        self.color_lines = color_lines
         self.connection_number = False
-        self.speed = 5
+        self.speed = 2
+        self.window = None
 
-    def draw(self, window):
-        pygame.draw.circle(window, (100, 0, 0), self.pos, 10, 10)
+    def draw(self, mouse):
+        pygame.draw.circle(self.window, self.color, self.pos, 10, 10)
+        pygame.draw.circle(self.window, self.color_lines, self.pos, 200, 1)
+        if mouse:
+            pygame.draw.line(self.window, self.color_lines, self.pos, mouse)
