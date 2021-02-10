@@ -26,22 +26,29 @@ def handle_client(conn, addr, number):
     while connected:
         # reception length
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        msg_length = int(msg_length)
-        # reception message
-        msg = conn.recv(msg_length)
+        if msg_length == "PLAYER DISCONNECT":
+            connected = False
+            pos_player.pop(number)
+            print(f'player #{number} disconnect')
+        elif msg_length == "NEW PLAYER":
+            pass
+        else:
+            msg_length = int(msg_length)
+            # reception message
+            msg = conn.recv(msg_length)
 
-        # treatment massage
-        msg = pickle.loads(msg)  # unpacking message
-        pos_player[number] = msg
+            # treatment massage
+            msg = pickle.loads(msg)  # unpacking message
+            pos_player[number] = msg
 
-        # send length
-        msg = pickle.dumps(pos_player)  # packing message
-        msg_length = len(msg)
-        send_length = str(msg_length).encode(FORMAT)
-        send_length += b' ' * (HEADER - len(send_length))
-        conn.send(send_length)
-        # send message
-        conn.send(msg)
+            # send length
+            msg = pickle.dumps(pos_player)  # packing message
+            msg_length = len(msg)
+            send_length = str(msg_length).encode(FORMAT)
+            send_length += b' ' * (HEADER - len(send_length))
+            conn.send(send_length)
+            # send message
+            conn.send(msg)
 
     conn.close()
 
@@ -52,6 +59,7 @@ def start():
     print(f"[LISTENING] Server is listening on {yml_data['IP']}")
     while True:
         conn, addr = server.accept()
+        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
         new_player = player.Player([200, 200], (25, 25, 25))
         index_player += 1
         pos_player[index_player] = new_player
@@ -66,10 +74,8 @@ def start():
         # send message
         conn.send(msg)
 
-
         thread = threading.Thread(target=handle_client, args=(conn, addr, index_player))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
 
 
 print("[STARTING] server is starting...")

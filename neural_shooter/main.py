@@ -10,13 +10,14 @@ pygame.init()
 
 
 player = client_f.connect()
+print(f'CONNECT {player}')
 
 run = True
 while run:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             client_f.signing_off()
-            run = False
+            break
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
         player.pos[0] -= speed
@@ -30,7 +31,7 @@ while run:
     if keys[pygame.K_s]:
         player.pos[1] += speed
 
-    list_obj = client_f.data_exchange(player.pos)
+    list_obj = client_f.data_exchange(player)
     visual_py.draw_screen(list_obj)
 
 pygame.quit()

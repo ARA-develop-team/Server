@@ -33,11 +33,12 @@ def data_exchange(msg):
 
     # reception message
     ans = client.recv(ans_length)
-    return pickle.loads(ans)
+    ans = pickle.loads(ans)
+    return ans
 
 
 def connect():
-    client.send(b'CONNECT')
+    client.send(b'NEW PLAYER')
 
     # reception length
     ans_length = client.recv(HEADER).decode(FORMAT)
@@ -48,6 +49,7 @@ def connect():
     return pickle.loads(ans)
 
 
-def signing_off():      # FIN massage
+def signing_off():  # FIN massage
+    client.send(b'PLAYER DISCONNECT')
     client.shutdown(socket.SHUT_RDWR)
     client.close()
