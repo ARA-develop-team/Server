@@ -7,10 +7,6 @@ class CField:
     def __init__(self, start_vector):
         self.default_vector = start_vector
 
-    def __enter__(self):
-        print('enter')
-        return self
-
     def angle_of_track(self, way_vector):       # way  in degrees
         a, b = self.default_vector, way_vector
 
@@ -22,7 +18,7 @@ class CField:
             alfa = math.acos(scalar_products / (module_a * module_b))
 
         except ZeroDivisionError:
-            alfa = 0
+            alfa = 90
         return alfa
 
 
