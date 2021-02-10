@@ -24,6 +24,7 @@ class CPygame:
             if e.type == pygame.QUIT:
                 # client_f.signing_off()  # for online game
                 self.run = False
+                break
 
             if e.type == pygame.MOUSEMOTION:
                 self.mouse_pos = pygame.mouse.get_pos()

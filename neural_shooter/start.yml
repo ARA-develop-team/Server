@@ -3,9 +3,10 @@ start_point: [200, 200]
 user_color: 212, 96, 37
 user_speed: 2
 color_lines: 243, 234, 210
+color_info: 208, 139, 19
 screen_color: 46, 48, 50
 screen_size: 1000, 1000
-
+start_vector: 1, 1
 
 
 
