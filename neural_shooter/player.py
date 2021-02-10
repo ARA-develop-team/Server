@@ -4,12 +4,12 @@ import pygame
 
 
 class Player(object):
-    def __init__(self, pos, color, color_lines):
+    def __init__(self, pos, color, color_lines, speed):
         self.pos = pos
         self.color = color
         self.color_lines = color_lines
         self.connection_number = False
-        self.speed = 2
+        self.speed = speed
         self.window = None
 
     def draw(self, mouse):

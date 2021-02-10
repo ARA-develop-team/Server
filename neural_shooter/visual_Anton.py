@@ -4,9 +4,9 @@ import pygame
 
 
 class CPygame:
-    def __init__(self, player):
-        self.window = pygame.display.set_mode((1000, 1000))
-        self.screen_color = (46, 48, 50)
+    def __init__(self, player, screen_color, screen_size):
+        self.window = pygame.display.set_mode(screen_size)
+        self.screen_color = screen_color
         self.run = True
         self.player = player
         self.mouse_pos = None
