@@ -1,5 +1,6 @@
 """main file of game"""
 
+import yaml
 import pygame
 import client_f
 import visual_py
@@ -10,7 +11,6 @@ pygame.init()
 
 
 player = client_f.connect()
-print(f'CONNECT {player}')
 
 run = True
 while run:
