@@ -30,18 +30,17 @@ class CGame:
     def playing(self):
         self.user.window = self.user_visual.window
         while self.user_visual.run:
-            if not self.run:
-                self.exit()
-
             self.user_visual.input_data()
             if self.user.way_vector is not None:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
             self.user_visual.draw_screen([])  # change list in the future (online)
+        self.run = False
+        self.exit()
 
     def exit(self):  # for cancel threads
         if self.user_visual is not None:
             self.user_visual.run = False
-        print("----------END----------")
+        print("-----------END-----------")
         quit()
 
 
