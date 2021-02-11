@@ -14,6 +14,7 @@ ADDR = (SERVER, PORT)
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(ADDR)
 
+
 def send(msg):
     message = pickle.dumps(msg)
     # send length
@@ -25,7 +26,6 @@ def send(msg):
     client.send(message)
     ans = client.recv(2048)
     return pickle.loads(ans)
-
 
 
 run = True
