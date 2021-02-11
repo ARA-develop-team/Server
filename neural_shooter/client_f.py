@@ -5,7 +5,7 @@ import socket
 import config_parser as parser
 
 file_path = r'client.yml'
-yml_data = parser.getting_data(file_path)
+yml_data = parser.getting_socket_data(file_path)
 
 HEADER = 64
 FORMAT = 'utf-8'
