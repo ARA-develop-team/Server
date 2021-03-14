@@ -26,6 +26,7 @@ def getting_socket_data(file_name):
         data_yml = yaml.load(file, yaml.Loader)
 
         try:
+            print(data_yml, data)
             data['PORT'] = int(data_yml[1]['PORT'])
         except ValueError:
             print(f"[ValueError]  PORT must consist only of numbers! \nMake changes in the file '{file_name}'")
