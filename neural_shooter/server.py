@@ -7,7 +7,7 @@ import config_parser as parser
 import player
 
 file_path = r'server.yml'
-yml_data = parser.getting_data(file_path)
+yml_data = parser.getting_socket_data(file_path)
 
 HEADER = 64
 ADDR = (yml_data['IP'], yml_data['PORT'])
@@ -60,7 +60,8 @@ def start():
     while True:
         conn, addr = server.accept()
         print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
-        new_player = player.Player([200, 200], (25, 25, 25))
+        # new_player = player.Player([200, 200], (25, 25, 25))
+        new_player = 1
         index_player += 1
         pos_player[index_player] = new_player
 

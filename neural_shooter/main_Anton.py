@@ -4,7 +4,8 @@ import visual_Anton as pgCode
 import player
 import config_parser as parser
 import field
-import client_f
+import analysis
+# import client_f
 
 
 class CGame:
@@ -16,6 +17,7 @@ class CGame:
         self.data = None
         self.field = None
         self.online = None
+        self.analysis = analysis.CAnalysis()
 
     def start(self):
         self.data = parser.getting_start_data(self.file)
@@ -24,7 +26,6 @@ class CGame:
             self.exit()
 
         self.online = self.data['online']
-        print(type(self.online))
 
         self.user = player.Player(self.data['start_point'], self.data['user_color'],
                                   self.data['color_lines'], self.data['user_speed'], self.data['color_info'])
@@ -36,20 +37,20 @@ class CGame:
             self.playing()
 
     def playing(self):
-
         self.user.window = self.user_visual.window
+        self.analysis.launch()
 
         while self.user_visual.run:
             self.user_visual.input_data()
             if self.user.way_vector is not None:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
             self.user_visual.draw_screen([])  # change list in the future (online)
+            self.analysis.processing()
         self.run = False
         self.exit()
 
     def playing_online(self):
         client_f.connect()
-
         self.user.window = self.user_visual.window
 
         while self.user_visual.run:
@@ -61,18 +62,19 @@ class CGame:
         self.run = False
         self.exit()
 
-
     def exit(self):  # for cancel threads
         if self.user_visual is not None:
             self.user_visual.run = False
         if self.online:
             client_f.signing_off()
+        self.analysis.result()
         print("-----------END-----------")
         quit()
 
 
 if __name__ == "__main__":
     game = CGame()
+
     print('----------START----------')
     game.start()
 
