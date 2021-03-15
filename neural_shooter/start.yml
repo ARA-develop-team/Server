@@ -8,6 +8,7 @@ screen_color: 46, 48, 50
 screen_size: 1000, 1000
 start_vector: 1, 0
 online: False
+name: a1
 
 
 #        self.start_point = [200, 200]
