@@ -8,7 +8,7 @@ pygame.font.init()
 class CPygame:
     def __init__(self, player, screen_color, screen_size):
         self.window = pygame.display.set_mode(screen_size)
-        self.work_info = pygame.font.SysFont('monospace', 24)
+        self.work_info = pygame.font.SysFont('monospace', 16)
         self.screen_color = screen_color
         self.run = True
         self.player = player
@@ -19,8 +19,9 @@ class CPygame:
         if len(list_obj) != 0:
             for obj in list_obj.values():
                 if obj != 'None':
-                    obj.draw(self.mouse_pos, self.window, self.work_info)
-        self.player.draw(self.mouse_pos, self.window, self.work_info)
+                    obj.draw(self.window)
+
+        self.player.draw_lines(self.mouse_pos, self.window, self.work_info)
         pygame.display.update()
 
     def input_data(self):
