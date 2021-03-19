@@ -31,16 +31,16 @@ class CField:
             v_x, v_y = 0, 0
         return v_x, v_y
 
-    def distance(self, obj_1_x, obj_1_y, obj_2_x, obj_2_y):
-        dis = math.sqrt(((obj_2_x - obj_1_x) ** 2) + ((obj_2_y - obj_1_y) ** 2))
-        return dis
-
-    def contact(self, obj_1_x, obj_1_y, radius_1, obj_2_x, obj_2_y, radius_2):
-        dis = distance(obj_1_x, obj_1_y, obj_2_x, obj_2_y)
-        if dis < radius_1 + radius_2:
-            return True
-        else:
-            return False
+    # def distance(self, obj_1_x, obj_1_y, obj_2_x, obj_2_y):
+    #     dis = math.sqrt(((obj_2_x - obj_1_x) ** 2) + ((obj_2_y - obj_1_y) ** 2))
+    #     return dis
+    #
+    # def contact(self, obj_1_x, obj_1_y, radius_1, obj_2_x, obj_2_y, radius_2):
+    #     dis = distance(obj_1_x, obj_1_y, obj_2_x, obj_2_y)
+    #     if dis < radius_1 + radius_2:
+    #         return True
+    #     else:
+    #         return False
 
 
 if __name__ == "__main__":

@@ -14,13 +14,13 @@ class Player(object):
         self.color_info = color_info
         self.connection_number = False
         self.speed = speed
-        # self.window = None
         self.way_vector = None
         self.way_angle = None
-        # self.work_info = pygame.font.SysFont('monospace', 24)
 
-    def draw(self, mouse, window, work_info_font):
+    def draw(self, window):
         pygame.draw.circle(window, self.color, self.pos, 10, 10)
+
+    def draw_lines(self, mouse, window, work_info_font):
         pygame.draw.circle(window, self.color_lines, self.pos, 200, 1)
 
         if mouse:
@@ -29,5 +29,5 @@ class Player(object):
 
         if self.way_angle:
             way_angle_degrees = math.degrees(self.way_angle)
-            angle_text = work_info_font.render(str(way_angle_degrees), False, self.color_info)
+            angle_text = work_info_font.render(str(int(way_angle_degrees)), False, self.color_info)
             window.blit(angle_text, (20, 20))
