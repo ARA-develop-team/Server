@@ -55,6 +55,7 @@ class CGame:
     def playing_online(self):
         self.client.connect()
         self.user.window = self.user_visual.window
+        self.analysis.launch()
 
         while self.user_visual.run:
             self.user_visual.input_data()
@@ -62,6 +63,8 @@ class CGame:
             if self.user.way_vector is not None:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
             self.user_visual.draw_screen(list_obj)  # change list in the future (online)
+            self.analysis.processing()
+
         self.run = False
         self.exit()
 
