@@ -2,10 +2,13 @@
 
 import pygame
 
+pygame.font.init()
+
 
 class CPygame:
     def __init__(self, player, screen_color, screen_size):
         self.window = pygame.display.set_mode(screen_size)
+        self.work_info = pygame.font.SysFont('monospace', 24)
         self.screen_color = screen_color
         self.run = True
         self.player = player
@@ -14,9 +17,10 @@ class CPygame:
     def draw_screen(self, list_obj):
         self.window.fill(self.screen_color)
         if len(list_obj) != 0:
-            for obj in list_obj:
-                obj.draw(self.window)
-        self.player.draw(self.mouse_pos)
+            for obj in list_obj.values():
+                if obj != 'None':
+                    obj.draw(self.mouse_pos, self.window, self.work_info)
+        self.player.draw(self.mouse_pos, self.window, self.work_info)
         pygame.display.update()
 
     def input_data(self):
@@ -41,8 +45,3 @@ class CPygame:
 
         if keys[pygame.K_s]:
             self.player.pos[1] += self.player.speed
-
-
-
-
-
