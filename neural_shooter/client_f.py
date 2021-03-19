@@ -18,6 +18,7 @@ client.connect(ADDR)
 
 def data_exchange(msg):
     # send length
+    print(msg)
     message = pickle.dumps(msg)  # packing message
     msg_length = len(message)
     send_length = str(msg_length).encode(FORMAT)
