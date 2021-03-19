@@ -4,8 +4,8 @@ import visual_Anton as pgCode
 import player
 import config_parser as parser
 import field
-import analysis
 import client_f
+from analysis import CAnalysis
 
 
 class CGame:
@@ -18,8 +18,7 @@ class CGame:
         self.field = None
         self.online = None
         self.client = None
-        self.analysis = analysis.CAnalysis()
-        self.name = 'a1'
+        self.analysis = CAnalysis()
 
     def start(self):
         self.data = parser.getting_start_data(self.file)
@@ -34,7 +33,7 @@ class CGame:
         self.user_visual = pgCode.CPygame(self.user, self.data['screen_color'], self.data['screen_size'])
         self.field = field.CField(self.data['start_vector'])
         if self.online:
-            self.client = client_f.Client(self.name)
+            self.client = client_f.Client(self.data['name'])
             self.playing_online()
         else:
             self.playing()
@@ -49,6 +48,7 @@ class CGame:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
             self.user_visual.draw_screen([])  # change list in the future (online)
             self.analysis.processing()
+
         self.run = False
         self.exit()
 

@@ -1,7 +1,6 @@
 """ADDITIONAL CODE"""
 
 import matplotlib.pyplot as plt
-import numpy as np
 import time
 
 
@@ -14,7 +13,7 @@ class CAnalysis:
         self.time_aim = None
 
     def launch(self):
-        print("Hello from the ARA ADDITIONAL CODE \n[ANALYSING]")
+        print("\033[33m{}".format("Hello from the ARA ADDITIONAL CODE \n[ANALYSING]"))
         self.start_time = time.time()
         self.time_aim = self.start_time + self.time_period
 
@@ -32,12 +31,14 @@ class CAnalysis:
     def result(self):
         total = 0
         midline = []
+        print(self.speed_data)
         for x in self.speed_data:
             total += x[0]
         average = total / len(self.speed_data)
+        print(average)
         for _ in self.speed_data:
             midline.append([average])
-        print("[RESULT]")
+        print("\033[33m{}".format("[RESULT]"))
         plt.plot(self.speed_data, label='line', color='blue')
         plt.plot(midline, label='line', color='red')
         plt.title('MAIN')
@@ -54,9 +55,8 @@ if __name__ == '__main__':
     while run:
         try:
             analysis.processing()
-            time.sleep(1)
+            # time.sleep(1)
 
         except KeyboardInterrupt:
             analysis.result()
             run = False
-
