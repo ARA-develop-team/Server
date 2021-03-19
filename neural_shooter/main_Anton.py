@@ -53,8 +53,7 @@ class CGame:
         self.exit()
 
     def playing_online(self):
-        self.client.connect()
-        self.user.window = self.user_visual.window
+        list_obj = self.client.connect()
 
         while self.user_visual.run:
             self.user_visual.input_data()

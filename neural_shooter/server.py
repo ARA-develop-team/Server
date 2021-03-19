@@ -4,7 +4,6 @@ import socket
 import threading
 import pickle
 import config_parser as parser
-import player
 
 
 class Server():
@@ -28,7 +27,7 @@ class Server():
             conn, addr = Server.server_socket.accept()
             print(f"[NEW CONNECTION] {addr} connected.")
 
-            player_name = conn.recv(Server.HEADER)
+            player_name = conn.recv(Server.HEADER).decode('utf-8')
             print(f"PLAYER NAME - {player_name}")
             self.players[player_name] = 'None'
 
@@ -42,7 +41,7 @@ class Server():
             # send message
             conn.send(msg)
 
-            print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+            print(f"[ACTIVE CONNECTIONS] {threading.activeCount()}")
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))
             thread.start()
 
