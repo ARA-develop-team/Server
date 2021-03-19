@@ -32,7 +32,6 @@ class Client():
         ans = pickle.loads(ans)
         return ans
 
-
     def data_exchange(self, msg):
         # send length
         message = pickle.dumps(msg)  # packing message
