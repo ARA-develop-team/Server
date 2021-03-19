@@ -17,11 +17,22 @@ class Client():
         self.name = name
         self.SERVER_ADDR = 'None'
 
+
     def connect(self, addr=(yml_data['IP'], yml_data['PORT'])):
         self.SERVER_ADDR = addr
         Client.socket.connect(addr)
         name = self.name.encode(Client.FORMAT)
         Client.socket.send(name)
+
+
+        # reception length
+        ans_length = Client.socket.recv(Client.HEADER).decode(Client.FORMAT)
+        ans_length = int(ans_length)
+
+        # reception message
+        ans = Client.socket.recv(ans_length)
+        ans = pickle.loads(ans)
+        return ans
 
     def data_exchange(self, msg):
         # send length
