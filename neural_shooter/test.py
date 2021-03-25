@@ -55,7 +55,13 @@ def test_img_load():
 
 
 if __name__ == "__main__":
-    size = (800, 400)
-    print(size[0])
-    test_img_load()
+
+    x = [1, 2, 3]
+    print(x)
+    # print(x.count(4))
+    #
+    # size = (800, 400)
+    # print(size[0])
+    #
+    # test_img_load()
 

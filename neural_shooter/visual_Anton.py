@@ -14,6 +14,7 @@ class CPygame:
         self.run = True
         self.player = player
         self.mouse_pos = None
+        self.disconnected_key = []
 
     def draw_screen(self, list_obj):
         self.window.fill(self.screen_color)
@@ -40,14 +41,19 @@ class CPygame:
                 self.mouse_pos = pygame.mouse.get_pos()
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_a]:
+
+        if keys[pygame.K_a] and self.disconnected_key.count('a') == 0:
+            self.key = 'a'
             self.player.pos[0] -= self.player.speed
 
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] and self.disconnected_key.count('d') == 0:
+            self.key = 'd'
             self.player.pos[0] += self.player.speed
 
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] and self.disconnected_key.count('w') == 0:
+            self.key = 'w'
             self.player.pos[1] -= self.player.speed
 
-        if keys[pygame.K_s]:
+        if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
+            self.key = 's'
             self.player.pos[1] += self.player.speed
