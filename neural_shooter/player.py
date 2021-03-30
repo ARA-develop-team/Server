@@ -7,7 +7,8 @@ import pygame
 
 class Player(object):
 
-    def __init__(self, position, color, color_lines, speed, color_info, radius, view):
+    def __init__(self, position, color, color_lines, speed, color_info, radius, view, name):
+        self.name = name
         self.pos = position
         self.color = color
         self.color_lines = color_lines
@@ -33,3 +34,21 @@ class Player(object):
             way_angle_degrees = math.degrees(self.way_angle)     # radians per degree
             angle_text = work_info_font.render(str(int(way_angle_degrees)), False, self.color_info)
             window.blit(angle_text, (20, 20))
+
+
+class CBullet:
+    def __init__(self, pos, radius, color, damage, speed, vector, owner):
+        self.pos = pos
+        self.radius = radius
+        self.color = color
+        self.damage = damage
+        self.speed = speed
+        self.vector = vector
+        self.owner = owner
+
+    def motion(self):
+        self.pos = [self.pos[0] + self.vector[0] * self.speed, self.pos[1] + self.vector[1] * self.speed]
+
+    def draw(self, window):
+        pygame.draw.circle(window, self.color, [int(self.pos[0]), int(self.pos[1])], self.radius, self.radius)
+

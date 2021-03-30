@@ -31,8 +31,9 @@ class CGame:
 
         self.user = player.Player(self.data['start_point'], self.data['user_color'],
                                   self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                  self.data['user_radius'][0], self.data['user_radius'][1])
-        self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0])
+                                  self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
+        self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
+                                  self.data['bullet'])
         self.user_visual = pgCode.CPygame(self.user, self.data['screen_color'], self.data['screen_size'], self.field)
         self.field.input = self.user_visual
         if self.online:
@@ -52,6 +53,7 @@ class CGame:
             if self.user.way_vector is not None:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
             self.user_visual.draw_screen(dict_obj)  # visual output
+            self.field.bullets_action()
             self.analysis.processing()
 
         self.run = False

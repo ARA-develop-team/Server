@@ -22,6 +22,8 @@ class CPygame:
         for block in self.field.field:
             block.draw(self.window)
 
+        self.field.bullets_action()
+
         if len(list_obj) != 0:           # drawing all players
             for obj in list_obj.values():
                 if obj != 'None':
@@ -40,20 +42,19 @@ class CPygame:
             if e.type == pygame.MOUSEMOTION:
                 self.mouse_pos = pygame.mouse.get_pos()
 
+            if e.type == pygame.MOUSEBUTTONUP:
+                self.field.shot_bullet_creation(self.player.way_vector, self.player.pos, self.player.name)
+
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a] and self.disconnected_key.count('a') == 0:
-            self.key = 'a'
             self.player.pos[0] -= self.player.speed
 
         if keys[pygame.K_d] and self.disconnected_key.count('d') == 0:
-            self.key = 'd'
             self.player.pos[0] += self.player.speed
 
         if keys[pygame.K_w] and self.disconnected_key.count('w') == 0:
-            self.key = 'w'
             self.player.pos[1] -= self.player.speed
 
         if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
-            self.key = 's'
             self.player.pos[1] += self.player.speed
