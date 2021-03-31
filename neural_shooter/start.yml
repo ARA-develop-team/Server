@@ -14,6 +14,7 @@ name: 'roma2'
 bullet: [4, [220, 211, 106], 50, 6]     # [*r, color, damage, speed]
 
 
+
 # start_point: [200, 200]
 # user_color: 212, 96, 37
 # user_speed: 2
