@@ -7,7 +7,7 @@ color_info: 208, 139, 19
 screen_color: 46, 48, 50
 screen_size: 800, 800
 start_vector: 1, 0
-online: True
+online: False
 name: 'roma'
 
 

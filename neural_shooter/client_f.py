@@ -17,7 +17,6 @@ class Client():
         self.name = name
         self.SERVER_ADDR = 'None'
 
-
     def connect(self, addr=(yml_data['IP'], yml_data['PORT'])):
         self.SERVER_ADDR = addr
         Client.socket.connect(addr)
