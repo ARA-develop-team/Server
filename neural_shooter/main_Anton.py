@@ -23,6 +23,7 @@ class CGame:
     def start(self):
         self.data = parser.getting_start_data(self.file)
         if not self.data:
+            print('[NO DATA]')
             self.run = False
             self.exit()
 
