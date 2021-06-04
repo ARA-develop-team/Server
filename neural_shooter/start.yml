@@ -1,7 +1,7 @@
 # *r = radius
 
 start_point: [200, 200]                 # [x, y]
-user_speed: 2
+user_speed: 5
 user_color: 212, 96, 37                 # rgb
 color_lines: 243, 234, 210
 color_info: 208, 139, 19
@@ -11,7 +11,7 @@ start_vector: 1, 0
 user_radius: 10, 200      # first argument for player *r and second for his *r of view
 online: False
 name: 'roma2'
-bullet: [4, [220, 211, 106], 50, 6]     # [*r, color, damage, speed]
+bullet: [4, [220, 211, 106], 20 , 6]     # [*r, color, damage, speed]
 
 
 

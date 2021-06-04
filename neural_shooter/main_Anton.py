@@ -80,8 +80,9 @@ class CGame:
             self.user_visual.run = False
         if self.online:
             self.client.signing_off()
-        self.analysis.result()
+
         print("-----------END-----------")
+        self.analysis.result()
         quit()
 
 

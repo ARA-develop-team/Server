@@ -31,11 +31,11 @@ class CAnalysis:
     def result(self):
         total = 0
         midline = []
-        print(self.speed_data)
+
         for x in self.speed_data:
             total += x[0]
         average = total / len(self.speed_data)
-        print(average)
+
         for _ in self.speed_data:
             midline.append([average])
         print("\033[33m{}".format("[RESULT]"), "\033[0m".format(""))

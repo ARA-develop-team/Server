@@ -50,8 +50,6 @@ def map_creation(screen_size):
             obj_x += obj_width
         obj_y += obj_height
 
-    for obj in obj_list:
-        print(obj_list.index(obj), obj.x, obj.y, obj.kind)
     return obj_list, obj_width, obj_height
 
 
@@ -116,7 +114,7 @@ class CField:
 
     def contact(self, player_x, player_y):  # add radius in future
         self.input.disconnected_key = []
-        crossing_list = []
+        crossing_list = []           # crossing player with blocks
 
         for block in self.field:
             for bullet in self.bullet_list:  # bullet contact with blocks
