@@ -154,8 +154,8 @@ class CField:
                 if self.width - 10 < crossing_list[0][0] < self.width and 0 < crossing_list[0][1] < 10:  # [200, 0]
                     self.input.disconnected_key.append('a')
                     self.input.disconnected_key.append('s')
-                if self.width - 10 < crossing_list[0][0] < self.width and self.height - 10 < crossing_list[0][
-                    1] < self.height:  # [200, 200]
+                if self.width - 10 < crossing_list[0][0] < self.width and self.height - 10 < crossing_list[0][1] \
+                        < self.height:  # [200, 200]
                     self.input.disconnected_key.append('w')
                     self.input.disconnected_key.append('a')
                 if 0 < crossing_list[0][0] < 10 and self.height - 10 < crossing_list[0][1] < self.height:  # [0, 200]

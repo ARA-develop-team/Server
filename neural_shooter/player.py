@@ -7,7 +7,7 @@ import pygame
 
 class Player(object):
 
-    def __init__(self, position, color, color_lines, speed, color_info, radius, view, name):
+    def __init__(self, position, color, color_lines, speed, color_info, radius, view, name, hit_points):
         self.name = name
         self.pos = position
         self.color = color
@@ -15,6 +15,7 @@ class Player(object):
         self.color_info = color_info
         self.connection_number = False
         self.speed = speed
+        self.HP = hit_points         # hit points
         self.way_vector = None
         self.way_angle = None
         self.player_radius = radius

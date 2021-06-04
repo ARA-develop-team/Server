@@ -32,7 +32,8 @@ class CGame:
 
         self.user = player.Player(self.data['start_point'], self.data['user_color'],
                                   self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                  self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
+                                  self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'],
+                                  self.data['user_hit_points'])
         self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
                                   self.data['bullet'])
         self.user_visual = pgCode.CPygame(self.user, self.data['screen_color'], self.data['screen_size'], self.field)
