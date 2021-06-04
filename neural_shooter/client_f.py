@@ -5,7 +5,7 @@ import socket
 import config_parser as parser
 
 
-class Client():
+class Client:
     yml_data = parser.getting_socket_data(r'client.yml')
     HEADER = 64
     FORMAT = 'utf-8'
@@ -22,7 +22,6 @@ class Client():
         Client.socket.connect(addr)
         name = self.name.encode(Client.FORMAT)
         Client.socket.send(name)
-
 
         # reception length
         ans_length = Client.socket.recv(Client.HEADER).decode(Client.FORMAT)
@@ -56,7 +55,6 @@ class Client():
     def signing_off(self):  # FIN massage
         Client.socket.send(b'PLAYER DISCONNECT')
         Client.socket.close()
-
 
 # file_path = r'client.yml'
 # yml_data = parser.getting_socket_data(file_path)
