@@ -85,8 +85,11 @@ class CField:
         self.bullet_data = bullet_data
         self.bullet_list = []
 
-    def angle_of_track(self, way_vector):  # way  in radians
-        a, b = self.default_vector, way_vector
+    def angle_of_track(self, way_vector, default_vector=None, degrees=False):  # way in radians
+        if default_vector:
+            a, b = default_vector, way_vector
+        else:
+            a, b = self.default_vector, way_vector
 
         scalar_products = (a[0] * b[0]) + (a[1] * b[1])
         module_a = math.sqrt((a[0] ** 2) + (a[1] ** 2))
@@ -96,8 +99,12 @@ class CField:
             alfa = math.acos(scalar_products / (module_a * module_b))
 
         except ZeroDivisionError:
-            alfa = 90
-        return alfa
+            alfa = 1.57079633
+
+        if degrees:
+            return math.degrees(alfa)
+        else:
+            return alfa
 
     def shot_bullet_creation(self, vector, pos, player_name):  # pos, radius, color, damage, speed, vector
         length_vector = math.sqrt(vector[0] ** 2 + vector[1] ** 2)
@@ -120,7 +127,18 @@ class CField:
             for bullet in self.bullet_list:  # bullet contact with blocks
                 if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \
                         (block.y - bullet.radius <= bullet.pos[1] <= block.y + block.height + bullet.radius):
-                    self.bullet_list.remove(bullet)
+
+                    if bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width-2):
+                        # left side    ° -> |     or right side  | <- °
+                        angle = self.angle_of_track(bullet.vector, (0, 1))
+                        bullet.vector = (bullet.vector[0] * (-1), bullet.vector[1])
+
+                    elif bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height-2):
+                        # top side or bottom side    _°_
+                        angle = self.angle_of_track(bullet.vector, (1, 0))
+                        bullet.vector = (bullet.vector[0], bullet.vector[1] * (-1))
+
+                    # self.bullet_list.remove(bullet)
 
                     if block.kind == 3:
                         block.health -= bullet.damage
