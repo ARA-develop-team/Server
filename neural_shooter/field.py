@@ -128,17 +128,28 @@ class CField:
                 if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \
                         (block.y - bullet.radius <= bullet.pos[1] <= block.y + block.height + bullet.radius):
 
-                    if bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width-2):
+                    if (bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width-2)) and bullet.owner:
                         # left side    ° -> |     or right side  | <- °
-                        angle = self.angle_of_track(bullet.vector, (0, 1))
-                        bullet.vector = (bullet.vector[0] * (-1), bullet.vector[1])
+                        angle = self.angle_of_track(bullet.vector, (0, 1), True)
+                        print(angle)
+                        if angle <= 30 or angle >= 150:
+                            bullet.vector = (bullet.vector[0] * (-1), bullet.vector[1])
+                            bullet.owner = None
+                        else:
+                            self.bullet_list.remove(bullet)
 
-                    elif bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height-2):
+                    elif (bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height-2)) and bullet.owner:
                         # top side or bottom side    _°_
-                        angle = self.angle_of_track(bullet.vector, (1, 0))
-                        bullet.vector = (bullet.vector[0], bullet.vector[1] * (-1))
+                        angle = self.angle_of_track(bullet.vector, (1, 0), True)
+                        print(angle)
+                        if angle <= 30 or angle >= 150:
+                            bullet.vector = (bullet.vector[0], bullet.vector[1] * (-1))
+                            bullet.owner = None
+                        else:
+                            self.bullet_list.remove(bullet)
 
-                    # self.bullet_list.remove(bullet)
+                    else:
+                        self.bullet_list.remove(bullet)
 
                     if block.kind == 3:
                         block.health -= bullet.damage
