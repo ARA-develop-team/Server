@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from PIL import Image     # ImageDraw
+from PIL import Image  # ImageDraw
 
 
 def test_matplotlib():
@@ -54,14 +54,28 @@ def test_img_load():
     return map_list
 
 
-if __name__ == "__main__":
+class Parent:
+    def __init__(self, age):
+        self.age = age
 
-    x = [1, 2, 3]
-    print(x)
+
+class Child(Parent):
+    def __init__(self, age, name):
+        super().__init__(age)
+        self.name = name
+
+    def __str__(self):
+        return f"Child class"
+
+
+if __name__ == "__main__":
+    ch = Child(12, 'Alex')
+    print(ch.name, ch.age)
+    print(ch)
+
     # print(x.count(4))
     #
     # size = (800, 400)
     # print(size[0])
     #
     # test_img_load()
-
