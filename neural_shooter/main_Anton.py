@@ -61,7 +61,7 @@ class CGame:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
 
             self.user_visual.draw_screen(dict_obj)  # visual output
-            self.field.bullets_action()
+            # self.field.bullets_action()        # extra code
             self.analysis.processing()
 
         self.run = False
