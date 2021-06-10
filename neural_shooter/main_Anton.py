@@ -49,10 +49,12 @@ class CGame:
         self.analysis.launch()
 
         bot = player.Bot(self.data['bot_start_point'], self.data['bot_color'], self.data['bot_hit_points'],
-                         self.data['bot_radius'][0], self.data['bot_radius'][1])
+                         self.data['bot_radius'][0], self.data['bot_radius'][1])      # Fix bot!!!!
 
-        dict_obj = {self.data['name']: self.user,             # Fix bot!!!!
-                    'bot': bot}    # for player, bots and online players
+        # dict_obj = {self.data['name']: self.user,
+        #             'bot': bot}    # for player, bots and online players
+
+        list_obj = [self.user, bot]        # replacement of dict_obj
 
         while self.user_visual.run:
             self.field.contact(self.user.pos[0], self.user.pos[1])
@@ -60,7 +62,7 @@ class CGame:
             if self.user.way_vector is not None:
                 self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
 
-            self.user_visual.draw_screen(dict_obj)  # visual output
+            self.user_visual.draw_screen(list_obj)  # visual output         $(dict_obj)
             # self.field.bullets_action()        # extra code
             self.analysis.processing()
 

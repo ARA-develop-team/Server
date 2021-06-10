@@ -113,22 +113,33 @@ class CField:
         self.bullet_list.append(CBullet(pos, self.bullet_data[0], self.bullet_data[1], self.bullet_data[2],
                                         self.bullet_data[3], unit_vector, player_name))
 
-    def bullets_action(self):
+    def bullets_action(self, players):
         if len(self.bullet_list) != 0:
             for bullet in self.bullet_list:
                 bullet.motion()
+                for player in players:
+                    if (player.pos[0] - player.player_radius <= bullet.pos[0] <= player.pos[0] +
+                        player.player_radius) and (player.pos[1] - player.player_radius <= bullet.pos[1] <=
+                                                   player.pos[1] + player.player_radius):
+                        player.HP -= bullet.damage
+                        if player.HP <= 0:
+                            players.remove(player)
+
+                        self.bullet_list.remove(bullet)
+                        print('contact')
+
                 bullet.draw(self.input.window)
 
     def contact(self, player_x, player_y):  # add radius in future
         self.input.disconnected_key = []
-        crossing_list = []           # crossing player with blocks
+        crossing_list = []  # crossing player with blocks
 
         for block in self.field:
             for bullet in self.bullet_list:  # bullet contact with blocks
                 if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \
                         (block.y - bullet.radius <= bullet.pos[1] <= block.y + block.height + bullet.radius):
 
-                    if (bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width-2)) and bullet.owner:
+                    if (bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width - 2)) and bullet.owner:
                         # left side    ° -> |     or right side  | <- °
                         angle = self.angle_of_track(bullet.vector, (0, 1), True)
                         print(angle)
@@ -138,7 +149,7 @@ class CField:
                         else:
                             self.bullet_list.remove(bullet)
 
-                    elif (bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height-2)) and bullet.owner:
+                    elif (bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height - 2)) and bullet.owner:
                         # top side or bottom side    _°_
                         angle = self.angle_of_track(bullet.vector, (1, 0), True)
                         print(angle)
