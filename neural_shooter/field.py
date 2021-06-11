@@ -85,8 +85,11 @@ class CField:
         self.bullet_data = bullet_data
         self.bullet_list = []
 
-    def angle_of_track(self, way_vector):  # way  in radians
-        a, b = self.default_vector, way_vector
+    def angle_of_track(self, way_vector, default_vector=None, degrees=False):  # way in radians
+        if default_vector:
+            a, b = default_vector, way_vector
+        else:
+            a, b = self.default_vector, way_vector
 
         scalar_products = (a[0] * b[0]) + (a[1] * b[1])
         module_a = math.sqrt((a[0] ** 2) + (a[1] ** 2))
@@ -96,8 +99,12 @@ class CField:
             alfa = math.acos(scalar_products / (module_a * module_b))
 
         except ZeroDivisionError:
-            alfa = 90
-        return alfa
+            alfa = 1.57079633
+
+        if degrees:
+            return math.degrees(alfa)
+        else:
+            return alfa
 
     def shot_bullet_creation(self, vector, pos, player_name):  # pos, radius, color, damage, speed, vector
         length_vector = math.sqrt(vector[0] ** 2 + vector[1] ** 2)
@@ -106,21 +113,54 @@ class CField:
         self.bullet_list.append(CBullet(pos, self.bullet_data[0], self.bullet_data[1], self.bullet_data[2],
                                         self.bullet_data[3], unit_vector, player_name))
 
-    def bullets_action(self):
+    def bullets_action(self, players):
         if len(self.bullet_list) != 0:
             for bullet in self.bullet_list:
                 bullet.motion()
+                for player in players:
+                    if (player.pos[0] - player.player_radius <= bullet.pos[0] <= player.pos[0] +
+                        player.player_radius) and (player.pos[1] - player.player_radius <= bullet.pos[1] <=
+                                                   player.pos[1] + player.player_radius):
+                        player.HP -= bullet.damage
+                        if player.HP <= 0:
+                            players.remove(player)
+
+                        self.bullet_list.remove(bullet)
+                        print('contact')
+
                 bullet.draw(self.input.window)
 
     def contact(self, player_x, player_y):  # add radius in future
         self.input.disconnected_key = []
-        crossing_list = []           # crossing player with blocks
+        crossing_list = []  # crossing player with blocks
 
         for block in self.field:
             for bullet in self.bullet_list:  # bullet contact with blocks
                 if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \
                         (block.y - bullet.radius <= bullet.pos[1] <= block.y + block.height + bullet.radius):
-                    self.bullet_list.remove(bullet)
+
+                    if (bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width - 2)) and bullet.owner:
+                        # left side    ° -> |     or right side  | <- °
+                        angle = self.angle_of_track(bullet.vector, (0, 1), True)
+                        print(angle)
+                        if angle <= 30 or angle >= 150:
+                            bullet.vector = (bullet.vector[0] * (-1), bullet.vector[1])
+                            bullet.owner = None
+                        else:
+                            self.bullet_list.remove(bullet)
+
+                    elif (bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height - 2)) and bullet.owner:
+                        # top side or bottom side    _°_
+                        angle = self.angle_of_track(bullet.vector, (1, 0), True)
+                        print(angle)
+                        if angle <= 30 or angle >= 150:
+                            bullet.vector = (bullet.vector[0], bullet.vector[1] * (-1))
+                            bullet.owner = None
+                        else:
+                            self.bullet_list.remove(bullet)
+
+                    else:
+                        self.bullet_list.remove(bullet)
 
                     if block.kind == 3:
                         block.health -= bullet.damage

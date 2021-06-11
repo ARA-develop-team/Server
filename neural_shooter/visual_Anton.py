@@ -22,12 +22,16 @@ class CPygame:
         for block in self.field.field:
             block.draw(self.window)
 
-        self.field.bullets_action()
+        self.field.bullets_action(list_obj)     # function need ONLY LISTs!
 
-        if len(list_obj) != 0:           # drawing all players
-            for obj in list_obj.values():
-                if obj != 'None':
-                    obj.draw(self.window)
+        if len(list_obj) != 0:
+            for obj in list_obj:
+                obj.draw(self.window)
+
+        # if len(list_obj) != 0:           # drawing all players  (with dictionary list)
+        #     for obj in list_obj.values():
+        #         if obj != 'None':
+        #             obj.draw(self.window)
 
         self.player.draw_lines(self.mouse_pos, self.window, self.work_info)     # for lines
         pygame.display.update()
