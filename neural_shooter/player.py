@@ -8,7 +8,8 @@ import pygame
 
 
 class OBJ:  # parent class for Player and Bot
-    def __init__(self, position, color, hit_points, radius, view, ):
+    def __init__(self, position, color, hit_points, radius, view, name):
+        self.name = name
         self.pos = position
         self.color = color
         self.HP = hit_points  # hit points
@@ -22,9 +23,8 @@ class OBJ:  # parent class for Player and Bot
 class Player(OBJ):
 
     def __init__(self, position, color, color_lines, speed, color_info, radius, view, name, hit_points):
-        super().__init__(position, color, hit_points, radius, view)
+        super().__init__(position, color, hit_points, radius, view, name)
 
-        self.name = name
         self.color_lines = color_lines
         self.color_info = color_info
         self.speed = speed
@@ -48,8 +48,8 @@ class Player(OBJ):
 
 
 class Bot(OBJ):
-    def __init__(self, position, color, hit_points, radius, view):
-        super().__init__(position, color, hit_points, radius, view)
+    def __init__(self, position, color, hit_points, radius, view, name):
+        super().__init__(position, color, hit_points, radius, view, name)
 
     def __str__(self):
         return f"Bot"

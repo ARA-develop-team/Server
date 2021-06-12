@@ -9,7 +9,7 @@ start_vector: 1, 0
 
 online: False
 
-name: 'roma2'
+name: 'anton'
 user_speed: 5
 user_color: 212, 96, 37                 # rgb
 user_radius: 10, 200      # first argument for player *r and second for his *r of view

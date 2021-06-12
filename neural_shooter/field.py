@@ -118,15 +118,15 @@ class CField:
             for bullet in self.bullet_list:
                 bullet.motion()
                 for player in players:
-                    if (player.pos[0] - player.player_radius <= bullet.pos[0] <= player.pos[0] +
-                        player.player_radius) and (player.pos[1] - player.player_radius <= bullet.pos[1] <=
-                                                   player.pos[1] + player.player_radius):
-                        player.HP -= bullet.damage
-                        if player.HP <= 0:
-                            players.remove(player)
+                    if bullet.owner != player.name:
+                        if (player.pos[0] - player.player_radius <= bullet.pos[0] <= player.pos[0] +
+                            player.player_radius) and (player.pos[1] - player.player_radius <= bullet.pos[1] <=
+                                                       player.pos[1] + player.player_radius):
+                            player.HP -= bullet.damage
+                            if player.HP <= 0:
+                                players.remove(player)
 
-                        self.bullet_list.remove(bullet)
-                        print('contact')
+                            self.bullet_list.remove(bullet)
 
                 bullet.draw(self.input.window)
 
@@ -142,7 +142,7 @@ class CField:
                     if (bullet.pos[0] < block.x + 2 or bullet.pos[0] > block.x + (block.width - 2)) and bullet.owner:
                         # left side    ° -> |     or right side  | <- °
                         angle = self.angle_of_track(bullet.vector, (0, 1), True)
-                        print(angle)
+
                         if angle <= 30 or angle >= 150:
                             bullet.vector = (bullet.vector[0] * (-1), bullet.vector[1])
                             bullet.owner = None
