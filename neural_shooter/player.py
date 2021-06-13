@@ -8,25 +8,27 @@ import pygame
 
 
 class OBJ:  # parent class for Player and Bot
-    def __init__(self, position, color, hit_points, radius, view, name):
+    def __init__(self, position, color, hit_points, radius, view, name, color_info):
         self.name = name
         self.pos = position
         self.color = color
         self.HP = hit_points  # hit points
         self.player_radius = radius
         self.player_view = view
+        self.color_info = color_info
 
-    def draw(self, window):
+    def draw(self, window, work_info_font):
         pygame.draw.circle(window, self.color, self.pos, self.player_radius, self.player_radius)
+        hp_text = work_info_font.render(str(int(self.HP)), False, self.color_info)
+        window.blit(hp_text, (self.pos[0] - 5, self.pos[1] + 10))
 
 
 class Player(OBJ):
 
     def __init__(self, position, color, color_lines, speed, color_info, radius, view, name, hit_points):
-        super().__init__(position, color, hit_points, radius, view, name)
+        super().__init__(position, color, hit_points, radius, view, name, color_info)
 
         self.color_lines = color_lines
-        self.color_info = color_info
         self.speed = speed
         self.way_vector = None
         self.way_angle = None
@@ -48,8 +50,8 @@ class Player(OBJ):
 
 
 class Bot(OBJ):
-    def __init__(self, position, color, hit_points, radius, view, name):
-        super().__init__(position, color, hit_points, radius, view, name)
+    def __init__(self, position, color, hit_points, radius, view, name, color_info):
+        super().__init__(position, color, hit_points, radius, view, name, color_info)
 
     def __str__(self):
         return f"Bot"

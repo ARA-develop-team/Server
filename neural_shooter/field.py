@@ -152,7 +152,7 @@ class CField:
                     elif (bullet.pos[1] < block.y + 2 or bullet.pos[1] > block.y + (block.height - 2)) and bullet.owner:
                         # top side or bottom side    _°_
                         angle = self.angle_of_track(bullet.vector, (1, 0), True)
-                        print(angle)
+
                         if angle <= 30 or angle >= 150:
                             bullet.vector = (bullet.vector[0], bullet.vector[1] * (-1))
                             bullet.owner = None

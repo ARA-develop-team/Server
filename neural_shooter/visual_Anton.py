@@ -26,7 +26,7 @@ class CPygame:
 
         if len(list_obj) != 0:
             for obj in list_obj:
-                obj.draw(self.window)
+                obj.draw(self.window, self.work_info)
 
         # if len(list_obj) != 0:           # drawing all players  (with dictionary list)
         #     for obj in list_obj.values():
