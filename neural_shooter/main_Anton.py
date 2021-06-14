@@ -5,6 +5,7 @@ import player
 import config_parser as parser
 import field
 import client_f
+import pygame
 from analysis import CAnalysis
 
 
@@ -45,6 +46,7 @@ class CGame:
             self.playing()
 
     def playing(self):
+        clock = pygame.time.Clock()
         self.user.window = self.user_visual.window
         self.analysis.launch()
 
@@ -66,6 +68,7 @@ class CGame:
             self.user_visual.draw_screen(list_obj)  # visual output         $(dict_obj)
             # self.field.bullets_action()        # extra code
             self.analysis.processing()
+            clock.tick(60)
 
         self.run = False
         self.exit()

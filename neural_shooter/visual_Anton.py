@@ -15,12 +15,18 @@ class CPygame:
         self.player = player
         self.mouse_pos = None
         self.disconnected_key = []
+        self.f1 = pygame.font.Font(None, 24)
+        self.text1 = self.f1.render('EXIT', True, (219, 215, 210))
 
     def draw_screen(self, list_obj):
         self.window.fill(self.screen_color)
 
         for block in self.field.field:
             block.draw(self.window)
+
+        # f1 = pygame.font.Font(None, 24)
+        # text1 = f1.render('EXIT', True, (219, 215, 210))
+        self.window.blit(self.text1, (720, 220))
 
         self.field.bullets_action(list_obj)     # function need ONLY LISTs!
 
