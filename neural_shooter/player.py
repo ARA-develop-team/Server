@@ -17,8 +17,10 @@ class OBJ:  # parent class for Player and Bot
         self.player_view = view
         self.color_info = color_info
 
-    def draw(self, window, work_info_font):
-        pygame.draw.circle(window, self.color, self.pos, self.player_radius, self.player_radius)
+    def draw(self, window, work_info_font, color=None):
+        if color is None:
+            color = self.color
+        pygame.draw.circle(window, color, self.pos, self.player_radius, self.player_radius)
         hp_text = work_info_font.render(str(int(self.HP)), False, self.color_info)
         window.blit(hp_text, (self.pos[0] - 5, self.pos[1] + 10))
 
@@ -50,8 +52,23 @@ class Player(OBJ):
 
 
 class Bot(OBJ):
-    def __init__(self, position, color, hit_points, radius, view, name, color_info):
+    def __init__(self, position, color, hit_points, radius, view, name, color_info, length_to_point):
         super().__init__(position, color, hit_points, radius, view, name, color_info)
+
+        self.len = length_to_point         # length of lines
+        self.delta = int(self.len / 1.41)       # diagonal of square
+        self.view_point = []
+
+    # def find_view_point(self):
+    #     self.view_point.clear()
+    #     self.view_point.append((self.pos[0] - self.len, self.pos[1]))
+    #     self.view_point.append((self.pos[0] - self.delta, self.pos[1] - self.delta))
+    #     self.view_point.append((self.pos[0], self.pos[1] - self.len))
+    #     self.view_point.append((self.pos[0] + self.delta, self.pos[1] - self.delta))
+    #     self.view_point.append((self.pos[0] + self.len, self.pos[1]))
+    #     self.view_point.append((self.pos[0] + self.delta, self.pos[1] + self.delta))
+    #     self.view_point.append((self.pos[0], self.pos[1] + self.len))
+    #     self.view_point.append((self.pos[0] - self.delta, self.pos[1] + self.delta))
 
     def __str__(self):
         return f"Bot"
