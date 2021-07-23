@@ -4,83 +4,123 @@ import socket
 import threading
 import pickle
 import config_parser as parser
+import server_field
+import player as pl
+
+
+def send(client, message):
+    # send length
+    packed_message = pickle.dumps(message)  # packing message
+    message_length = len(packed_message)
+    send_length = str(message_length).encode(Server.FORMAT)
+    send_length += b' ' * (Server.HEADER - len(send_length))
+    client.send(send_length)
+
+    # send message
+    client.send(packed_message)
+
+
+def receive(client):
+    message_length = client.recv(Server.HEADER).decode(Server.FORMAT)
+    # reception message
+    if type(message_length) == 'int':
+        message = client.recv(message_length)
+        message = pickle.loads(message)  # unpacking message
+    else:
+        message = message_length
+    return message
 
 
 class Server():
-    yml_data = parser.getting_socket_data(r'server.yml')
+    yml_data1 = parser.getting_socket_data(r'server.yml')
+    yml_data2 = parser.getting_start_data(r'start.yml')
     HEADER = 64
-    ADDR = (yml_data['IP'], yml_data['PORT'])
+    ADDR = (yml_data1['IP'], yml_data1['PORT'])
     FORMAT = 'utf-8'
     DISCONNECT_MESSAGE = "!DISCONNECT"
 
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def __init__(self, name):
         self.name = name
-        self.players = {}
+        self.main_field = server_field.ServerField(Server.yml_data2['screen_size'], Server.yml_data2['user_radius'][0])
 
     def start(self):
-        Server.server_socket.bind(Server.ADDR)
-        Server.server_socket.listen()
+
+        thread = threading.Thread(target=self.game_mechanics, args=())
+        thread.start()
+
+        Server.socket.bind(Server.ADDR)
+        Server.socket.listen()
         print(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
         while True:
-            conn, addr = Server.server_socket.accept()
+            conn, addr = Server.socket.accept()
             print(f"[NEW CONNECTION] {addr} connected.")
 
             player_name = conn.recv(Server.HEADER).decode('utf-8')
             print(f"PLAYER NAME - {player_name}")
-            self.players[player_name] = 'None'
+            self.main_field.player_dict[player_name] = None
 
-            # send length
-            msg = pickle.dumps(self.players)  # packing message
-            msg_length = len(msg)
-            send_length = str(msg_length).encode(Server.FORMAT)
-            send_length += b' ' * (Server.HEADER - len(send_length))
-            conn.send(send_length)
+            new_player = pl.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
+                        Server.yml_data2['color_lines'], Server.yml_data2['user_speed'], Server.yml_data2['color_info'],
+                            Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
+            self.main_field.player_dict[player_name] = new_player
 
-            # send message
-            conn.send(msg)
+            send(conn, new_player.get_data_package(3))
 
             print(f"[ACTIVE CONNECTIONS] {threading.activeCount()}")
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))
             thread.start()
 
     def handle_client(self, conn, addr, name):
+        player_list = [name]
         connected = True
         while connected:
-            # reception length
-            msg_length = conn.recv(Server.HEADER).decode(Server.FORMAT)
 
-            if msg_length == "PLAYER DISCONNECT":
+            message = receive(conn)
+            if message == "PLAYER DISCONNECT":
                 connected = False
-                self.players.pop(name)
+                self.main_field.player_dict.pop(name)
                 print(f'[DISCONNECT] player {name} disconnect')
-            elif type(msg_length) == "string":
+            elif type(message) == "string":
                 print(f'[WARNING] Client: {name} Addr: {addr} send message type string')
-
             else:
-                msg_length = int(msg_length)
-                # reception message
-                msg = conn.recv(msg_length)
-                msg = pickle.loads(msg)  # unpacking message
 
-                # treatment massage
-                self.players[name] = msg
+                self.main_field.player_dict[name].update_data(message)
+                if message[3]:
+                    self.main_field.bullet_list.append(pl.CBullet(self.main_field.player_dict[name].pos, 5,
+                                    (200, 200, 100), 10, 3, self.main_field.player_dict[name].way_vector, name))
 
-                # send length
-                msg = pickle.dumps(self.players)  # packing message
-                msg_length = len(msg)
-                send_length = str(msg_length).encode(Server.FORMAT)
-                send_length += b' ' * (Server.HEADER - len(send_length))
-                conn.send(send_length)
-                # send message
-                conn.send(msg)
+                player_package_list = []
+
+                for player in self.main_field.player_dict.values():
+                    if player.name not in player_list:
+                        player_list.append(player.name)
+                        player_package_list.append(player.get_data_package(3))
+                    else:
+                        player_package_list.append(player.get_data_package(2))
+                send(conn, player_package_list)
+
+                block_package_list = []
+                for block in self.main_field.block_list:
+                    block_package_list.append(block.get_data_package())
+                send(conn, player_package_list)
+
+                bullet_package_list = []
+                for bullet in self.main_field.bullet_list:
+                    bullet_package_list.append(bullet.get_data_package())
+                send(conn, bullet_package_list)
 
         conn.close()
+
+    def game_mechanics(self):
+        while True:
+            self.main_field.main()
 
 
 main_server = Server('main')
 main_server.start()
+
 
 
 

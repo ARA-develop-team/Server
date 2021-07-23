@@ -19,6 +19,9 @@ class Player(object):
         self.way_angle = None
         self.player_radius = radius
         self.player_view = view
+        self.disconnected_key = []
+        self.hp = 0
+        self.shoot = False
 
     def draw(self, window):
         pygame.draw.circle(window, self.color, self.pos, self.player_radius, self.player_radius)
@@ -34,6 +37,43 @@ class Player(object):
             way_angle_degrees = math.degrees(self.way_angle)     # radians per degree
             angle_text = work_info_font.render(str(int(way_angle_degrees)), False, self.color_info)
             window.blit(angle_text, (20, 20))
+
+    def get_data_package(self, type_package):
+        if type_package == 1:
+            if self.shoot:
+                data_package = [type_package, self.name, self.pos, self.way_vector]
+                self.shoot = False
+            else:
+                data_package = [type_package, self.name, self.pos, None]
+            return data_package
+        if type_package == 2:
+            data_package = [type_package, self.name, self.pos, self.hp]
+            return data_package
+        if type_package == 3:
+            data_package = [type_package, self.name, self.pos, self.hp, self.color]
+            return data_package
+        else:
+            print('WRONG TYPE OF PACKAGE')
+
+    def update_data(self, data_package):
+        if data_package[0] == 3:
+            self.name = data_package[1]
+            self.pos = data_package[2]
+            self.hp = data_package[3]
+            self.color = data_package[4]
+        elif data_package[1] == self.name:
+            if data_package[0] == 1:
+                self.pos = data_package[2]
+                if self.way_vector:
+                    self.way_vector = data_package[3]
+            if data_package[0] == 2:
+                self.pos = data_package[2]
+                self.hp = data_package[3]
+
+            else:
+                print('INCORRECT DATA PACKAGE')
+        else:
+            print(f'WRONG NAME:  {self.name}, {data_package[1]}')
 
 
 class CBullet:
@@ -52,3 +92,9 @@ class CBullet:
     def draw(self, window):
         pygame.draw.circle(window, self.color, [int(self.pos[0]), int(self.pos[1])], self.radius, self.radius)
 
+    def get_data_package(self):
+        data_package = self.pos
+        return data_package
+
+    def update_data(self, package):
+        self.pos = package

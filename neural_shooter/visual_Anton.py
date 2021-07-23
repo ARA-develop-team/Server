@@ -16,20 +16,21 @@ class CPygame:
         self.mouse_pos = None
         self.disconnected_key = []
 
-    def draw_screen(self, list_obj):
+    def draw_screen(self, list_obj, bullet_list, block_list, player):
         self.window.fill(self.screen_color)
 
-        for block in self.field.field:
+        for block in block_list:
             block.draw(self.window)
 
-        self.field.bullets_action()
+        for bullet in bullet_list:
+            bullet.draw()
 
         if len(list_obj) != 0:           # drawing all players
             for obj in list_obj.values():
-                if obj != 'None':
+                if obj:
                     obj.draw(self.window)
 
-        self.player.draw_lines(self.mouse_pos, self.window, self.work_info)     # for lines
+        player.draw_lines(self.mouse_pos, self.window, self.work_info)     # for lines
         pygame.display.update()
 
     def input_data(self):

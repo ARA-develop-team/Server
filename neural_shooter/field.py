@@ -43,26 +43,28 @@ def map_creation(screen_size):
         obj_x = 0
         for kind in blocks[block]:
             if kind == 1 or kind == 2:
-                obj_list.append(CBlock(obj_x, obj_y, obj_width, obj_height, kind))
+                obj_list.append(CBlock(obj_x, obj_y, obj_width, obj_height, kind, block))
             elif kind == 3:
-                obj_list.append(CBlock(obj_x, obj_y, obj_width, obj_height, kind, 100))  # 100 - health (temp)
+                obj_list.append(CBlock(obj_x, obj_y, obj_width, obj_height, kind, block, 100))  # 100 - health (temp)
 
             obj_x += obj_width
         obj_y += obj_height
 
-    for obj in obj_list:
-        print(obj_list.index(obj), obj.x, obj.y, obj.kind)
+    # for obj in obj_list:
+    #     print(obj_list.index(obj), obj.x, obj.y, obj.kind)
+    print('map created')
     return obj_list, obj_width, obj_height
 
 
 class CBlock:
-    def __init__(self, x, y, width, height, kind, health=0):
+    def __init__(self, x, y, width, height, kind, number, health=0):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.health = health
         self.kind = kind  # type
+        self.number = number
 
     def draw(self, window):
         f1 = pygame.font.Font(None, 24)
@@ -77,15 +79,24 @@ class CBlock:
         else:
             pygame.draw.rect(window, (219, 215, 210), (self.x, self.y, self.width, self.height), 5)
 
+    def get_data_package(self):
+        data_package = [self.x, self.y, self.kind]
+        return data_package
+
+    def update_data(self, package):
+        self.x, self.y, self.kind = package
+
 
 class CField:
     def __init__(self, start_vector, screen_size, radius, bullet_data):
         self.default_vector = start_vector
-        self.field, self.width, self.height = map_creation(screen_size)
+        self.block_list, self.width, self.height = map_creation(screen_size)
         self.input = None  # visual.py
         self.radius = radius  # radius of player
         self.bullet_data = bullet_data
+
         self.bullet_list = []
+        self.player_dict = []
 
     def angle_of_track(self, way_vector):  # way  in radians
         a, b = self.default_vector, way_vector

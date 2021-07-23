@@ -9,7 +9,7 @@ screen_color: 46, 48, 50
 screen_size: 800, 800
 start_vector: 1, 0
 user_radius: 10, 200      # first argument for player *r and second for his *r of view
-online: False
+online: True
 name: 'roma2'
 bullet: [4, [220, 211, 106], 50, 6]     # [*r, color, damage, speed]
 
