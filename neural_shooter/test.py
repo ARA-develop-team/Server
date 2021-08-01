@@ -1,6 +1,23 @@
 import matplotlib.pyplot as plt
 from PIL import Image  # ImageDraw
+import os
+print(os.name)
+if os.name == 'posix':
+    from subprocess import check_output
+elif os.name == 'nt':
+    import win32api, win32con, win32process
+    from ctypes import windll
+    user32 = windll.user32
 
+
+def get_locale():
+    if os.name == 'nt':
+        w = user32.GetForegroundWindow()
+        tid = user32.GetWindowThreadProcessId(w, 0)
+        win32api.LoadKeyboardLayout('00000409', 1)  # to switch to english
+        return hex(user32.GetKeyboardLayout(tid))
+    elif os.name == 'posix':
+        win32api.LoadKeyboardLayout('00000409', 1)
 
 def test_matplotlib():
     y = [[574], [565.875], [609], [605], [606], [606], [612], [613], [610], [603], [607], [600], [589], [585], [586],
@@ -69,9 +86,10 @@ class Child(Parent):
 
 
 if __name__ == "__main__":
-    ch = Child(12, 'Alex')
-    print(ch.name, ch.age)
-    print(ch)
+    get_locale()
+    # ch = Child(12, 'Alex')
+    # print(ch.name, ch.age)
+    # print(ch)
 
     # print(x.count(4))
     #

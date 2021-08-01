@@ -97,6 +97,9 @@ if __name__ == '__main__':
         if keys[pygame.K_s]:
             bot.pos[1] += bot_speed
 
+        if keys[pygame.K_ц]:
+            print(':)')
+
         distance = []
         closest_block = []
         for block in game_field.field:
