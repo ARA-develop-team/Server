@@ -51,7 +51,8 @@ class CGame:
         self.analysis.launch()
 
         bot = player.Bot(self.data['bot_start_point'], self.data['bot_color'], self.data['bot_hit_points'],
-                         self.data['bot_radius'][0], self.data['bot_radius'][1], 'bot', self.data['color_info'])
+                         self.data['bot_radius'][0], self.data['bot_radius'][1], 'bot', self.data['color_info'],
+                         self.data['bot_length_to_point'])
         # Fix bot!!!!
 
         # dict_obj = {self.data['name']: self.user,

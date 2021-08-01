@@ -1,23 +1,33 @@
 import matplotlib.pyplot as plt
 from PIL import Image  # ImageDraw
+from pynput.keyboard import Key, Listener
 import os
+import keyboard
+
 print(os.name)
-if os.name == 'posix':
-    from subprocess import check_output
-elif os.name == 'nt':
-    import win32api, win32con, win32process
-    from ctypes import windll
-    user32 = windll.user32
 
 
-def get_locale():
-    if os.name == 'nt':
-        w = user32.GetForegroundWindow()
-        tid = user32.GetWindowThreadProcessId(w, 0)
-        win32api.LoadKeyboardLayout('00000409', 1)  # to switch to english
-        return hex(user32.GetKeyboardLayout(tid))
-    elif os.name == 'posix':
-        win32api.LoadKeyboardLayout('00000409', 1)
+# if os.name == 'posix':
+#     from subprocess import check_output
+# elif os.name == 'nt':
+#     import win32api, win32con, win32process
+#     from ctypes import windll
+#     user32 = windll.user32
+
+
+# def get_locale():
+#     if os.name == 'nt':
+#         w = user32.GetForegroundWindow()
+#         tid = user32.GetWindowThreadProcessId(w, 0)
+#         win32api.LoadKeyboardLayout('00000409', 1)  # to switch to english
+#         return hex(user32.GetKeyboardLayout(tid))
+#     elif os.name == 'posix':
+#         win32api.LoadKeyboardLayout('00000409', 1)
+
+
+def print_pressed_keys(e):
+    print(e, e.event_type, e.name)
+
 
 def test_matplotlib():
     y = [[574], [565.875], [609], [605], [606], [606], [612], [613], [610], [603], [607], [600], [589], [585], [586],
@@ -85,8 +95,24 @@ class Child(Parent):
         return f"Child class"
 
 
+def on_press(key):
+    print('{0} pressed'.format(key))
+
+
+def on_release(key):
+    print('{0} release'.format(key))
+    if key == Key.esc:
+        # Stop listener
+        return False
+
+
+# Collect events until released
+
+
 if __name__ == "__main__":
-    get_locale()
+    with Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
+
     # ch = Child(12, 'Alex')
     # print(ch.name, ch.age)
     # print(ch)

@@ -10,7 +10,7 @@ from player import CBullet
 
 def map_creation(screen_size, game_map):
     obj_list = []
-    # 0 - empty; 1 - wall; 2 - blue wall; 3 - destructible wall;
+    # 0 - empty; 1 - wall; 2 - blue wall(touching); 3 - destructible wall;
     if game_map == 'default':
         blocks = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -291,7 +291,7 @@ if __name__ == "__main__":
     # way = (-1, 1)
     # result = field.angle_of_track(way)
     # print(result)
-    obj_lst = map_creation((800, 800))
+    obj_lst = map_creation((800, 800), 'default')
 
     # def vector(self, x1, y1, x2, y2, speed):  # calculates the direction between two objects
     #     v_x_2 = x2 - x1

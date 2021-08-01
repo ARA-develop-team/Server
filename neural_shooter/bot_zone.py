@@ -48,7 +48,8 @@ def start(file, sc_size=(500, 500), run=True):
 
     data = parser.getting_start_data(file)
     bot_obj = player.Bot(data['bot_start_point'], data['bot_color'], data['bot_hit_points'],
-                         data['bot_radius'][0], data['bot_radius'][1], 'bot', data['color_info'], 200)
+                         data['bot_radius'][0], data['bot_radius'][1], 'bot', data['color_info'],
+                         data['bot_length_to_point'])
     field_for_game = field.CField(data['start_vector'], screen_size, data['user_radius'][0], data['bullet'], 'bot_zone')
 
     return data['screen_color'], field_for_game, bot_obj, data['bot_speed']
@@ -96,9 +97,6 @@ if __name__ == '__main__':
 
         if keys[pygame.K_s]:
             bot.pos[1] += bot_speed
-
-        if keys[pygame.K_ц]:
-            print(':)')
 
         distance = []
         closest_block = []
