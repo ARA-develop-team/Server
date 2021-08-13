@@ -22,6 +22,7 @@ def start(file, sc_size=(500, 500), run=True):
     screen = pygame.display.set_mode(sc_size)
     pygame.display.set_caption('WELCOME')
     screen.fill((0, 0, 0))
+    screen.blit(background, (0, 0))
 
     f1 = pygame.font.Font(None, 40)
     f2 = pygame.font.Font(None, 25)
@@ -29,8 +30,13 @@ def start(file, sc_size=(500, 500), run=True):
     text2 = f2.render('--->   press SPACE to continue   <---', True, (219, 215, 210))
     text_size1 = text1.get_size()
     text_size2 = text2.get_size()
-    screen.blit(text1, ((sc_size[0]/2) - (text_size1[0] / 2), (sc_size[1] / 2) - (text_size1[1] / 2) - 50))
-    screen.blit(text2, ((sc_size[0]/2) - (text_size2[0] / 2), (sc_size[1] / 2) - (text_size2[1] / 2) + 50))
+    if sc_size == (626, 626):
+        screen.blit(text1, ((sc_size[0]/2) - (text_size1[0] / 2), 100))
+        screen.blit(text2, ((sc_size[0]/2) - (text_size2[0] / 2), 570))
+
+    else:
+        screen.blit(text1, ((sc_size[0]/2) - (text_size1[0] / 2), (sc_size[1] / 2) - (text_size1[1] / 2) - 50))
+        screen.blit(text2, ((sc_size[0]/2) - (text_size2[0] / 2), (sc_size[1] / 2) - (text_size2[1] / 2) + 50))
 
     pygame.display.flip()
     while run:
@@ -56,6 +62,10 @@ def start(file, sc_size=(500, 500), run=True):
 
 
 screen_size = (1000, 1000)
+background = pygame.image.load('background.jpg')
+if background.get_height() > 700 or background.get_width() > 700:
+    background = pygame.transform.scale(background, (600, 600))
+
 is_running = True
 start_file = r"start.yml"
 line_list = []
@@ -64,7 +74,7 @@ pygame.init()
 work_info = pygame.font.SysFont('monospace', 16)
 
 if __name__ == '__main__':
-    screen_color, game_field, bot, bot_speed = (start(start_file))
+    screen_color, game_field, bot, bot_speed = (start(start_file, sc_size=background.get_size()))
     for _ in range(8):
         line_list.append(Line(bot.len, bot.delta))
 
