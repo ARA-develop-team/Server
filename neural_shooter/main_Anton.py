@@ -12,13 +12,13 @@ from analysis import CAnalysis
 class CGame:
     def __init__(self):
         self.run = True
-        self.file = r"start.yml"        # file with data for config_parser
-        self.player = None                # player in this computer (obj class Player)
-        self.user_visual = None         # pygame code
-        self.data = None                # result of config_parser
-        self.field = None               # object (class field)
-        self.online = None              # type of game
-        self.client = None              # object (class client), if self.online = True
+        self.file = r"start.yml"  # file with data for config_parser
+        self.player = None  # player in this computer (obj class Player)
+        self.user_visual = None  # pygame code
+        self.data = None  # result of config_parser
+        self.field = None  # object (class field)
+        self.online = None  # type of game
+        self.client = None  # object (class client), if self.online = True
         self.analysis = CAnalysis()
 
         self.block_list = []
@@ -46,21 +46,21 @@ class CGame:
         else:
             self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
                                       self.data['bullet'])
-            self.player = player.Player(self.data['start_point'], self.data['user_color'],
-                                      self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                      self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
+            self.player = pl.Player(self.data['start_point'], self.data['user_color'],
+                                    self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                    self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
             self.playing()
 
     def playing(self):
-        self.user.window = self.user_visual.window
+        self.player.window = self.user_visual.window
         self.analysis.launch()
-        dict_obj = {self.data['name']: self.user}    # for player, bots and online players
+        dict_obj = {self.data['name']: self.player}  # for player, bots and online players
 
         while self.user_visual.run:
-            self.field.contact(self.user.pos[0], self.user.pos[1])
-            self.user_visual.input_data()       # input in pygame
-            if self.user.way_vector is not None:
-                self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
+            self.field.contact(self.player.pos[0], self.player.pos[1])
+            self.user_visual.input_data()  # input in pygame
+            if self.player.way_vector is not None:
+                self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
             self.user_visual.draw_screen(dict_obj)  # visual output
             self.field.bullets_action()
             self.analysis.processing()
@@ -71,20 +71,21 @@ class CGame:
     def playing_online(self):
         player = self.client.connect()
         self.player = pl.Player(player[2], player[4],
-                                    self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                    self.data['user_radius'][0], self.data['user_radius'][1], player[1])
+                                self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                self.data['user_radius'][0], self.data['user_radius'][1], player[1])
         self.analysis.launch()
 
         while self.run:
             self.input_data()
-            player_package_list, block_package_list, bullet_package_list = self.client.data_exchange(self.player.get_data_package(1))
+            player_package_list, block_package_list, bullet_package_list = self.client.data_exchange(
+                self.player.get_data_package(1))
             print(f'data {player_package_list, block_package_list, bullet_package_list}')
             for player_package in player_package_list:
                 if player_package[0] == 3:
                     print('new player')
                     new_player = pl.Player(player_package[2], player_package[4],
-                                self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
+                                           self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                           self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
                     self.player_dict[player_package[1]] = new_player
                 else:
                     self.player_dict[player_package[1]].update_data(player_package)
@@ -102,7 +103,7 @@ class CGame:
             if self.player.way_vector is not None:
                 self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
 
-            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list)  # change list in the future (online)
+            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list)
             self.analysis.processing()
 
         self.run = False
@@ -144,6 +145,7 @@ class CGame:
             if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
                 self.player.pos[1] += self.player.speed
 
+
 if __name__ == "__main__":
     game = CGame()
 
@@ -151,3 +153,20 @@ if __name__ == "__main__":
     game.start()
 
     quit()
+
+    # def playing(self):
+    #     self.user.window = self.user_visual.window
+    #     self.analysis.launch()
+    #     dict_obj = {self.data['name']: self.user}  # for player, bots and online players
+    #
+    #     while self.user_visual.run:
+    #         self.field.contact(self.user.pos[0], self.user.pos[1])
+    #         self.user_visual.input_data()  # input in pygame
+    #         if self.user.way_vector is not None:
+    #             self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
+    #         self.user_visual.draw_screen(dict_obj)  # visual output
+    #         self.field.bullets_action()
+    #         self.analysis.processing()
+    #
+    #     self.run = False
+    #     self.exit()
