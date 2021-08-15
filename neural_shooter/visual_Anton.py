@@ -18,7 +18,8 @@ class CPygame:
         self.window.fill(self.screen_color)
         if len(list_obj) != 0:
             for obj in list_obj.values():
-                obj.draw(self.mouse_pos, self.window, self.work_info)
+                if obj != 'None':
+                    obj.draw(self.mouse_pos, self.window, self.work_info)
         self.player.draw(self.mouse_pos, self.window, self.work_info)
         pygame.display.update()
 
