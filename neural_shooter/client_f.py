@@ -5,7 +5,7 @@ import socket
 import config_parser as parser
 
 
-class Client():
+class Client:
     yml_data = parser.getting_socket_data(r'client.yml')
     HEADER = 64
     FORMAT = 'utf-8'
@@ -32,7 +32,6 @@ class Client():
         ans = pickle.loads(ans)
         return ans
 
-
     def data_exchange(self, msg):
         # send length
         message = pickle.dumps(msg)  # packing message
@@ -56,7 +55,6 @@ class Client():
     def signing_off(self):  # FIN massage
         Client.socket.send(b'PLAYER DISCONNECT')
         Client.socket.close()
-
 
 # file_path = r'client.yml'
 # yml_data = parser.getting_socket_data(file_path)

@@ -13,7 +13,7 @@ class CAnalysis:
         self.time_aim = None
 
     def launch(self):
-        print("\033[33m{}".format("Hello from the ARA ADDITIONAL CODE \n[ANALYSING]"))
+        print("\033[33m{}".format("Hello from the ARA ADDITIONAL CODE \n[ANALYSING]"), "\033[0m".format(""))
         self.start_time = time.time()
         self.time_aim = self.start_time + self.time_period
 
@@ -31,14 +31,14 @@ class CAnalysis:
     def result(self):
         total = 0
         midline = []
-        print(self.speed_data)
+
         for x in self.speed_data:
             total += x[0]
         average = total / len(self.speed_data)
-        print(average)
+
         for _ in self.speed_data:
             midline.append([average])
-        print("\033[33m{}".format("[RESULT]"))
+        print("\033[33m{}".format("[RESULT]"), "\033[0m".format(""))
         plt.plot(self.speed_data, label='line', color='blue')
         plt.plot(midline, label='line', color='red')
         plt.title('MAIN')
