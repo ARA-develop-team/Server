@@ -69,10 +69,14 @@ class CGame:
         self.exit()
 
     def playing_online(self):
-        player = self.client.connect()
+        player, block_package_list = self.client.connect()
         self.player = pl.Player(player[2], player[4],
                                 self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                 self.data['user_radius'][0], self.data['user_radius'][1], player[1])
+
+        for block in block_package_list:
+            self.block_list.append(field.CBlock(*block))
+
         self.analysis.launch()
 
         while self.run:
@@ -80,6 +84,7 @@ class CGame:
             player_package_list, block_package_list, bullet_package_list = self.client.data_exchange(
                 self.player.get_data_package(1))
             print(f'data {player_package_list, block_package_list, bullet_package_list}')
+
             for player_package in player_package_list:
                 if player_package[0] == 3:
                     print('new player')
@@ -90,20 +95,20 @@ class CGame:
                 else:
                     self.player_dict[player_package[1]].update_data(player_package)
 
-            number_new_blocks = len(block_package_list) - len(self.block_list)
-            for block in range(number_new_blocks):
-                self.block_list.append(field.CBlock(0, 0, 0, 0, 0))
+            if block_package_list:
+                for block in block_package_list:
+                    for local_block in self.block_list:
+                        if block.number == local_block.number:
+                            local_block.kind = block.kind
 
-            for number in range(len(block_package_list)):
-                self.block_list[number].update_data(block_package_list[number])
-
-            for number in range(len(bullet_package_list)):
-                self.bullet_list[number].update_data(bullet_package_list[number])
+            if len(bullet_package_list) > 0:
+                for number in range(len(bullet_package_list)):
+                    self.bullet_list[number].update_data(bullet_package_list[number])
 
             if self.player.way_vector is not None:
                 self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
 
-            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list)
+            self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list)
             self.analysis.processing()
 
         self.run = False
@@ -170,3 +175,10 @@ if __name__ == "__main__":
     #
     #     self.run = False
     #     self.exit()
+
+# number_new_blocks = len(block_package_list) - len(self.block_list)
+# for block in range(number_new_blocks):
+#     self.block_list.append(field.CBlock(0, 0, 0, 0, 0))
+#
+# for number in range(len(block_package_list)):
+#     self.block_list[number].update_data(block_package_list[number])

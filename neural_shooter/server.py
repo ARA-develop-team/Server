@@ -31,7 +31,7 @@ def receive(client):
     return message
 
 
-class Server():
+class Server:
     yml_data1 = parser.getting_socket_data(r'server.yml')
     yml_data2 = parser.getting_start_data(r'start.yml')
     HEADER = 64
@@ -62,56 +62,63 @@ class Server():
             self.main_field.player_dict[player_name] = None
 
             new_player = pl.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
-                        Server.yml_data2['color_lines'], Server.yml_data2['user_speed'], Server.yml_data2['color_info'],
-                            Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
+                                   Server.yml_data2['color_lines'], Server.yml_data2['user_speed'],
+                                   Server.yml_data2['color_info'],
+                                   Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
             self.main_field.player_dict[player_name] = new_player
 
-            send(conn, new_player.get_data_package(3))
+            block_package_list = []
+            for block in self.main_field.block_list:
+                block_package_list.append(block.get_data_package(3))
+
+            send(conn, [new_player.get_data_package(3), block_package_list])
 
             print(f"[ACTIVE CONNECTIONS] {threading.activeCount()}")
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))
             thread.start()
 
-    def handle_client(self, conn, addr, name):
-        player_list = [name]
-        connected = True
-        while connected:
+    def handle_client(self, conn, addr, name):         # working with client
+            player_list = [name]
+            connected = True
+            while connected:
 
-            message = receive(conn)
-            if message == "PLAYER DISCONNECT":
-                connected = False
-                self.main_field.player_dict.pop(name)
-                print(f'[DISCONNECT] player {name} disconnect')
-            elif type(message) == "string":
-                print(f'[WARNING] Client: {name} Addr: {addr} send message type string')
-            else:
+                message = receive(conn)
+                if message == "PLAYER DISCONNECT":
+                    connected = False
+                    self.main_field.player_dict.pop(name)
+                    print(f'[DISCONNECT] player {name} disconnect')
+                elif type(message) == "string":
+                    print(f'[WARNING] Client: {name} Addr: {addr} send message type string')
+                else:
 
-                self.main_field.player_dict[name].update_data(message)
-                if message[3]:
-                    self.main_field.bullet_list.append(pl.CBullet(self.main_field.player_dict[name].pos, 5,
-                                    (200, 200, 100), 10, 3, self.main_field.player_dict[name].way_vector, name))
+                    self.main_field.player_dict[name].update_data(message)
+                    if message[1]:
+                        self.main_field.bullet_list.append(pl.CBullet(self.main_field.player_dict[name].pos, 5,
+                                                                      (200, 200, 100), 10, 3,
+                                                                      self.main_field.player_dict[name].way_vector,
+                                                                      name))
 
-                player_package_list = []
+                    player_package_list, block_package_list, bullet_package_list = [], [], []
 
-                for player in self.main_field.player_dict.values():
-                    if player.name not in player_list:
-                        player_list.append(player.name)
-                        player_package_list.append(player.get_data_package(3))
-                    else:
-                        player_package_list.append(player.get_data_package(2))
-                send(conn, player_package_list)
+                    for player in self.main_field.player_dict.values():
+                        if player.name not in player_list:
+                            player_list.append(player.name)
+                            player_package_list.append(player.get_data_package(3))
+                        else:
+                            player_package_list.append(player.get_data_package(2))
 
-                block_package_list = []
-                for block in self.main_field.block_list:
-                    block_package_list.append(block.get_data_package())
-                send(conn, player_package_list)
+                    for block in self.main_field.block_list:
+                        block_package_list.append(block.get_data_package(1))
 
-                bullet_package_list = []
-                for bullet in self.main_field.bullet_list:
-                    bullet_package_list.append(bullet.get_data_package())
-                send(conn, bullet_package_list)
+                    for bullet in self.main_field.bullet_list:
+                        bullet_package_list.append(bullet.get_data_package())
 
-        conn.close()
+                    if len(block_package_list) == 0:
+                        block_package_list = None
+
+                    send(conn, [player_package_list, block_package_list, bullet_package_list])
+
+            conn.close()
 
     def game_mechanics(self):
         while True:
@@ -121,11 +128,7 @@ class Server():
 main_server = Server('main')
 main_server.start()
 
-
-
-
-
-# file_path = r'server.yml'
+# file_path = 'server.yml'
 # yml_data = parser.getting_socket_data(file_path)
 #
 # HEADER = 64

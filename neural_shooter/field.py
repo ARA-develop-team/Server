@@ -79,12 +79,22 @@ class CBlock:
         else:
             pygame.draw.rect(window, (219, 215, 210), (self.x, self.y, self.width, self.height), 5)
 
-    def get_data_package(self):
-        data_package = [self.x, self.y, self.kind]
-        return data_package
+    def get_data_package(self, type_package):
+        # 1 - update package; 2 - creation package
+
+        if type_package == 3:   # creation
+            data_package = [self.x, self.y, self.width, self.height, self.kind, self.number, self.health]
+            return data_package
+
+        elif type_package == 1:     # update package
+            data_package = [self.number, self.kind]
+            return data_package
+
+        else:
+            print('WRONG TYPE OF PACKAGE')
 
     def update_data(self, package):
-        self.x, self.y, self.kind = package
+        self.x, self.y, self.kind = package  # = package[0], package[1], package[2]
 
 
 class CField:
@@ -129,7 +139,7 @@ class CField:
         self.input.disconnected_key = []
         crossing_list = []
 
-        for block in self.field:
+        for block in self.block_list:
             for bullet in self.bullet_list:  # bullet contact with blocks
                 if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \
                         (block.y - bullet.radius <= bullet.pos[1] <= block.y + block.height + bullet.radius):
@@ -138,7 +148,7 @@ class CField:
                     if block.kind == 3:
                         block.health -= bullet.damage
                         if block.health <= 0:
-                            self.field.remove(block)
+                            self.block_list.remove(block)
 
             # start player & blocks contact
             if (block.x - self.radius <= player_x <= block.x + block.width + self.radius) and \
@@ -167,8 +177,8 @@ class CField:
                 if self.width - 10 < crossing_list[0][0] < self.width and 0 < crossing_list[0][1] < 10:  # [200, 0]
                     self.input.disconnected_key.append('a')
                     self.input.disconnected_key.append('s')
-                if self.width - 10 < crossing_list[0][0] < self.width and self.height - 10 < crossing_list[0][
-                    1] < self.height:  # [200, 200]
+                if self.width - 10 < crossing_list[0][0] < self.width and self.height - 10 < crossing_list[0][1] <\
+                        self.height:  # [200, 200]
                     self.input.disconnected_key.append('w')
                     self.input.disconnected_key.append('a')
                 if 0 < crossing_list[0][0] < 10 and self.height - 10 < crossing_list[0][1] < self.height:  # [0, 200]

@@ -39,6 +39,8 @@ class Player(object):
             window.blit(angle_text, (20, 20))
 
     def get_data_package(self, type_package):
+        # 1 - update package with shoot; 2 - update package; 2 - creation package
+
         if type_package == 1:
             if self.shoot:
                 data_package = [type_package, self.name, self.pos, self.way_vector]
@@ -46,12 +48,15 @@ class Player(object):
             else:
                 data_package = [type_package, self.name, self.pos, None]
             return data_package
+
         if type_package == 2:
             data_package = [type_package, self.name, self.pos, self.hp]
             return data_package
+
         if type_package == 3:
             data_package = [type_package, self.name, self.pos, self.hp, self.color]
             return data_package
+
         else:
             print('WRONG TYPE OF PACKAGE')
 
