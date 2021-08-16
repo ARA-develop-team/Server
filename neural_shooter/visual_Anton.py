@@ -24,7 +24,7 @@ class CPygame:
 
         # f1 = pygame.font.Font(None, 24)
         # text1 = f1.render('EXIT', True, (219, 215, 210))
-        self.window.blit(self.text1, (720, 220))
+        # self.window.blit(self.text1, (720, 220))
 
         self.field.bullets_action(list_obj)  # function need ONLY LISTs!
 
