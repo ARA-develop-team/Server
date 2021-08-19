@@ -2,10 +2,25 @@
 
 import socket
 import threading
+import time
 import pickle
+import visual_server
 import config_parser as parser
 import server_field
 import player as pl
+from multiprocessing import Process
+from contextlib import closing
+
+
+def check_socket(host, port):
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+        if sock.connect_ex((host, port)) == 0:
+            print("Port is open")
+            return False
+
+        else:
+            print("Port is not open")
+            return True
 
 
 def send(client, message):
@@ -31,9 +46,37 @@ def receive(client):
     return message
 
 
+class VisualServer:     # connection with visual server thread
+    FORMAT = 'utf-8'
+    visual_serv = socket.socket()
+
+    def __init__(self, default_port, extra_port):
+        reconnection_num = 0
+        while True:
+            try:
+                if reconnection_num >= 100:
+                    time.sleep(2)
+                    PORT = extra_port
+
+                else:
+                    PORT = default_port
+
+                self.visual_serv.connect(('localhost', PORT))
+                break
+
+            except ConnectionRefusedError:
+                print(f'RECONNECTION {reconnection_num}')
+                reconnection_num += 1
+
+    def show(self, data):
+        self.visual_serv.sendall(bytes(data))
+
+
 class Server:
     yml_data1 = parser.getting_socket_data(r'server.yml')
     yml_data2 = parser.getting_start_data(r'start.yml')
+
+    print(yml_data1)
     HEADER = 64
     ADDR = (yml_data1['IP'], yml_data1['PORT'])
     FORMAT = 'utf-8'
@@ -44,8 +87,23 @@ class Server:
     def __init__(self, name):
         self.name = name
         self.main_field = server_field.ServerField(Server.yml_data2['screen_size'], Server.yml_data2['user_radius'][0])
+        self.output = []
 
     def start(self):
+        if check_socket('localhost', self.yml_data1['VPORT']) or \
+                check_socket('localhost', self.yml_data1['extra_VPORT']):
+
+            deployed_server = visual_server.server_deploy(PORT=self.yml_data1['VPORT'],
+                                                          extra_PORT=self.yml_data1['extra_VPORT'])
+
+            visual_thread = Process(target=visual_server.start(Server.ADDR, deployed_server))
+            visual_thread.start()
+
+        else:
+            raise Exception('PORTS %s and %s are busy. Server could not be deployed' %
+                            (self.yml_data1['VPORT'], self.yml_data1['extra_VPORT']))
+
+        screen = VisualServer(self.yml_data1['VPORT'], self.yml_data1['extra_VPORT'])
 
         thread = threading.Thread(target=self.game_mechanics, args=())
         thread.start()
@@ -53,6 +111,7 @@ class Server:
         Server.socket.bind(Server.ADDR)
         Server.socket.listen()
         print(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
+        self.output.append(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
         while True:
             conn, addr = Server.socket.accept()
             print(f"[NEW CONNECTION] {addr} connected.")
@@ -73,7 +132,7 @@ class Server:
 
             send(conn, [new_player.get_data_package(3), block_package_list])
 
-            print(f"[ACTIVE CONNECTIONS] {threading.activeCount()}")
+            print(f"[ACTIVE CONNECTIONS] {threading.active_count()}")  # Anton change activeCount --> active_count
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))
             thread.start()
 
@@ -203,3 +262,6 @@ if __name__ == '__main__':
 #
 # print("[STARTING] server is starting...")
 # start()
+
+#     os.system("python3 server.py")
+#     quit()
