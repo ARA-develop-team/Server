@@ -6,6 +6,7 @@ import pygame
 import math
 import config_parser as parser
 import player
+import random
 
 
 class Line:
@@ -24,15 +25,32 @@ def start(file, sc_size=(500, 500), run=True):
     screen.fill((0, 0, 0))
     screen.blit(background, (0, 0))
 
+    if sc_size == (701, 701):
+        color = (0, 0, 0)
+    else:
+        color = (219, 215, 210)
+
+    error_list = []
+    for _ in range(0, 45):
+        num = random.randint(1000, 9999)
+        error_list.append(pygame.font.Font(None, 15).render(f'ERROR {num}', True, color))
+
     f1 = pygame.font.Font(None, 40)
     f2 = pygame.font.Font(None, 25)
-    text1 = f1.render('WELCOME TO THE BOT ZONE', True, (219, 215, 210))
-    text2 = f2.render('--->   press SPACE to continue   <---', True, (219, 215, 210))
+    text1 = f1.render('WELCOME TO THE BOT ZONE', True, color)
+    text2 = f2.render('--->   press SPACE to continue   <---', True, color)
     text_size1 = text1.get_size()
     text_size2 = text2.get_size()
     if sc_size == (626, 626):
         screen.blit(text1, ((sc_size[0]/2) - (text_size1[0] / 2), 100))
         screen.blit(text2, ((sc_size[0]/2) - (text_size2[0] / 2), 570))
+
+    elif sc_size == (701, 701):
+        for err in range(0, len(error_list)-1):
+            screen.blit(error_list[err], (10, 10 + (err*error_list[err].get_size()[1] + 5)))
+
+        screen.blit(text1, ((sc_size[0]/2) - (text_size1[0] / 2), 100))
+        screen.blit(text2, ((sc_size[0]/2) - (text_size2[0] / 2), 150))
 
     else:
         screen.blit(text1, ((sc_size[0]/2) - (text_size1[0] / 2), (sc_size[1] / 2) - (text_size1[1] / 2) - 50))
@@ -61,10 +79,14 @@ def start(file, sc_size=(500, 500), run=True):
     return data['screen_color'], field_for_game, bot_obj, data['bot_speed']
 
 
+photo = f'Roma.jpg'
 screen_size = (1000, 1000)
-background = pygame.image.load('background.jpg')
-if background.get_height() > 700 or background.get_width() > 700:
-    background = pygame.transform.scale(background, (600, 600))
+background = pygame.image.load(photo)
+
+if photo == f'Roma.jpg':
+    background = pygame.transform.scale(background, (701, 701))
+elif background.get_height() > 700 or background.get_width() > 700:
+    background = pygame.transform.scale(background, (700, 700))
 
 is_running = True
 start_file = r"start.yml"
