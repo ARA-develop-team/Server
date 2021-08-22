@@ -46,7 +46,7 @@ class CGame:
         else:
             self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
                                       self.data['bullet'])
-            self.player = player.Player(self.data['start_point'], self.data['user_color'],
+            self.player = pl.Player(self.data['start_point'], self.data['user_color'],
                                       self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                       self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
             self.playing()
@@ -102,7 +102,7 @@ class CGame:
             if self.player.way_vector is not None:
                 self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
 
-            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list)  # change list in the future (online)
+            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list)
             self.analysis.processing()
 
         self.run = False
