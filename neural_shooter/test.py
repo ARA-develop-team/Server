@@ -54,10 +54,28 @@ def test_img_load():
     return map_list
 
 
+class Test:
+    def __init__(self, value1, value2):
+        self.value1 = value1
+        self.value2 = value2
+
+    def my_sum(self, count):
+        return self.value1 + count
+
+    def output(self):
+        print(self.value1, self.value2)
+
+
 if __name__ == "__main__":
 
-    x = [1, 2, 3]
-    print(x)
+    value_list = [10, 15]
+    test = Test(*value_list)
+    test.output()
+    x_list = []
+    print(len(x_list))
+
+    # x = [1, 2, 3]
+    # print(x)
     # print(x.count(4))
     #
     # size = (800, 400)

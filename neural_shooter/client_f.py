@@ -29,9 +29,7 @@ class Client:
     def data_exchange(self, msg):
         self.send(msg)
 
-        player_package_list = self.receive()
-        block_package_list = self.receive()
-        bullet_package_list = self.receive()
+        player_package_list, block_package_list, bullet_package_list = self.receive()
 
         return player_package_list, block_package_list, bullet_package_list
 

@@ -14,13 +14,17 @@ class ServerField:
 
     def main(self):
         for block in self.block_list:
-            for player in self.player_dict.values():
-                self.contact_block_player(player, block)
-                for bullet in self.bullet_list:
-                    print(bullet)
-                    bullet.motion()
-                    self.contact_bullet_player(bullet, player)
-                    self.contact_bullet_block(bullet, block)
+            for player in self.player_dict.keys():
+                if self.player_dict[player].hp <= 0:
+                    self.player_dict.pop(player)
+
+                else:
+                    self.contact_block_player(self.player_dict[player], block)
+                    for bullet in self.bullet_list:
+                        print(bullet)
+                        bullet.motion()
+                        self.contact_bullet_player(bullet, self.player_dict[player])
+                        self.contact_bullet_block(bullet, block)
 
     def contact_block_player(self, player, block):
         right_side = player.pos[0] + self.radius - block.x
