@@ -23,7 +23,7 @@ class Client:
         self.socket.send(name)
 
         ans = self.receive()
-
+        print(f'contact: {ans}')
         return ans
 
     def data_exchange(self, msg):
@@ -38,7 +38,7 @@ class Client:
         self.socket.close()
 
     def send(self, message):
-        print(f'send {message}')
+        print(f'send: {message}')
         # send length
         packed_message = pickle.dumps(message)  # packing message
         message_length = len(packed_message)
@@ -55,6 +55,7 @@ class Client:
         # reception message
         message = self.socket.recv(message_length)
         message = pickle.loads(message)  # unpacking message
+        print(f'receive: {message}')
         return message
 
 

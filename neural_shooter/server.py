@@ -9,6 +9,7 @@ import player as pl
 
 
 def send(client, message):
+    print(f'send: {message}')
     # send length
     packed_message = pickle.dumps(message)  # packing message
     message_length = len(packed_message)
@@ -28,6 +29,7 @@ def receive(client):
         message = pickle.loads(message)  # unpacking message
     else:
         message = message_length
+    print(f'receive: {message}')
     return message
 
 
@@ -59,7 +61,7 @@ class Server:
 
             player_name = conn.recv(Server.HEADER).decode('utf-8')
             print(f"PLAYER NAME - {player_name}")
-            self.main_field.player_dict[player_name] = None
+            # self.main_field.player_dict[player_name] = None
 
             new_player = pl.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
                                    Server.yml_data2['color_lines'], Server.yml_data2['user_speed'],
@@ -91,7 +93,12 @@ class Server:
                 print(f'[WARNING] Client: {name} Addr: {addr} send message type string')
             else:
 
-                self.main_field.player_dict[name].update_data(message)
+                if name in self.main_field.player_dict.keys():
+                    self.main_field.player_dict[name].update_data(message)
+                else:
+                    player_list.remove(name)
+                    print(f'player {name} dead')
+
                 if message[1]:
                     self.main_field.bullet_list.append(pl.CBullet(self.main_field.player_dict[name].pos, 5,
                                                                   (200, 200, 100), 10, 3,

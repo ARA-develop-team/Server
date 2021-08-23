@@ -73,6 +73,7 @@ class CGame:
         self.player = pl.Player(player[2], player[4],
                                 self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                 self.data['user_radius'][0], self.data['user_radius'][1], player[1])
+        self.player_dict[player[1]] = self.player
 
         for block in block_package_list:
             self.block_list.append(field.CBlock(*block))
@@ -96,9 +97,9 @@ class CGame:
                     self.player_dict[player_package[1]].update_data(player_package)
 
             if block_package_list:
-                for block in block_package_list:
+                for block_package in block_package_list:
                     for local_block in self.block_list:
-                        if block.number == local_block.number:
+                        if block_package.number == local_block.number:
                             local_block.kind = block.kind
 
             if len(bullet_package_list) > 0:
