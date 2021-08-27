@@ -3,11 +3,12 @@
 import socket
 import threading
 import pickle
+from multiprocessing import Process
 
 import config_parser as parser
 import server_field
 import player as pl
-from multiprocessing import Process
+import visual_server
 
 print('Hello from ARA-development🦜')
 
@@ -62,7 +63,7 @@ class Server:
     yml_data1 = parser.getting_socket_data(r'server.yml')
     yml_data2 = parser.getting_start_data(r'start.yml')
 
-    VS_run = True       # run VisualServer or not
+    VS_run = True      # run VisualServer or not
     HEADER = 64
     ADDR = (yml_data1['IP'], yml_data1['PORT'])
     FORMAT = 'utf-8'
@@ -75,7 +76,7 @@ class Server:
         self.main_field = server_field.ServerField(Server.yml_data2['screen_size'], Server.yml_data2['user_radius'][0])
         self.screen = None
 
-    def start(self):
+    def preparation(self):
         if self.VS_run:
             import visual_server
 
@@ -83,15 +84,24 @@ class Server:
                 deployed_server, deployed_port = visual_server.server_deploy(PORT=self.yml_data1['VPORT'],
                                                                              extra_PORT=self.yml_data1['extra_VPORT'])
 
-                visual_thread = Process(target=visual_server.start, args=(Server.ADDR, deployed_server, deployed_port))
+                visual_thread = Process(target=self.start, args=(deployed_port, ))
                 visual_thread.start()
+
+                visual_server.start(Server.ADDR, deployed_server, deployed_port)
 
             except OSError:
                 raise Exception('PORTS %s and %s are busy. Server could not be deployed' %
                                 (self.yml_data1['VPORT'], self.yml_data1['extra_VPORT']))
 
             else:
-                self.screen = VisualServer(deployed_port)
+                pass
+
+        else:
+            self.start()
+
+    def start(self, deployed_port=0):
+        if self.VS_run:
+            self.screen = VisualServer(deployed_port)
 
         thread = threading.Thread(target=self.game_mechanics)
         thread.start()
@@ -100,7 +110,8 @@ class Server:
         Server.socket.listen()
 
         if self.VS_run:
-            self.screen.show(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
+            print(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
+            self.screen.show(f"\n[LISTENING] Server is listening on {Server.ADDR[0]}")
         else:
             print(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
 
@@ -178,7 +189,7 @@ class Server:
 
 if __name__ == '__main__':
     main_server = Server(__name__)
-    main_server.start()
+    main_server.preparation()
 
 # file_path = 'server.yml'
 # yml_data = parser.getting_socket_data(file_path)

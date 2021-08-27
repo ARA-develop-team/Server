@@ -70,7 +70,7 @@ class GraphicLayout(Widget):
     def preparing(self):
         try:
             conn, address = self.server.accept()
-            self.ids.console.text += f'>>> [VISUAL] connected: {address}'
+            self.ids.console.text += f'\n>>> [VISUAL] connected: {address}'
 
         except AttributeError:
             self.ids.console.text += f"\n>>> [AttributeError] '{self.server}' has no attribute 'accept'"
