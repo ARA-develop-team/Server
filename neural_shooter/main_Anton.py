@@ -99,8 +99,8 @@ class CGame:
             if block_package_list:
                 for block_package in block_package_list:
                     for local_block in self.block_list:
-                        if block_package.number == local_block.number:
-                            local_block.kind = block.kind
+                        if block_package[0] == local_block.number:
+                            local_block.update_data(block_package)
 
             if len(bullet_package_list) > 0:
                 for number in range(len(bullet_package_list)):

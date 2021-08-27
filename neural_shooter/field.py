@@ -94,7 +94,7 @@ class CBlock:
             print('WRONG TYPE OF PACKAGE')
 
     def update_data(self, package):
-        self.x, self.y, self.kind = package  # = package[0], package[1], package[2]
+        self.kind = package[1]  # = package[0], package[1], package[2]
 
 
 class CField:
