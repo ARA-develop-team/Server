@@ -20,7 +20,7 @@ class Player(object):
         self.player_radius = radius
         self.player_view = view
         self.disconnected_key = []
-        self.hp = 0
+        self.hp = 100
         self.shoot = False
 
     def draw(self, window):

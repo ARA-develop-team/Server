@@ -47,8 +47,8 @@ class CGame:
             self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
                                       self.data['bullet'])
             self.player = pl.Player(self.data['start_point'], self.data['user_color'],
-                                    self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                    self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
+                                      self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                      self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
             self.playing()
 
     def playing(self):
@@ -73,6 +73,7 @@ class CGame:
         self.player = pl.Player(player[2], player[4],
                                 self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                 self.data['user_radius'][0], self.data['user_radius'][1], player[1])
+        self.player_dict[player[1]] = self.player
 
         for block in block_package_list:
             self.block_list.append(field.CBlock(*block))
@@ -96,10 +97,10 @@ class CGame:
                     self.player_dict[player_package[1]].update_data(player_package)
 
             if block_package_list:
-                for block in block_package_list:
+                for block_package in block_package_list:
                     for local_block in self.block_list:
-                        if block.number == local_block.number:
-                            local_block.kind = block.kind
+                        if block_package[0] == local_block.number:
+                            local_block.update_data(block_package)
 
             if len(bullet_package_list) > 0:
                 for number in range(len(bullet_package_list)):
