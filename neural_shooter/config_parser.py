@@ -26,7 +26,6 @@ def getting_socket_data(file_name):
         data_yml = yaml.load(file, yaml.Loader)
 
         try:
-            print(data_yml, data)
             data['PORT'] = int(data_yml[1]['PORT'])
             data['VPORT'] = int(data_yml[2]['VPORT'])
             data['extra_VPORT'] = int(data_yml[3]['extra_VPORT'])
