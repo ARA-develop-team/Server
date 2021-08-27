@@ -1,4 +1,8 @@
 import matplotlib.pyplot as plt
+import visual_server
+import threading
+from multiprocessing import Process
+import time
 from PIL import Image     # ImageDraw
 
 
@@ -66,13 +70,30 @@ class Test:
         print(self.value1, self.value2)
 
 
+def main():
+    print("Running successfully!")
+    time.sleep(10)
+
+
 if __name__ == "__main__":
 
-    value_list = [10, 15]
-    test = Test(*value_list)
-    test.output()
-    x_list = []
-    print(len(x_list))
+    # new_thread = threading.Thread(target=visual_server.start, args=(['IP', 'PORT'], 'server', 'test'))
+    # new_thread.start()
+
+    visual_thread = Process(target=main)
+    visual_thread.start()
+    visual_server.start(['IP', 'PORT'], 'server', 'test')
+
+
+
+
+
+
+    # value_list = [10, 15]
+    # test = Test(*value_list)
+    # test.output()
+    # x_list = []
+    # print(len(x_list))
 
     # x = [1, 2, 3]
     # print(x)

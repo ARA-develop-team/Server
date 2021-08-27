@@ -1,0 +1,96 @@
+#: import TreeViewLabel kivy.uix.treeview.TreeViewLabel
+
+<GraphicLayout>
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'vertical'
+
+        ActionBar:
+            size: root.width, 50
+            pos: 0, (root.height-50)
+
+            ActionView:
+                ActionPrevious:
+                    title: "ARA-development Server"
+                    with_previous: False
+                    app_icon: 'sprites/ara2.png'
+
+                ActionButton:
+                    icon: 'sprites/git-icon.png'
+                    on_release: root.git_link()
+
+                ActionButton:
+                    id: battery_indicator
+                    icon: 'sprites/icon_battery6.png'
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 40
+
+                    Label:
+                        background_color: (25/255.0, 25/255.0, 25/255.0, 1)
+                        canvas.before:
+                            Color:
+                                rgba: self.background_color
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+                        color: (1,1,1,1)
+                        size_hint_x: .1
+                        text: "INPUT:"
+                        font_size: 18
+                        bold: True
+
+                    TextInput:
+                        cursor_color: (0,0,0,1)
+                        background_normal: 'white'
+                        id: input
+                        multiline: False
+                        font_size: 18
+                        background_color: (1,1,1,.7)
+
+                    Button:
+                        size_hint_x: .1
+                        font_size: 25
+                        text: ">>>"
+                        on_press: root.input_processing()
+
+                Label:
+                    padding: (15, 10)
+                    id: console
+                    background_color: (25/255.0, 25/255.0, 25/255.0, 1)
+                    canvas.before:
+                        Color:
+                            rgba: self.background_color
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                    text: ">>> Hello from ARA!"
+                    font_size: 18
+                    text_size: console.size
+                    valign: 'top'
+                    halign: 'left'
+
+
+
+            BoxLayout:
+                size_hint: 0.3, 1
+                orientation: 'vertical'
+
+                TreeView:
+                    id: treeview
+                    hide_root: True
+                    odd_color: '1,1,1,1'
+                    even_color: '1,1,1,1'
+
+
+

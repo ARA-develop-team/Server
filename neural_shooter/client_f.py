@@ -17,6 +17,7 @@ class Client:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def connect(self, addr=(yml_data['IP'], yml_data['PORT'])):
+        print(addr)
         self.SERVER_ADDR = addr
         self.socket.connect(addr)
         name = self.name.encode(Client.FORMAT)
