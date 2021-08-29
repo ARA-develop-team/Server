@@ -17,7 +17,7 @@ class ServerField:
             if self.player_dict[player].hp <= 0:
                 self.player_dict.pop(player)
 
-        print(self.player_dict)
+        # print(self.player_dict)
         for block in self.block_list:
             for player in self.player_dict.keys():
                 self.contact_block_player(self.player_dict[player], block)

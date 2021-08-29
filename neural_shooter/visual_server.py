@@ -4,6 +4,7 @@ import socket
 import threading
 import speedtest
 import psutil
+import pickle
 from sys import platform
 
 from kivy.clock import mainthread
@@ -15,7 +16,7 @@ from kivy.config import Config
 
 def get_screen_dimensions_linux():
     xrandrOutput = str(subprocess.Popen(['xrandr'], stdout=subprocess.PIPE).communicate()[0])
-    matchObj = re.findall(r'current\s(\d+) x (\d+)', xrandrOutput)
+    matchObj = re.findall(r"current\s(\d+) x (\d+)", xrandrOutput)
     if matchObj:
         return [int(matchObj[0][0]), int(matchObj[0][1])]
 
@@ -56,10 +57,18 @@ class GraphicLayout(Widget):
         self.server_data = server_data
         self.link = 'https://github.com/ARA-develop-team'
         self.FULL_HD = FULL_HD
+        self.item4 = None    # for update players in treeview
 
         # connection with main server
         self.server = server
-        self.preparing()
+        self.connection, self.address = self.preparing()
+
+        # thread for updating data from main server code
+        if self.connection:
+            self.update_global_data = threading.Thread(target=self.global_update)
+            self.update_global_data.setDaemon(True)
+            ServerApp.threads.append(self.update_global_data)  # for join it in the end
+            self.update_global_data.start()
 
         # thread for updating local data
         self.update_local_data = threading.Thread(target=self.local_update)
@@ -71,10 +80,11 @@ class GraphicLayout(Widget):
         try:
             conn, address = self.server.accept()
             self.ids.console.text += f'\n>>> [VISUAL] connected: {address}'
+            return conn, address       # address can be removed in the future
 
         except AttributeError:
             self.ids.console.text += f"\n>>> [AttributeError] '{self.server}' has no attribute 'accept'"
-        # print('[VISUAL] connected:', address)
+            return None, None
 
     def tree_view(self):
         # tree view creation
@@ -92,7 +102,19 @@ class GraphicLayout(Widget):
         self.ids.treeview.add_node(self.tree_view_label_list[3], item3)
         self.ids.treeview.add_node(self.tree_view_label_list[4], item3)
 
-        item4 = self.ids.treeview.add_node(TreeViewLabel(text='PLAYERS'))
+        self.item4 = self.ids.treeview.add_node(TreeViewLabel(text='PLAYERS'))
+
+    def global_update(self):
+        while self.is_run:
+            message = self.connection.recv(1024)
+            message = pickle.loads(message)
+
+            # mess_type = 0 - showing output of program; mess_type = 1 - showing data of players
+            if message[0] == 0:
+                self.ids.console.text += f'\n>>> {message[1]}'
+
+            elif message[0] == 1:
+                self.screen_update(name=message[1])
 
     def local_update(self):
         self.tree_view()
@@ -103,7 +125,7 @@ class GraphicLayout(Widget):
             power_plugged = 'on' if is_power_plugged is True else 'off'
 
             if status != last_battery_info[0]:  # update icon if it's necessary
-                self.screen_update(status)
+                self.screen_update(status=status)
                 last_battery_info[0] = status
 
             # update text in TreeView if it's necessary
@@ -123,8 +145,11 @@ class GraphicLayout(Widget):
                 self.tree_view_label_list[4].text = f'ping : {int(ping)} ms'
 
     @mainthread
-    def screen_update(self, status):  # for img
-        self.ids.battery_indicator.icon = f'sprites/icon_battery{status}.png'
+    def screen_update(self, status=None, name=None):
+        if status:
+            self.ids.battery_indicator.icon = f'sprites/icon_battery{status}.png'
+        elif name:
+            self.ids.treeview.add_node(TreeViewLabel(text=name), self.item4)
 
     def input_processing(self):  # data from console
         commands_list = ['clear', 'info', '@']
@@ -153,8 +178,6 @@ class GraphicLayout(Widget):
             self.FULL_HD = 1
         else:
             self.FULL_HD = 0
-        # Window.fullscreen = True
-        # Window.size = (size[self.FULL_HD][0], size[self.FULL_HD][1])
 
     def git_link(self):
         import webbrowser
@@ -164,16 +187,13 @@ class GraphicLayout(Widget):
 class ServerApp(App):
     threads = []
 
-    def __init__(self, ip, port, server, local_port):
+    def __init__(self, kwargs):     # info_main_server, server, local_port, HEADER, FORMAT
         super(ServerApp, self).__init__()
-        self.server = server
-        self.local_port = local_port
-        self.info_main_server = [ip, port]
+        self.server = kwargs['SERVER']
+        self.local_port = kwargs['LOCAL_PORT']
+        self.info_main_server = kwargs['IP_PORT']
 
     def build(self):
-        update_data = threading.Thread(target=self.update)  # thread for updating data from main server code
-        update_data.start()
-
         return GraphicLayout([self.info_main_server, self.local_port], self.server)
 
     def on_stop(self):
@@ -181,26 +201,12 @@ class ServerApp(App):
         for thread in self.threads:     # closing all threads
             thread.join()
 
-    def update(self):
-        pass
-        # conn, address = self.server.accept()
-        # print('[VISUAL] connected:', address)
-        # server_data = conn.recv(1024)
-        # server_data = list(server_data)
-        # print('[VISUAL] ', server_data)
-
-        # server_data = conn.recv(1024)
-        # server_data = list(server_data)
-        # print('[VISUAL] ', server_data)
-
 
 '''external functions'''
 
 
-def start(server_data, server, local_port):
-    # visual = ServerApp(*server_data, server)
-    # visual.run()
-    ServerApp(*server_data, server, local_port).run()
+def start(**kwargs):
+    ServerApp(kwargs).run()
 
 
 def server_deploy(HOST='', PORT=9090, extra_PORT=8080):
@@ -251,10 +257,5 @@ def speed_test(case):
 
 
 if __name__ == '__main__':
-    ServerApp('[server ip]', '[server port]', 'serv', '[local port]').run()
+    start(IP_PORT=['[server ip]', '[server port]'], SERVER='[server]', LOCAL_PORT='[local port]')
 
-    # conn, address = sock.accept()
-    # print('[VISUAL] connected:', address)
-    # server_data = conn.recv(1024)
-    # server_data = list(server_data)
-    # print('[VISUAL] ', server_data)

@@ -4,23 +4,26 @@ import socket
 import threading
 import pickle
 from multiprocessing import Process
+from typing import List, Any
 
 import config_parser as parser
 import server_field
 import player as pl
-import visual_server
+
 
 print('Hello from ARA-development🦜')
 
 
-def send(client, message):
+def send(client, message, local=False):
     print(f'send: {message}')
-    # send length
     packed_message = pickle.dumps(message)  # packing message
-    message_length = len(packed_message)
-    send_length = str(message_length).encode(Server.FORMAT)
-    send_length += b' ' * (Server.HEADER - len(send_length))
-    client.send(send_length)
+
+    # send length
+    if not local:
+        message_length = len(packed_message)
+        send_length = str(message_length).encode(Server.FORMAT)
+        send_length += b' ' * (Server.HEADER - len(send_length))
+        client.send(send_length)
 
     # send message
     client.send(packed_message)
@@ -56,16 +59,19 @@ class VisualServer:  # connection with visual server thread
 
         print('init definition ended')
 
-    def show(self, data):
-        pass
-        # self.visual_serv.sendall(bytes(data))
+    def add(self, mess_type, data):
+        # to show message on screen USE self.output() instead of print()
+        # mess_type = 0 - showing output of program; mess_type = 1 - showing data of players
+
+        package = [mess_type, data]
+        send(self.visual_serv, package, local=True)
 
 
 class Server:
     yml_data1 = parser.getting_socket_data(r'server.yml')
     yml_data2 = parser.getting_start_data(r'start.yml')
 
-    VS_run = True      # run VisualServer or not
+    VS_run = yml_data2['VS_run']      # run VisualServer or not
     HEADER = 64
     ADDR = (yml_data1['IP'], yml_data1['PORT'])
     FORMAT = 'utf-8'
@@ -76,7 +82,7 @@ class Server:
     def __init__(self, name):
         self.name = name
         self.main_field = server_field.ServerField(Server.yml_data2['screen_size'], Server.yml_data2['user_radius'][0])
-        self.screen = None
+        self.visual_server = None
 
     def preparation(self):
         if self.VS_run:
@@ -88,8 +94,7 @@ class Server:
 
                 visual_thread = Process(target=self.start, args=(deployed_port, ))
                 visual_thread.start()
-
-                visual_server.start(Server.ADDR, deployed_server, deployed_port)
+                visual_server.start(IP_PORT=Server.ADDR, SERVER=deployed_server, LOCAL_PORT=deployed_port)
 
             except OSError:
                 raise Exception('PORTS %s and %s are busy. Server could not be deployed' %
@@ -103,7 +108,7 @@ class Server:
 
     def start(self, deployed_port=0):
         if self.VS_run:
-            self.screen = VisualServer(deployed_port)
+            self.visual_server = VisualServer(deployed_port)
 
         thread = threading.Thread(target=self.game_mechanics)
         thread.start()
@@ -111,18 +116,15 @@ class Server:
         Server.socket.bind(Server.ADDR)
         Server.socket.listen()
 
-        if self.VS_run:
-            print(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
-            self.screen.show(f"\n[LISTENING] Server is listening on {Server.ADDR[0]}")
-        else:
-            print(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
+        self.output(f"[LISTENING] Server is listening on {Server.ADDR[0]}")
 
         while True:
             conn, addr = Server.socket.accept()
-            print(f"[NEW CONNECTION] {addr} connected.")
+            self.output(f"[NEW CONNECTION] {addr} connected.")
 
             player_name = conn.recv(Server.HEADER).decode('utf-8')
-            print(f"PLAYER NAME - {player_name}")
+            self.output(f"PLAYER NAME - {player_name}")
+            self.visual_server.add(1, player_name)
             # self.main_field.player_dict[player_name] = None
 
             new_player = pl.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
@@ -137,7 +139,7 @@ class Server:
 
             send(conn, [new_player.get_data_package(3), block_package_list])
 
-            print(f"[ACTIVE CONNECTIONS] {threading.active_count()}")  # Anton change activeCount --> active_count
+            self.output(f"[ACTIVE CONNECTIONS] {threading.active_count()}")  # Anton change activeCount --> active_count
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))
             thread.start()
 
@@ -192,6 +194,12 @@ class Server:
     def game_mechanics(self):
         while True:
             self.main_field.main()
+
+    def output(self, string):
+        if self.VS_run:
+            self.visual_server.add(0, string)
+        else:
+            print(string)
 
 
 if __name__ == '__main__':
