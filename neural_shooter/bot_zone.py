@@ -13,6 +13,7 @@ class BotZone:
         self.photo = f'Roma.jpg'
         self.screen_size = (1000, 1000)
         self.background = pygame.image.load(self.photo)
+        self.input = True
 
         if self.photo == f'Roma.jpg':
             self.background = pygame.transform.scale(self.background, (701, 701))
@@ -105,23 +106,9 @@ class BotZone:
     def run(self):
         while self.is_running:
             self.window.fill(self.screen_color)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.is_running = False
 
-            keys = pygame.key.get_pressed()
-
-            if keys[pygame.K_a]:
-                self.bot.pos[0] -= self.bot_speed
-
-            if keys[pygame.K_d]:
-                self.bot.pos[0] += self.bot_speed
-
-            if keys[pygame.K_w]:
-                self.bot.pos[1] -= self.bot_speed
-
-            if keys[pygame.K_s]:
-                self.bot.pos[1] += self.bot_speed
+            if self.input:
+                self.pygame_input()
 
             distance = []
             closest_block = []
@@ -167,6 +154,25 @@ class BotZone:
             self.clock.tick(100)
 
         pygame.quit()
+
+    def pygame_input(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
+
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a]:
+            self.bot.pos[0] -= self.bot_speed
+
+        if keys[pygame.K_d]:
+            self.bot.pos[0] += self.bot_speed
+
+        if keys[pygame.K_w]:
+            self.bot.pos[1] -= self.bot_speed
+
+        if keys[pygame.K_s]:
+            self.bot.pos[1] += self.bot_speed
 
 
 class Line:
