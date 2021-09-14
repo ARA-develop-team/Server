@@ -14,6 +14,7 @@ class CGame:
         self.run = True
         self.file = r"start.yml"  # file with data for config_parser
         self.player = None  # player in this computer (obj class Player)
+        self.player_name = None
         self.user_visual = None  # pygame code
         self.data = None  # result of config_parser
         self.field = None  # object (class field)
@@ -76,7 +77,7 @@ class CGame:
         self.player_dict[player[1]] = self.player
 
         for block in block_package_list:
-            self.block_list.append(field.CBlock(*block))
+            self.block_list.append(field.CBlock(*block[1:]))
 
         self.analysis.launch()
 
@@ -84,7 +85,7 @@ class CGame:
             self.input_data()
             player_package_list, block_package_list, bullet_package_list = self.client.data_exchange(
                 self.player.get_data_package(1))
-            print(f'data {player_package_list, block_package_list, bullet_package_list}')
+            # print(f'data {player_package_list, block_package_list, bullet_package_list}')
 
             for player_package in player_package_list:
                 if player_package[0] == 3:
@@ -93,23 +94,60 @@ class CGame:
                                            self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                            self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
                     self.player_dict[player_package[1]] = new_player
+                elif player_package[0] == 4:
+                    self.player_dict.pop(player_package[1])
                 else:
+                    print(player_package[0])
                     self.player_dict[player_package[1]].update_data(player_package)
 
-            if block_package_list:
-                for block_package in block_package_list:
-                    for local_block in self.block_list:
-                        if block_package[0] == local_block.number:
-                            local_block.update_data(block_package)
+            for block_package in block_package_list:
+                if block_package[0] == 3:
+                    new_block = field.CBlock(*block_package[1:])
+                    self.block_list.append(new_block)
+                else:
+                    delete_block = []
+                    for block in self.block_list:
+                        if block.number == block_package[1]:
+                            if block_package[0] == 4:
+                                delete_block.append(block)
+                            else:
+                                block.update_data(block_package)
 
-            if len(bullet_package_list) > 0:
-                for number in range(len(bullet_package_list)):
-                    self.bullet_list[number].update_data(bullet_package_list[number])
+                    for block in delete_block:
+                        self.block_list.remove(block)
+
+            for bullet_package in bullet_package_list:
+                if bullet_package[0] == 3:
+                    new_bullet = pl.CBullet(*bullet_package[1:])
+                    self.bullet_list.append(new_bullet)
+                else:
+                    delete_bullet = []
+                    for bullet in self.bullet_list:
+                        if bullet.number == bullet_package[1]:
+                            if bullet_package[0] == 4:
+                                delete_bullet.append(bullet)
+                            else:
+                                bullet.update_data(bullet_package)
+
+                    for bullet in delete_bullet:
+                        self.bullet_list.remove(bullet)
+
+
+            # if block_package_list:
+            #     for block_package in block_package_list:
+            #         for local_block in self.block_list:
+            #             if block_package[0] == local_block.number:
+            #                 local_block.update_data(block_package)
+            # for bullet_package in bullet_package_list:
+            #     if bullet_package
+            # if len(bullet_package_list) > 0:
+            #     for number in range(len(bullet_package_list)):
+            #         self.bullet_list[number].update_data(bullet_package_list[number])
 
             if self.player.way_vector is not None:
                 self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
 
-            self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list)
+            self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list, self.player)
             self.analysis.processing()
 
         self.run = False

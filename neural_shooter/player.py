@@ -24,6 +24,7 @@ class Player(object):
         self.shoot = False
 
     def draw(self, window):
+        print(f'draw {self.name} {self.pos}')
         pygame.draw.circle(window, self.color, self.pos, self.player_radius, self.player_radius)
 
     def draw_lines(self, mouse, window, work_info_font):
@@ -39,7 +40,7 @@ class Player(object):
             window.blit(angle_text, (20, 20))
 
     def get_data_package(self, type_package):
-        # 1 - update package with shoot; 2 - update package; 2 - creation package
+        # 1 - update package with shoot; 2 - update package; 3 - creation package
 
         if type_package == 1:
             if self.shoot:
@@ -71,18 +72,18 @@ class Player(object):
                 self.pos = data_package[2]
                 if self.way_vector:
                     self.way_vector = data_package[3]
-            if data_package[0] == 2:
+            elif data_package[0] == 2:
                 self.pos = data_package[2]
                 self.hp = data_package[3]
 
             else:
-                print('INCORRECT DATA PACKAGE')
+                print(f'INCORRECT DATA PACKAGE: {data_package[0]}')
         else:
             print(f'WRONG NAME:  {self.name}, {data_package[1]}')
 
 
 class CBullet:
-    def __init__(self, pos, radius, color, damage, speed, vector, owner):
+    def __init__(self, number, pos, radius, color, damage, speed, vector, owner):
         self.pos = pos
         self.radius = radius
         self.color = color
@@ -90,16 +91,27 @@ class CBullet:
         self.speed = speed
         self.vector = vector
         self.owner = owner
+        self.number = number
 
     def motion(self):
+        print(self.pos, self.vector, self.speed,)
         self.pos = [self.pos[0] + self.vector[0] * self.speed, self.pos[1] + self.vector[1] * self.speed]
 
     def draw(self, window):
         pygame.draw.circle(window, self.color, [int(self.pos[0]), int(self.pos[1])], self.radius, self.radius)
 
-    def get_data_package(self):
-        data_package = self.pos
-        return data_package
+    def get_data_package(self, type_package):
+        if type_package == 3:
+            data_package = [type_package, self.number, self.pos, self.radius, self.color, self.damage, self.speed, self.vector, self.owner]
+            return data_package
+        elif type_package == 1:
+            data_package = [type_package, self.number, self.pos]
+            return data_package
+        else:
+            print("WRONG TYPE")
 
     def update_data(self, package):
-        self.pos = package
+        if package[0] == 1:
+            self.pos = package[2]
+        else:
+            print("WRONG TYPE")

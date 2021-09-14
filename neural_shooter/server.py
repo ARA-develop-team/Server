@@ -8,15 +8,17 @@ from multiprocessing import Process
 import config_parser as parser
 import server_field
 import player as pl
-import visual_server
+
 
 print('Hello from ARA-development🦜')
 
 
 def send(client, message):
-    print(f'send: {message}')
-    # send length
+    # print(f'send: {message}')
+
     packed_message = pickle.dumps(message)  # packing message
+
+    # send length
     message_length = len(packed_message)
     send_length = str(message_length).encode(Server.FORMAT)
     send_length += b' ' * (Server.HEADER - len(send_length))
@@ -27,15 +29,24 @@ def send(client, message):
 
 
 def receive(client):
-    message_length = client.recv(Server.HEADER).decode(Server.FORMAT)
+
+    message_length = int(client.recv(Server.HEADER).decode(Server.FORMAT))
+
     # reception message
-    if type(message_length) == 'int':
-        message = client.recv(message_length)
-        message = pickle.loads(message)  # unpacking message
-    else:
-        message = message_length
-    print(f'receive: {message}')
+    message = client.recv(message_length)
+    message = pickle.loads(message)  # unpacking message
+    # print(f'receive: {message}')
     return message
+
+    # message_length = client.recv(Server.HEADER).decode(Server.FORMAT)
+    # # reception message
+    # if type(message_length) == 'int':
+    #     message = client.recv(message_length)
+    #     message = pickle.loads(message)  # unpacking message
+    # else:
+    #     message = message_length
+    # print(f'receive: {message}')
+    # return message
 
 
 class VisualServer:  # connection with visual server thread
@@ -65,7 +76,7 @@ class Server:
     yml_data1 = parser.getting_socket_data(r'server.yml')
     yml_data2 = parser.getting_start_data(r'start.yml')
 
-    VS_run = True      # run VisualServer or not
+    VS_run = False      # run VisualServer or not
     HEADER = 64
     ADDR = (yml_data1['IP'], yml_data1['PORT'])
     FORMAT = 'utf-8'
@@ -142,7 +153,10 @@ class Server:
             thread.start()
 
     def handle_client(self, conn, addr, name):  # working with client
-        player_list = [name]
+        player_list_name = [name]
+        block_num_list = []
+        bullet_num_list = []
+
         connected = True
         while connected:
 
@@ -158,32 +172,92 @@ class Server:
                 if name in self.main_field.player_dict.keys():
                     self.main_field.player_dict[name].update_data(message)
                 else:
-                    player_list.remove(name)
+                    player_list_name.remove(name)
                     print(f'player {name} dead')
 
-                if message[1]:
-                    self.main_field.bullet_list.append(pl.CBullet(self.main_field.player_dict[name].pos, 5,
-                                                                  (200, 200, 100), 10, 3,
-                                                                  self.main_field.player_dict[name].way_vector,
-                                                                  name))
+                # if message[3]:
+                #     print(f'shoot: {message[3]}')
+                #     self.main_field.bullet_counter += 1
+                #     self.main_field.bullet_list.append(pl.CBullet(self.main_field.bullet_counter, self.main_field.player_dict[name].pos, 5,
+                #                                                   (200, 200, 100), 10, 3,
+                #                                                   message[3],
+                #                                                   name))
 
                 player_package_list, block_package_list, bullet_package_list = [], [], []
 
-                for player in self.main_field.player_dict.values():
-                    if player.name not in player_list:
-                        player_list.append(player.name)
-                        player_package_list.append(player.get_data_package(3))
-                    else:
-                        player_package_list.append(player.get_data_package(2))
+                if len(self.main_field.player_dict) == len(player_list_name):
+                    for player_name in self.main_field.player_dict.keys():
+                        player_package_list.append(self.main_field.player_dict[player_name].get_data_package(2))
 
-                for block in self.main_field.block_list:
-                    block_package_list.append(block.get_data_package(1))
+                elif len(self.main_field.player_dict) > len(player_list_name):
+                    for player_name in self.main_field.player_dict.keys():
+                        if player_name not in player_list_name:
+                            player_list_name.append(player_name)
+                            player_package_list.append(self.main_field.player_dict[player_name].get_data_package(3))
+                        else:
+                            player_package_list.append(self.main_field.player_dict[player_name].get_data_package(2))
 
-                for bullet in self.main_field.bullet_list:
-                    bullet_package_list.append(bullet.get_data_package())
+                else:
+                    for player_name in player_list_name:
+                        if player_name not in self.main_field.player_dict.keys():
+                            player_list_name.remove(player_name)
+                            player_package_list.append([4, player_name])
+                        else:
+                            player_package_list.append(self.main_field.player_dict[player_name].get_data_package(2))
 
-                if len(block_package_list) == 0:
-                    block_package_list = None
+                if len(self.main_field.block_list) == len(block_num_list):
+                    for block in self.main_field.block_list:
+                        block_package_list.append(block.get_data_package(1))
+
+                elif len(self.main_field.block_list) > len(block_num_list):
+                    for block in self.main_field.block_list:
+                        if block.number not in block_num_list:
+                            block_num_list.append(block.number)
+                            block_package_list.append(block.get_data_package(3))
+                        else:
+                            block_package_list.append(block.get_data_package(1))
+                else:
+                    for block_num in block_num_list:
+                        if block_num not in self.main_field.block_num_list:
+                            block_num_list.remove(block_num)
+                            block_package_list.append([4, block_num])
+                    for block in self.main_field.block_list:
+                        block_package_list.append(block.get_data_package(1))
+
+                if len(self.main_field.bullet_list) == len(bullet_num_list):
+                    for bullet in self.main_field.bullet_list:
+                        bullet_package_list.append(bullet.get_data_package(1))
+
+                elif len(self.main_field.bullet_list) > len(bullet_num_list):
+                    for bullet in self.main_field.bullet_list:
+                        if bullet.number not in bullet_num_list:
+                            bullet_num_list.append(bullet.number)
+                            bullet_package_list.append(bullet.get_data_package(3))
+                else:
+                    for bullet_num in bullet_num_list:
+                        if bullet_num not in self.main_field.bullet_num_list:
+                            bullet_num_list.remove(bullet_num)
+                            bullet_package_list.append([4, bullet_num])
+                    for bullet in self.main_field.bullet_list:
+                        bullet_package_list.append(bullet.get_data_package(1))
+
+
+
+                # for player in self.main_field.player_dict.values():
+                #     if player.name not in player_list_name:
+                #         player_list_name.append(player.name)
+                #         player_package_list.append(player.get_data_package(3))
+                #     else:
+                #         player_package_list.append(player.get_data_package(2))
+
+                # for block in self.main_field.block_list:
+                #     block_package_list.append(block.get_data_package(1))
+                #
+                # for bullet in self.main_field.bullet_list:
+                #     bullet_package_list.append(bullet.get_data_package())
+                #
+                # if len(block_package_list) == 0:
+                #     block_package_list = None
 
                 send(conn, [player_package_list, block_package_list, bullet_package_list])
 

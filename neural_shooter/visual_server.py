@@ -28,6 +28,7 @@ if platform == "linux" or platform == "linux2":
 elif platform == "win32":
     from win32api import GetSystemMetrics
     screen_dimensions = [GetSystemMetrics(0), GetSystemMetrics(1)]
+    print(screen_dimensions)
 
 else:
     raise Exception(f"Platform {platform} can't be used")

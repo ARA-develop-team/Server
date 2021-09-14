@@ -43,10 +43,9 @@ def map_creation(screen_size):
         obj_x = 0
         for kind in blocks[block]:
             if kind == 1 or kind == 2:
-                obj_list.append(CBlock(obj_x, obj_y, obj_width, obj_height, kind, block))
+                obj_list.append(CBlock(block, obj_x, obj_y, obj_width, obj_height, kind))
             elif kind == 3:
-                obj_list.append(CBlock(obj_x, obj_y, obj_width, obj_height, kind, block, 100))  # 100 - health (temp)
-
+                obj_list.append(CBlock(block, obj_x, obj_y, obj_width, obj_height, kind, 100))  # 100 - health (temp)
             obj_x += obj_width
         obj_y += obj_height
 
@@ -57,7 +56,7 @@ def map_creation(screen_size):
 
 
 class CBlock:
-    def __init__(self, x, y, width, height, kind, number, health=0):
+    def __init__(self, number, x, y, width, height, kind, health=0):
         self.x = x
         self.y = y
         self.width = width
@@ -80,21 +79,22 @@ class CBlock:
             pygame.draw.rect(window, (219, 215, 210), (self.x, self.y, self.width, self.height), 5)
 
     def get_data_package(self, type_package):
-        # 1 - update package; 2 - creation package
+        # 1 - update package; 3 - creation package
 
         if type_package == 3:   # creation
-            data_package = [self.x, self.y, self.width, self.height, self.kind, self.number, self.health]
+            data_package = [type_package, self.number, self.x, self.y, self.width, self.height, self.kind, self.health]
             return data_package
 
         elif type_package == 1:     # update package
-            data_package = [self.number, self.kind]
+            data_package = [type_package, self.number, self.kind]
             return data_package
 
         else:
             print('WRONG TYPE OF PACKAGE')
 
     def update_data(self, package):
-        self.kind = package[1]  # = package[0], package[1], package[2]
+        if package[0] == 1:
+            self.kind = package[1]  # = package[0], package[1], package[2]
 
 
 class CField:
