@@ -24,7 +24,6 @@ class Player(object):
         self.shoot = False
 
     def draw(self, window):
-        print(f'draw {self.name} {self.pos}')
         pygame.draw.circle(window, self.color, self.pos, self.player_radius, self.player_radius)
 
     def draw_lines(self, mouse, window, work_info_font):

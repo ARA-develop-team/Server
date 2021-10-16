@@ -28,11 +28,12 @@ class Client:
         return ans
 
     def data_exchange(self, msg):
-        self.send(msg)
-
         player_package_list, block_package_list, bullet_package_list = self.receive()
 
+        self.send(msg)
+
         return player_package_list, block_package_list, bullet_package_list
+
 
     def signing_off(self):  # FIN massage
         self.send(Client.DISCONNECT_MESSAGE)

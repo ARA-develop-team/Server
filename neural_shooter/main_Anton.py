@@ -43,6 +43,7 @@ class CGame:
         self.user_visual = pgCode.CPygame(self.player, self.data['screen_color'], self.data['screen_size'], None)
         if self.online:
             self.client = client_f.Client(self.data['name'])
+            self.player_name = self.data['name']
             self.playing_online()
         else:
             self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
@@ -82,9 +83,7 @@ class CGame:
         self.analysis.launch()
 
         while self.run:
-            self.input_data()
-            player_package_list, block_package_list, bullet_package_list = self.client.data_exchange(
-                self.player.get_data_package(1))
+            player_package_list, block_package_list, bullet_package_list = self.client.receive()
             # print(f'data {player_package_list, block_package_list, bullet_package_list}')
 
             for player_package in player_package_list:
@@ -97,7 +96,6 @@ class CGame:
                 elif player_package[0] == 4:
                     self.player_dict.pop(player_package[1])
                 else:
-                    print(player_package[0])
                     self.player_dict[player_package[1]].update_data(player_package)
 
             for block_package in block_package_list:
@@ -132,7 +130,9 @@ class CGame:
                     for bullet in delete_bullet:
                         self.bullet_list.remove(bullet)
 
+            self.input_data()
 
+            self.client.send(self.player_dict[self.player_name].get_data_package(2))
             # if block_package_list:
             #     for block_package in block_package_list:
             #         for local_block in self.block_list:
@@ -178,16 +178,16 @@ class CGame:
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_a] and self.disconnected_key.count('a') == 0:
-                self.player.pos[0] -= self.player.speed
+                self.player_dict[self.player_name].pos[0] -= self.player_dict[self.player_name].speed
 
             if keys[pygame.K_d] and self.disconnected_key.count('d') == 0:
-                self.player.pos[0] += self.player.speed
+                self.player_dict[self.player_name].pos[0] += self.player_dict[self.player_name].speed
 
             if keys[pygame.K_w] and self.disconnected_key.count('w') == 0:
-                self.player.pos[1] -= self.player.speed
+                self.player_dict[self.player_name].pos[1] -= self.player_dict[self.player_name].speed
 
             if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
-                self.player.pos[1] += self.player.speed
+                self.player_dict[self.player_name].pos[1] += self.player_dict[self.player_name].speed
 
 
 if __name__ == "__main__":

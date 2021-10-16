@@ -17,8 +17,6 @@ class ServerField:
 
     def main(self):
         for player in self.player_dict.keys():
-            print(f'pos {self.player_dict[player].name} - {self.player_dict[player].pos}')
-            self.player_dict[player].pos = [0, 0]
             if self.player_dict[player].hp <= 0:
                 self.player_dict.pop(player)
 
