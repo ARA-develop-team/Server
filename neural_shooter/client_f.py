@@ -34,7 +34,6 @@ class Client:
 
         return player_package_list, block_package_list, bullet_package_list
 
-
     def signing_off(self):  # FIN massage
         self.send(Client.DISCONNECT_MESSAGE)
         self.socket.close()

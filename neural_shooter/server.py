@@ -9,7 +9,7 @@ from typing import List, Any
 import config_parser as parser
 import server_field
 import player as pl
-
+import queue
 
 print('Hello from ARA-development🦜')
 
@@ -140,7 +140,8 @@ class Server:
                                    Server.yml_data2['color_lines'], Server.yml_data2['user_speed'],
                                    Server.yml_data2['color_info'],
                                    Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
-            self.main_field.player_dict[player_name] = new_player
+
+            self.main_field.player_dict[player_name] = [new_player, []]
 
             block_package_list = []
             for block in self.main_field.block_list:
@@ -159,8 +160,8 @@ class Server:
 
         connected = True
         while connected:
-            for player in self.main_field.player_dict.values():
-                print(player.pos)
+            # for player in self.main_field.player_dict.values():
+            #     print(player.pos)
 
 
             # if message[3]:
@@ -173,67 +174,70 @@ class Server:
 
             player_package_list, block_package_list, bullet_package_list = [], [], []
 
-            if len(self.main_field.player_dict) == len(player_list_name):
-                for player_name in self.main_field.player_dict.keys():
-                    player_package_list.append(self.main_field.player_dict[player_name].get_data_package(2))
-                    print(player_package_list)
+            player_package_list = self.main_field.player_dict[name][1]
 
-            elif len(self.main_field.player_dict) > len(player_list_name):
-                for player_name in self.main_field.player_dict.keys():
-                    if player_name not in player_list_name:
-                        player_list_name.append(player_name)
-                        player_package_list.append(self.main_field.player_dict[player_name].get_data_package(3))
-                    else:
-                        player_package_list.append(self.main_field.player_dict[player_name].get_data_package(2))
-
-            else:
-                for player_name in player_list_name:
-                    if player_name not in self.main_field.player_dict.keys():
-                        player_list_name.remove(player_name)
-                        player_package_list.append([4, player_name])
-                    else:
-                        player_package_list.append(self.main_field.player_dict[player_name].get_data_package(2))
-
-            if len(self.main_field.block_list) == len(block_num_list):
-                for block in self.main_field.block_list:
-                    block_package_list.append(block.get_data_package(1))
-
-            elif len(self.main_field.block_list) > len(block_num_list):
-                for block in self.main_field.block_list:
-                    if block.number not in block_num_list:
-                        block_num_list.append(block.number)
-                        block_package_list.append(block.get_data_package(3))
-                    else:
-                        block_package_list.append(block.get_data_package(1))
-            else:
-                for block_num in block_num_list:
-                    if block_num not in self.main_field.block_num_list:
-                        block_num_list.remove(block_num)
-                        block_package_list.append([4, block_num])
-                for block in self.main_field.block_list:
-                    block_package_list.append(block.get_data_package(1))
-
-            if len(self.main_field.bullet_list) == len(bullet_num_list):
-                for bullet in self.main_field.bullet_list:
-                    bullet_package_list.append(bullet.get_data_package(1))
-
-            elif len(self.main_field.bullet_list) > len(bullet_num_list):
-                for bullet in self.main_field.bullet_list:
-                    if bullet.number not in bullet_num_list:
-                        bullet_num_list.append(bullet.number)
-                        bullet_package_list.append(bullet.get_data_package(3))
-            else:
-                for bullet_num in bullet_num_list:
-                    if bullet_num not in self.main_field.bullet_num_list:
-                        bullet_num_list.remove(bullet_num)
-                        bullet_package_list.append([4, bullet_num])
-                for bullet in self.main_field.bullet_list:
-                    bullet_package_list.append(bullet.get_data_package(1))
+            # if len(self.main_field.player_dict) == len(player_list_name):
+            #     for player_name in self.main_field.player_dict.keys():
+            #         player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(2))
+            #
+            # elif len(self.main_field.player_dict) > len(player_list_name):
+            #     for player_name in self.main_field.player_dict.keys():
+            #         if player_name not in player_list_name:
+            #             player_list_name.append(player_name)
+            #             player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(3))
+            #         else:
+            #             player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(2))
+            #
+            # else:
+            #     for player_name in player_list_name:
+            #         if player_name not in self.main_field.player_dict.keys():
+            #             player_list_name.remove(player_name)
+            #             player_package_list.append([4, player_name])
+            #         else:
+            #             player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(2))
+            #
+            # if len(self.main_field.block_list) == len(block_num_list):
+            #     for block in self.main_field.block_list:
+            #         block_package_list.append(block.get_data_package(1))
+            #
+            # elif len(self.main_field.block_list) > len(block_num_list):
+            #     for block in self.main_field.block_list:
+            #         if block.number not in block_num_list:
+            #             block_num_list.append(block.number)
+            #             block_package_list.append(block.get_data_package(3))
+            #         else:
+            #             block_package_list.append(block.get_data_package(1))
+            # else:
+            #     for block_num in block_num_list:
+            #         if block_num not in self.main_field.block_num_list:
+            #             block_num_list.remove(block_num)
+            #             block_package_list.append([4, block_num])
+            #     for block in self.main_field.block_list:
+            #         block_package_list.append(block.get_data_package(1))
+            #
+            # if len(self.main_field.bullet_list) == len(bullet_num_list):
+            #     for bullet in self.main_field.bullet_list:
+            #         bullet_package_list.append(bullet.get_data_package(1))
+            #
+            # elif len(self.main_field.bullet_list) > len(bullet_num_list):
+            #     for bullet in self.main_field.bullet_list:
+            #         if bullet.number not in bullet_num_list:
+            #             bullet_num_list.append(bullet.number)
+            #             bullet_package_list.append(bullet.get_data_package(3))
+            # else:
+            #     for bullet_num in bullet_num_list:
+            #         if bullet_num not in self.main_field.bullet_num_list:
+            #             bullet_num_list.remove(bullet_num)
+            #             bullet_package_list.append([4, bullet_num])
+            #     for bullet in self.main_field.bullet_list:
+            #         bullet_package_list.append(bullet.get_data_package(1))
 
             send(conn, [player_package_list, block_package_list, bullet_package_list])
+            self.main_field.player_dict[name][1].clear()
 
             message = receive(conn)
             if message == "PLAYER DISCONNECT":
+                self.output(f'[DISCONNECT] player {name} disconnect')
                 connected = False
                 self.main_field.player_dict.pop(name)
                 print(f'[DISCONNECT] player {name} disconnect')
@@ -242,7 +246,7 @@ class Server:
             else:
 
                 if name in self.main_field.player_dict.keys():
-                    self.main_field.player_dict[name].update_data(message)
+                    self.main_field.request_queue.put(message)
                 else:
                     player_list_name.remove(name)
                     print(f'player {name} dead')
@@ -262,8 +266,6 @@ class Server:
             #
             # if len(block_package_list) == 0:
             #     block_package_list = None
-
-
 
         conn.close()
 

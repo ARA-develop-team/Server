@@ -84,7 +84,6 @@ class CGame:
 
         while self.run:
             player_package_list, block_package_list, bullet_package_list = self.client.receive()
-            # print(f'data {player_package_list, block_package_list, bullet_package_list}')
 
             for player_package in player_package_list:
                 if player_package[0] == 3:
@@ -131,7 +130,6 @@ class CGame:
                         self.bullet_list.remove(bullet)
 
             self.input_data()
-
             self.client.send(self.player_dict[self.player_name].get_data_package(2))
             # if block_package_list:
             #     for block_package in block_package_list:
@@ -150,8 +148,7 @@ class CGame:
             self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list, self.player)
             self.analysis.processing()
 
-        self.run = False
-        self.exit()
+
 
     def exit(self):  # for cancel threads
         if self.user_visual is not None:
@@ -165,8 +162,9 @@ class CGame:
     def input_data(self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
-                self.client.signing_off()  # for online game
+                # self.client.signing_off()  # for online game
                 self.run = False
+                self.exit()
                 break
 
             if e.type == pygame.MOUSEMOTION:

@@ -61,6 +61,7 @@ class Player(object):
             print('WRONG TYPE OF PACKAGE')
 
     def update_data(self, data_package):
+
         if data_package[0] == 3:
             self.name = data_package[1]
             self.pos = data_package[2]
