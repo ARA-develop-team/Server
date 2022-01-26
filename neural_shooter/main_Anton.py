@@ -30,7 +30,10 @@ class CGame:
         self.shoot = False
         self.mouse_pos = []
 
+        self.clock = pygame.time.Clock()
+
     def start(self):
+
         self.data = parser.getting_start_data(self.file)
         if not self.data:
             print('[NO DATA]')
@@ -83,6 +86,10 @@ class CGame:
         self.analysis.launch()
 
         while self.run:
+
+            self.clock.tick(30)
+            pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
+
             player_package_list, block_package_list, bullet_package_list = self.client.receive()
 
             for player_package in player_package_list:
@@ -177,15 +184,47 @@ class CGame:
 
             if keys[pygame.K_a] and self.disconnected_key.count('a') == 0:
                 self.player_dict[self.player_name].pos[0] -= self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
 
             if keys[pygame.K_d] and self.disconnected_key.count('d') == 0:
                 self.player_dict[self.player_name].pos[0] += self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
 
             if keys[pygame.K_w] and self.disconnected_key.count('w') == 0:
                 self.player_dict[self.player_name].pos[1] -= self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
 
             if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
                 self.player_dict[self.player_name].pos[1] += self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
+
+
+def contact_block_player(player, block):
+    new_pos = player.pos
+    right_side = player.pos[0] + player.player_radius - block.x
+    up_side = player.pos[1] + player.player_radius - block.y
+    left_side = block.x + block.width - player.pos[0] + player.player_radius
+    down_side = block.y + block.width - player.pos[1] + player.player_radius
+
+    if right_side > 0 and up_side > 0 and left_side > 0 and down_side > 0:  # if contact
+        if right_side <= up_side and right_side <= down_side:
+            print(f'right_side {player.pos[0] - right_side}')
+            new_pos[0] = player.pos[0] - right_side
+        elif left_side <= up_side and left_side <= down_side:
+            print(f'left_side {player.pos[0] - left_side}')
+            new_pos[0] = player.pos[0] + left_side
+        elif up_side < down_side:
+            print(f'up_side {player.pos[1] + up_side}')
+            new_pos[1] = player.pos[1] - up_side
+        else:
+            print(f'down_side {player.pos[1] + down_side}')
+            new_pos[1] = player.pos[1] + down_side
+
+        player.pos = new_pos
 
 
 if __name__ == "__main__":
