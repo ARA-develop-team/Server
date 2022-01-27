@@ -9,7 +9,6 @@ from typing import List, Any
 import config_parser as parser
 import server_field
 import player as pl
-import queue
 
 print('Hello from ARA-development🦜')
 
@@ -35,18 +34,8 @@ def receive(client):
     # reception message
     message = client.recv(message_length)
     message = pickle.loads(message)  # unpacking message
-    # print(f'receive: {message}')
-    return message
 
-    # message_length = client.recv(Server.HEADER).decode(Server.FORMAT)
-    # # reception message
-    # if type(message_length) == 'int':
-    #     message = client.recv(message_length)
-    #     message = pickle.loads(message)  # unpacking message
-    # else:
-    #     message = message_length
-    # print(f'receive: {message}')
-    # return message
+    return message
 
 
 class VisualServer:  # connection with visual server thread
@@ -134,20 +123,25 @@ class Server:
             self.output(f"PLAYER NAME - {player_name}")
             if self.VS_run:
                 self.visual_server.add(1, player_name)
-            # self.main_field.player_dict[player_name] = None
 
             new_player = pl.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
                                    Server.yml_data2['color_lines'], Server.yml_data2['user_speed'],
                                    Server.yml_data2['color_info'],
                                    Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
 
+            player_package_list = []
+            for player_list in self.main_field.player_dict.values():
+                player_package_list.append(player_list[0].get_data_package(3))
+                player_list[1].append(new_player.get_data_package(3))
+
             self.main_field.player_dict[player_name] = [new_player, []]
+            player_package_list.append(new_player.get_data_package(3))
 
             block_package_list = []
             for block in self.main_field.block_list:
                 block_package_list.append(block.get_data_package(3))
 
-            send(conn, [new_player.get_data_package(3), block_package_list])
+            send(conn, [player_package_list, block_package_list])
 
             self.output(f"[ACTIVE CONNECTIONS] {threading.active_count()}")  # Anton change activeCount --> active_count
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))

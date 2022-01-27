@@ -10,7 +10,7 @@ screen_size: 800, 800
 start_vector: 1, 0
 user_radius: 10, 200      # first argument for player *r and second for his *r of view
 online: True
-name: 'roma'
+name: 'roma1'
 bullet: [4, [220, 211, 106], 50, 6]     # [*r, color, damage, speed]
 
 VS_run: False

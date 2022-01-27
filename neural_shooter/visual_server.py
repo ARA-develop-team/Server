@@ -41,7 +41,7 @@ Config.set('graphics', 'width', size[FULL_HD][0])
 Config.set('graphics', 'height', size[FULL_HD][1])
 
 try: 
-    test = speedtest.__version__  # раньше было speedtest.Speedtest
+    test = speedtest.__version__  # (раньше было speedtest.Speedtest)
 except speedtest.SpeedtestBestServerFailure:
     print("Speedtest do not working!!!")
 

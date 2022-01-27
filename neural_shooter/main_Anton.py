@@ -76,13 +76,14 @@ class CGame:
         self.exit()
 
     def playing_online(self):
-        # connect to the server and get data (block_list and player)
-        player_package, block_package_list = self.client.connect()
-        self.player_dict[player_package[1]] = pl.Player(player_package[2], player_package[4],
-                                                        self.data['color_lines'], self.data['user_speed'],
-                                                        self.data['color_info'],
-                                                        self.data['user_radius'][0], self.data['user_radius'][1],
-                                                        player_package[1])
+        # connect to the server and get data (block_list and player_list)
+        player_package_list, block_package_list = self.client.connect()
+        for player_package in player_package_list:
+            new_player = pl.Player(player_package[2], player_package[4],
+                                   self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                   self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
+            self.player_dict[player_package[1]] = new_player
+
         for block in block_package_list:
             self.block_list.append(field.CBlock(*block[1:]))
 
