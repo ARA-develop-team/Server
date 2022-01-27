@@ -28,9 +28,9 @@ class Client:
         return ans
 
     def data_exchange(self, msg):
-        self.send(msg)
-
         player_package_list, block_package_list, bullet_package_list = self.receive()
+
+        self.send(msg)
 
         return player_package_list, block_package_list, bullet_package_list
 
@@ -39,7 +39,7 @@ class Client:
         self.socket.close()
 
     def send(self, message):
-        print(f'send: {message}')
+        # print(f'send: {message}')
         # send length
         packed_message = pickle.dumps(message)  # packing message
         message_length = len(packed_message)
@@ -56,7 +56,7 @@ class Client:
         # reception message
         message = self.socket.recv(message_length)
         message = pickle.loads(message)  # unpacking message
-        print(f'receive: {message}')
+        # print(f'receive: {message}')
         return message
 
 

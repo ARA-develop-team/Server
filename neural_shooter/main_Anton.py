@@ -14,6 +14,7 @@ class CGame:
         self.run = True
         self.file = r"start.yml"  # file with data for config_parser
         self.player = None  # player in this computer (obj class Player)
+        self.player_name = None
         self.user_visual = None  # pygame code
         self.data = None  # result of config_parser
         self.field = None  # object (class field)
@@ -29,7 +30,12 @@ class CGame:
         self.shoot = False
         self.mouse_pos = []
 
+        self.clock = pygame.time.Clock()
+
     def start(self):
+        #  PARSER
+        #  get data from start.yml
+
         self.data = parser.getting_start_data(self.file)
         if not self.data:
             print('[NO DATA]')
@@ -42,13 +48,14 @@ class CGame:
         self.user_visual = pgCode.CPygame(self.player, self.data['screen_color'], self.data['screen_size'], None)
         if self.online:
             self.client = client_f.Client(self.data['name'])
+            self.player_name = self.data['name']
             self.playing_online()
         else:
             self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
                                       self.data['bullet'])
             self.player = pl.Player(self.data['start_point'], self.data['user_color'],
-                                      self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                      self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
+                                    self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                    self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
             self.playing()
 
     def playing(self):
@@ -69,51 +76,95 @@ class CGame:
         self.exit()
 
     def playing_online(self):
-        player, block_package_list = self.client.connect()
-        self.player = pl.Player(player[2], player[4],
-                                self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                self.data['user_radius'][0], self.data['user_radius'][1], player[1])
-        self.player_dict[player[1]] = self.player
-
+        # connect to the server and get data (block_list and player)
+        player_package, block_package_list = self.client.connect()
+        self.player_dict[player_package[1]] = pl.Player(player_package[2], player_package[4],
+                                                        self.data['color_lines'], self.data['user_speed'],
+                                                        self.data['color_info'],
+                                                        self.data['user_radius'][0], self.data['user_radius'][1],
+                                                        player_package[1])
         for block in block_package_list:
-            self.block_list.append(field.CBlock(*block))
+            self.block_list.append(field.CBlock(*block[1:]))
 
         self.analysis.launch()
 
         while self.run:
-            self.input_data()
-            player_package_list, block_package_list, bullet_package_list = self.client.data_exchange(
-                self.player.get_data_package(1))
-            print(f'data {player_package_list, block_package_list, bullet_package_list}')
+            # print fps
+            self.clock.tick(30)
+            pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
+            # receive data_package from server
+            player_package_list, block_package_list, bullet_package_list = self.client.receive()
+
+            # unpackage data
             for player_package in player_package_list:
-                if player_package[0] == 3:
+                if player_package[0] == 3:  # new player
                     print('new player')
                     new_player = pl.Player(player_package[2], player_package[4],
                                            self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                            self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
                     self.player_dict[player_package[1]] = new_player
-                else:
+                elif player_package[0] == 4:  # delete player
+                    self.player_dict.pop(player_package[1])
+                else:  # update player
                     self.player_dict[player_package[1]].update_data(player_package)
 
-            if block_package_list:
-                for block_package in block_package_list:
-                    for local_block in self.block_list:
-                        if block_package[0] == local_block.number:
-                            local_block.update_data(block_package)
+            for block_package in block_package_list:
+                if block_package[0] == 3:  # new block
+                    new_block = field.CBlock(*block_package[1:])
+                    self.block_list.append(new_block)
+                else:
+                    delete_block = []
 
-            if len(bullet_package_list) > 0:
-                for number in range(len(bullet_package_list)):
-                    self.bullet_list[number].update_data(bullet_package_list[number])
+                    # find block in block_list
+                    for block in self.block_list:
+                        if block.number == block_package[1]:
+                            if block_package[0] == 4:
+                                delete_block.append(block.number)
+                            else:
+                                block.update_data(block_package)
 
-            if self.player.way_vector is not None:
-                self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
+                    for block in delete_block:
+                        self.block_list.pop(block)
 
-            self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list)
+            for bullet_package in bullet_package_list:
+                if bullet_package[0] == 3:
+                    new_bullet = pl.CBullet(*bullet_package[1:])
+                    self.bullet_list.append(new_bullet)
+                else:
+                    delete_bullet = []
+
+                    # find bullet in bullet_list
+                    for bullet in self.bullet_list:
+                        if bullet.number == bullet_package[1]:
+                            if bullet_package[0] == 4:
+                                delete_bullet.append(bullet)
+                            else:
+                                bullet.update_data(bullet_package)
+
+                    for bullet in delete_bullet:
+                        self.bullet_list.remove(bullet)
+
+            self.input_data()
+
+            self.client.send(self.player_dict[self.player_name].get_data_package(2))
+
+            # if block_package_list:
+            #     for block_package in block_package_list:
+            #         for local_block in self.block_list:
+            #             if block_package[0] == local_block.number:
+            #                 local_block.update_data(block_package)
+            # for bullet_package in bullet_package_list:
+            #     if bullet_package
+            # if len(bullet_package_list) > 0:
+            #     for number in range(len(bullet_package_list)):
+            #         self.bullet_list[number].update_data(bullet_package_list[number])
+
+            # if self.player.way_vector is not None:
+            #     self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
+
+            self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list, self.player_name)
             self.analysis.processing()
-
-        self.run = False
-        self.exit()
 
     def exit(self):  # for cancel threads
         if self.user_visual is not None:
@@ -127,8 +178,8 @@ class CGame:
     def input_data(self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
-                self.client.signing_off()  # for online game
                 self.run = False
+                self.exit()
                 break
 
             if e.type == pygame.MOUSEMOTION:
@@ -140,16 +191,44 @@ class CGame:
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_a] and self.disconnected_key.count('a') == 0:
-                self.player.pos[0] -= self.player.speed
+                self.player_dict[self.player_name].pos[0] -= self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
 
             if keys[pygame.K_d] and self.disconnected_key.count('d') == 0:
-                self.player.pos[0] += self.player.speed
+                self.player_dict[self.player_name].pos[0] += self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
 
             if keys[pygame.K_w] and self.disconnected_key.count('w') == 0:
-                self.player.pos[1] -= self.player.speed
+                self.player_dict[self.player_name].pos[1] -= self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
 
             if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
-                self.player.pos[1] += self.player.speed
+                self.player_dict[self.player_name].pos[1] += self.player_dict[self.player_name].speed
+                for block in self.block_list:
+                    contact_block_player(self.player_dict[self.player_name], block)
+
+
+def contact_block_player(player, block):
+    new_pos = player.pos
+    right_side = player.pos[0] + player.player_radius - block.x
+    up_side = player.pos[1] + player.player_radius - block.y
+    left_side = block.x + block.width - player.pos[0] + player.player_radius
+    down_side = block.y + block.width - player.pos[1] + player.player_radius
+
+    if right_side > 0 and up_side > 0 and left_side > 0 and down_side > 0:  # if contact
+        if right_side <= up_side and right_side <= down_side:
+            new_pos[0] = player.pos[0] - right_side
+        elif left_side <= up_side and left_side <= down_side:
+            new_pos[0] = player.pos[0] + left_side
+        elif up_side < down_side:
+            new_pos[1] = player.pos[1] - up_side
+        else:
+            new_pos[1] = player.pos[1] + down_side
+
+        player.pos = new_pos
 
 
 if __name__ == "__main__":

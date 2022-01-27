@@ -40,7 +40,7 @@ class CPygame:
         self.player.draw_lines(self.mouse_pos, self.window, self.work_info)  # for lines
         pygame.display.update()
 
-    def draw_screen_online(self, list_obj, bullet_list, block_list, player):
+    def draw_screen_online(self, player_dict, bullet_list, block_list, player_name):
         self.window.fill(self.screen_color)
 
         for block in block_list:
@@ -49,14 +49,16 @@ class CPygame:
         for bullet in bullet_list:
             bullet.draw()
 
-        if len(list_obj) != 0:           # drawing all players
-            for obj in list_obj.values():
-                if obj:
-                    obj.draw(self.window)
+        if len(player_dict) != 0:           # drawing all players
+            for player in player_dict.values():
+                if player:
+                    player.draw(self.window)
 
-        player.draw_lines(self.mouse_pos, self.window, self.work_info)     # for lines
+        player_dict[player_name].draw_lines(self.mouse_pos, self.window, self.work_info)     # for lines
         pygame.display.update()
 
+    """Now this function moved to main.
+    This version not functioned"""
     def input_data(self):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
