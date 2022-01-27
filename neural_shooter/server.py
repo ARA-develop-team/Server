@@ -12,16 +12,29 @@ import player as pl
 
 print('Hello from ARA-development🦜')
 
+"""Old version"""
+# def send(client, message, local=False):
+#     packed_message = pickle.dumps(message)  # packing message
+#
+#     # send length
+#     if not local:
+#         message_length = len(packed_message)
+#         send_length = str(message_length).encode(Server.FORMAT)
+#         send_length += b' ' * (Server.HEADER - len(send_length))
+#         client.send(send_length)
+#
+#     # send message
+#     client.send(packed_message)
 
-def send(client, message, local=False):
+
+def send(client, message):
     packed_message = pickle.dumps(message)  # packing message
 
     # send length
-    if not local:
-        message_length = len(packed_message)
-        send_length = str(message_length).encode(Server.FORMAT)
-        send_length += b' ' * (Server.HEADER - len(send_length))
-        client.send(send_length)
+    message_length = len(packed_message)
+    send_length = str(message_length).encode(Server.FORMAT)
+    send_length += b' ' * (Server.HEADER - len(send_length))
+    client.send(send_length)
 
     # send message
     client.send(packed_message)
@@ -61,7 +74,13 @@ class VisualServer:  # connection with visual server thread
         # mess_type = 0 - showing output of program; mess_type = 1 - showing data of players
 
         package = [mess_type, data]
+
+        """
+        Old version
         send(self.visual_serv, package, local=True)
+        """
+        packed_message = pickle.dumps(package)
+        self.visual_serv.send(packed_message)
 
 
 class Server:
@@ -265,7 +284,8 @@ class Server:
 
     def game_mechanics(self):
         while True:
-            self.main_field.main()
+            pass
+            #  self.main_field.main()
 
     def output(self, string):
         if self.VS_run:

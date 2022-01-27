@@ -66,10 +66,6 @@ class CBlock:
         self.number = number
 
     def draw(self, window):
-        f1 = pygame.font.Font(None, 24)
-        text1 = f1.render('EXIT', True, (219, 215, 210))
-        window.blit(text1, (720, 220))
-
         if self.kind == 2:
             pygame.draw.rect(window, (0, 139, 139), (self.x, self.y, self.width, self.height), 5)
             self.kind = 1

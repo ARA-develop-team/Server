@@ -53,27 +53,23 @@ class CGame:
         else:
             self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
                                       self.data['bullet'])
+            self.user_visual.field = self.field
             self.player = pl.Player(self.data['start_point'], self.data['user_color'],
                                     self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
                                     self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
             self.playing()
 
     def playing(self):
-        self.player.window = self.user_visual.window
-        self.analysis.launch()
-        dict_obj = {self.data['name']: self.player}  # for player, bots and online players
 
-        while self.user_visual.run:
-            self.field.contact(self.player.pos[0], self.player.pos[1])
-            self.user_visual.input_data()  # input in pygame
-            if self.player.way_vector is not None:
-                self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
-            self.user_visual.draw_screen(dict_obj)  # visual output
-            self.field.bullets_action()
-            self.analysis.processing()
+        while self.run:
+            # print fps
+            self.clock.tick()
+            pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
-        self.run = False
-        self.exit()
+            self.input_data(self.player, self.field.block_list)
+
+            self.user_visual.draw_screen(self.player)
+
 
     def playing_online(self):
         # connect to the server and get data (block_list and player_list)
@@ -91,7 +87,7 @@ class CGame:
 
         while self.run:
             # print fps
-            self.clock.tick(30)
+            self.clock.tick()
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
             # receive data_package from server
@@ -146,14 +142,14 @@ class CGame:
                     for bullet in delete_bullet:
                         self.bullet_list.remove(bullet)
 
-            self.input_data()
+            self.input_data(self.player_dict[self.player_name], self.block_list)
 
             self.client.send(self.player_dict[self.player_name].get_data_package(2))
 
             # if block_package_list:
             #     for block_package in block_package_list:
             #         for local_block in self.block_list:
-            #             if block_package[0] == local_block.number:
+            #             if block_package[0] == local_block.number:a
             #                 local_block.update_data(block_package)
             # for bullet_package in bullet_package_list:
             #     if bullet_package
@@ -172,11 +168,11 @@ class CGame:
             self.user_visual.run = False
         if self.online:
             self.client.signing_off()
-        self.analysis.result()
+            self.analysis.result()
         print("-----------END-----------")
         quit()
 
-    def input_data(self):
+    def input_data(self, player, block_list):
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.run = False
@@ -189,27 +185,27 @@ class CGame:
             if e.type == pygame.MOUSEBUTTONUP:
                 self.shoot = True
 
-            keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
 
-            if keys[pygame.K_a] and self.disconnected_key.count('a') == 0:
-                self.player_dict[self.player_name].pos[0] -= self.player_dict[self.player_name].speed
-                for block in self.block_list:
-                    contact_block_player(self.player_dict[self.player_name], block)
+        if keys[pygame.K_a]:
+            player.pos[0] -= player.speed
+            for block in block_list:
+                contact_block_player(player, block)
 
-            if keys[pygame.K_d] and self.disconnected_key.count('d') == 0:
-                self.player_dict[self.player_name].pos[0] += self.player_dict[self.player_name].speed
-                for block in self.block_list:
-                    contact_block_player(self.player_dict[self.player_name], block)
+        if keys[pygame.K_d]:
+            player.pos[0] += player.speed
+            for block in block_list:
+                contact_block_player(player, block)
 
-            if keys[pygame.K_w] and self.disconnected_key.count('w') == 0:
-                self.player_dict[self.player_name].pos[1] -= self.player_dict[self.player_name].speed
-                for block in self.block_list:
-                    contact_block_player(self.player_dict[self.player_name], block)
+        if keys[pygame.K_w]:
+            player.pos[1] -= player.speed
+            for block in block_list:
+                contact_block_player(player, block)
 
-            if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
-                self.player_dict[self.player_name].pos[1] += self.player_dict[self.player_name].speed
-                for block in self.block_list:
-                    contact_block_player(self.player_dict[self.player_name], block)
+        if keys[pygame.K_s]:
+            player.pos[1] += player.speed
+            for block in block_list:
+                contact_block_player(player, block)
 
 
 def contact_block_player(player, block):
