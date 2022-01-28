@@ -70,7 +70,6 @@ class CGame:
 
             self.user_visual.draw_screen(self.player)
 
-
     def playing_online(self):
         # connect to the server and get data (block_list and player_list)
         player_package_list, block_package_list = self.client.connect()

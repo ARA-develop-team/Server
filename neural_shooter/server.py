@@ -284,8 +284,7 @@ class Server:
 
     def game_mechanics(self):
         while True:
-            pass
-            #  self.main_field.main()
+            self.main_field.main()
 
     def output(self, string):
         if self.VS_run:
