@@ -90,10 +90,11 @@ class CGame:
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
             # receive data_package from server
-            player_package_list, block_package_list, bullet_package_list = self.client.receive()
+            updated_list, player_package_list, block_package_list, bullet_package_list = self.client.receive()
 
             # unpackage data
-            for player_package in player_package_list:
+            # print(f'Player_package_list - {player_package_list}')
+            for player_package in updated_list:
                 if player_package[0] == 3:  # new player
                     print('new player')
                     new_player = pl.Player(player_package[2], player_package[4],
@@ -104,6 +105,9 @@ class CGame:
                     self.player_dict.pop(player_package[1])
                 else:  # update player
                     self.player_dict[player_package[1]].update_data(player_package)
+
+            for player_package in player_package_list:
+                self.player_dict[player_package[1]].update_data(player_package)
 
             for block_package in block_package_list:
                 if block_package[0] == 3:  # new block

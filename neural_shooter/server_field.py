@@ -21,15 +21,17 @@ class ServerField:
         self.bullet_counter = 0
 
     def main(self):
-
-        while not self.request_queue.empty():
-            package = self.request_queue.get()
-            self.player_dict[package[1]][0].update_data(package)
-            # for block in self.block_list:
-            #     self.contact_block_player(self.player_dict[package[1]][0], block)
-
-            for player_list in self.player_dict.values():
-                player_list[1].append(self.player_dict[package[1]][0].get_data_package(2))
+        pass
+        # while not self.request_queue.empty():
+        #     package = self.request_queue.get()
+        #     print(package)
+        #     self.player_dict[package[1]][0].update_data(package)
+        #     # for block in self.block_list:
+        #     #     self.contact_block_player(self.player_dict[package[1]][0], block)
+        #
+        #     for player_list in self.player_dict.values():
+        #         # print(player_list)
+        #         player_list[1].append(self.player_dict[package[1]][0].get_data_package(2))
 
         # for player in self.player_dict.keys():
         #     if self.player_dict[player][0].hp <= 0:

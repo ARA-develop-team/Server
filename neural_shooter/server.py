@@ -187,7 +187,10 @@ class Server:
 
             player_package_list, block_package_list, bullet_package_list = [], [], []
 
-            player_package_list = self.main_field.player_dict[name][1]
+            for player in self.main_field.player_dict.values():
+                player_package_list.append(player[0].get_data_package(2))
+
+            updated_list = self.main_field.player_dict[name][1]
 
             # if len(self.main_field.player_dict) == len(player_list_name):
             #     for player_name in self.main_field.player_dict.keys():
@@ -245,7 +248,9 @@ class Server:
             #     for bullet in self.main_field.bullet_list:
             #         bullet_package_list.append(bullet.get_data_package(1))
 
-            send(conn, [player_package_list, block_package_list, bullet_package_list])
+            send(conn, [updated_list, player_package_list, block_package_list, bullet_package_list])
+            # print(f'Handle client {name} player_package_list - {player_package_list}')
+            # print(f'Updated list - {self.main_field.player_dict[name][1]}')
             self.main_field.player_dict[name][1].clear()
 
             message = receive(conn)
@@ -259,7 +264,7 @@ class Server:
             else:
 
                 if name in self.main_field.player_dict.keys():
-                    self.main_field.request_queue.put(message)
+                    self.main_field.player_dict[name][0].update_data(message)
                 else:
                     player_list_name.remove(name)
                     print(f'player {name} dead')
