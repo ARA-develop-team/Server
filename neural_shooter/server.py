@@ -3,6 +3,7 @@
 import socket
 import threading
 import pickle
+import queue
 from multiprocessing import Process
 from typing import List, Any
 
@@ -151,9 +152,9 @@ class Server:
             player_package_list = []
             for player_list in self.main_field.player_dict.values():
                 player_package_list.append(player_list[0].get_data_package(3))
-                player_list[1].append(new_player.get_data_package(3))
+                player_list[1].put(new_player.get_data_package(3))
 
-            self.main_field.player_dict[player_name] = [new_player, []]
+            self.main_field.player_dict[player_name] = [new_player, queue.SimpleQueue()]
             player_package_list.append(new_player.get_data_package(3))
 
             block_package_list = []
@@ -190,7 +191,9 @@ class Server:
             for player in self.main_field.player_dict.values():
                 player_package_list.append(player[0].get_data_package(2))
 
-            updated_list = self.main_field.player_dict[name][1]
+            updated_list = []
+            while not self.main_field.player_dict[name][1].empty():
+                updated_list.append(self.main_field.player_dict[name][1].get())
 
             # if len(self.main_field.player_dict) == len(player_list_name):
             #     for player_name in self.main_field.player_dict.keys():
@@ -249,16 +252,14 @@ class Server:
             #         bullet_package_list.append(bullet.get_data_package(1))
 
             send(conn, [updated_list, player_package_list, block_package_list, bullet_package_list])
-            # print(f'Handle client {name} player_package_list - {player_package_list}')
-            # print(f'Updated list - {self.main_field.player_dict[name][1]}')
-            self.main_field.player_dict[name][1].clear()
 
             message = receive(conn)
             if message == "PLAYER DISCONNECT":
                 self.output(f'[DISCONNECT] player {name} disconnect')
                 connected = False
-                self.main_field.player_dict.pop(name)
-                print(f'[DISCONNECT] player {name} disconnect')
+                deleted_player = self.main_field.player_dict.pop(name)
+                for player in self.main_field.player_dict.values():
+                    player[1].put(deleted_player[0].get_data_package(4))
             elif type(message) == "string":
                 print(f'[WARNING] Client: {name} Addr: {addr} send message type string')
             else:

@@ -93,7 +93,6 @@ class CGame:
             updated_list, player_package_list, block_package_list, bullet_package_list = self.client.receive()
 
             # unpackage data
-            # print(f'Player_package_list - {player_package_list}')
             for player_package in updated_list:
                 if player_package[0] == 3:  # new player
                     print('new player')
@@ -103,11 +102,16 @@ class CGame:
                     self.player_dict[player_package[1]] = new_player
                 elif player_package[0] == 4:  # delete player
                     self.player_dict.pop(player_package[1])
-                else:  # update player
-                    self.player_dict[player_package[1]].update_data(player_package)
+                # else:  # update player
+                #     print('updated')
+                #     self.player_dict[player_package[1]].update_data(player_package)
 
             for player_package in player_package_list:
                 self.player_dict[player_package[1]].update_data(player_package)
+
+            for player_package in updated_list:
+                if player_package[0] == 2:
+                    self.player_dict[player_package[1]].update_data(player_package)
 
             for block_package in block_package_list:
                 if block_package[0] == 3:  # new block

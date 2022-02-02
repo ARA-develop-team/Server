@@ -57,6 +57,10 @@ class Player(object):
             data_package = [type_package, self.name, self.pos, self.hp, self.color]
             return data_package
 
+        if type_package == 4:
+            data_package = [type_package, self.name]
+            return data_package
+
         else:
             print('WRONG TYPE OF PACKAGE')
 
