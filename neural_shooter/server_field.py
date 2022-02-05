@@ -69,14 +69,14 @@ class ServerField:
 
     def contact_bullet_player(self, bullet, player):
         if bullet.owner != player.name:
-            if distance_between_two_point(player.pos, [bullet.x, bullet.y]) < self.radius + bullet.radius:
-                self.bullet_list.remove(bullet)
-                self.bullet_num_list.remove(bullet.number)
-                player.hp -= bullet.damage
-                if player.hp <= 0:
-                    player.pos = [500, 500]
-                    player.hp = 100
-                    self.player_dict[player.name][1].put(player.get_data_package(2))
+            if distance_between_two_point(player.pos, bullet.pos) < self.radius + bullet.radius:
+                if bullet in self.bullet_list:
+                    self.bullet_list.remove(bullet)
+                    player.hp -= bullet.damage
+                    if player.hp <= 0:
+                        player.pos = [500, 500]
+                        player.hp = 100
+                        self.player_dict[player.name][1].put(player.get_data_package(2))
 
     def contact_bullet_block(self, bullet, block):
         if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \

@@ -1,6 +1,7 @@
 """file for pygame"""
 
 import pygame
+import math
 
 pygame.font.init()
 
@@ -47,12 +48,14 @@ class CPygame:
             block.draw(self.window)
 
         for bullet_package in bullet_package_list:
-            self.draw_bullet_from_package(bullet_package)
+            if distance_between_two_point(bullet_package[2], player_dict[player_name].pos) < player_dict[player_name].player_view:
+                self.draw_bullet_from_package(bullet_package)
 
         if len(player_dict) != 0:           # drawing all players
             for player in player_dict.values():
                 if player:
-                    player.draw(self.window)
+                    if distance_between_two_point(player.pos, player_dict[player_name].pos) < player_dict[player_name].player_view:
+                        player.draw(self.window)
 
         player_dict[player_name].draw_lines(self.mouse_pos, self.window, self.work_info)     # for lines
         pygame.display.update()
@@ -88,3 +91,8 @@ class CPygame:
 
     def draw_bullet_from_package(self, bullet_package):
         pygame.draw.circle(self.window, bullet_package[4], [int(bullet_package[2][0]), int(bullet_package[2][1])], bullet_package[3], bullet_package[3])
+
+
+def distance_between_two_point(a, b):
+    distance = math.sqrt((a[0] - b[0])**2 + (a[1] - b[1])**2)
+    return distance
