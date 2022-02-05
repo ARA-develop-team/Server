@@ -177,15 +177,6 @@ class Server:
             # for player in self.main_field.player_dict.values():
             #     print(player.pos)
 
-
-            # if message[3]:
-            #     print(f'shoot: {message[3]}')
-            #     self.main_field.bullet_counter += 1
-            #     self.main_field.bullet_list.append(pl.CBullet(self.main_field.bullet_counter, self.main_field.player_dict[name].pos, 5,
-            #                                                   (200, 200, 100), 10, 3,
-            #                                                   message[3],
-            #                                                   name))
-
             player_package_list, block_package_list, bullet_package_list = [], [], []
 
             for player in self.main_field.player_dict.values():
@@ -234,6 +225,10 @@ class Server:
             #     for block in self.main_field.block_list:
             #         block_package_list.append(block.get_data_package(1))
             #
+
+            for bullet in self.main_field.bullet_list:
+                bullet_package_list.append(bullet.get_data_package(3))
+
             # if len(self.main_field.bullet_list) == len(bullet_num_list):
             #     for bullet in self.main_field.bullet_list:
             #         bullet_package_list.append(bullet.get_data_package(1))
@@ -269,7 +264,13 @@ class Server:
                 else:
                     player_list_name.remove(name)
                     print(f'player {name} dead')
-
+            if message[0] == 1 and message[3]:
+                print(f'shoot: {message[3]}')
+                self.main_field.bullet_counter += 1
+                self.main_field.bullet_list.append(pl.CBullet(self.main_field.bullet_counter, self.main_field.player_dict[name][0].pos, 5,
+                                                              (200, 200, 100), 10, 1,
+                                                              message[3],
+                                                              name))
             # for player in self.main_field.player_dict.values():
             #     if player.name not in player_list_name:
             #         player_list_name.append(player.name)

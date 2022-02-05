@@ -2,10 +2,10 @@
 import field
 import math
 import queue
+import time
 
 
 class ServerField:
-
     def __init__(self, screen_size, radius):
 
         self.block_list, self.width, self.height = field.map_creation(screen_size)
@@ -21,7 +21,6 @@ class ServerField:
         self.bullet_counter = 0
 
     def main(self):
-        pass
         # while not self.request_queue.empty():
         #     package = self.request_queue.get()
         #     print(package)
@@ -37,14 +36,13 @@ class ServerField:
         #     if self.player_dict[player][0].hp <= 0:
         #         self.player_dict.pop(player)
         #
-        # for block in self.block_list:
-        #     for player in self.player_dict.keys():
-        #         self.contact_block_player(self.player_dict[player][0], block)
-        #         for bullet in self.bullet_list:
-        #             print(bullet)
-        #             bullet.motion()
-        #             self.contact_bullet_player(bullet, self.player_dict[player])
-        #             self.contact_bullet_block(bullet, block)
+        time.sleep(0.0001)
+        for bullet in self.bullet_list:
+            bullet.motion()
+            for block in self.block_list:
+                self.contact_bullet_block(bullet, block)
+            for player in self.player_dict.keys():
+                self.contact_bullet_player(bullet, self.player_dict[player][0])
 
     def contact_block_player(self, player, block):
         new_pos = player.pos
@@ -69,20 +67,22 @@ class ServerField:
 
             player.pos = new_pos
 
-
-
-
     def contact_bullet_player(self, bullet, player):
         if bullet.owner != player.name:
             if distance_between_two_point(player.pos, [bullet.x, bullet.y]) < self.radius + bullet.radius:
-                player.hp -= bullet.damage
                 self.bullet_list.remove(bullet)
                 self.bullet_num_list.remove(bullet.number)
+                player.hp -= bullet.damage
+                if player.hp <= 0:
+                    player.pos = [500, 500]
+                    player.hp = 100
+                    self.player_dict[player.name][1].put(player.get_data_package(2))
 
     def contact_bullet_block(self, bullet, block):
         if (block.x - bullet.radius <= bullet.pos[0] <= block.x + block.width + bullet.radius) and \
                 (block.y - bullet.radius <= bullet.pos[1] <= block.y + block.height + bullet.radius):
-            self.bullet_list.remove(bullet)
+            if bullet in self.bullet_list:
+                self.bullet_list.remove(bullet)
 
             if block.kind == 3:
                 block.health -= bullet.damage

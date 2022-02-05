@@ -43,7 +43,9 @@ class Player(object):
 
         if type_package == 1:
             if self.shoot:
-                data_package = [type_package, self.name, self.pos, self.way_vector]
+                x = math.cos(self.way_angle)
+                y = math.sin(self.way_angle)
+                data_package = [type_package, self.name, self.pos, [x, y]]
                 self.shoot = False
             else:
                 data_package = [type_package, self.name, self.pos, None]
@@ -98,7 +100,7 @@ class CBullet:
         self.number = number
 
     def motion(self):
-        print(self.pos, self.vector, self.speed,)
+        # print(self.pos, self.vector, self.speed,)
         self.pos = [self.pos[0] + self.vector[0] * self.speed, self.pos[1] + self.vector[1] * self.speed]
 
     def draw(self, window):

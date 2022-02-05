@@ -116,6 +116,9 @@ class CField:
 
         except ZeroDivisionError:
             alfa = 90
+
+        if way_vector[1] < 0:
+            return -alfa
         return alfa
 
     def shot_bullet_creation(self, vector, pos, player_name):  # pos, radius, color, damage, speed, vector

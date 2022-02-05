@@ -37,7 +37,7 @@ class CPygame:
 
         pygame.display.update()
 
-    def draw_screen_online(self, player_dict, bullet_list, block_list, player_name):
+    def draw_screen_online(self, player_dict, bullet_package_list, block_list, player_name):
         self.window.fill(self.screen_color)
 
         f1 = pygame.font.Font(None, 24)
@@ -46,8 +46,8 @@ class CPygame:
         for block in block_list:
             block.draw(self.window)
 
-        for bullet in bullet_list:
-            bullet.draw()
+        for bullet_package in bullet_package_list:
+            self.draw_bullet_from_package(bullet_package)
 
         if len(player_dict) != 0:           # drawing all players
             for player in player_dict.values():
@@ -85,3 +85,6 @@ class CPygame:
 
         if keys[pygame.K_s] and self.disconnected_key.count('s') == 0:
             self.player.pos[1] += self.player.speed
+
+    def draw_bullet_from_package(self, bullet_package):
+        pygame.draw.circle(self.window, bullet_package[4], [int(bullet_package[2][0]), int(bullet_package[2][1])], bullet_package[3], bullet_package[3])

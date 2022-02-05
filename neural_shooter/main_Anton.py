@@ -6,6 +6,7 @@ import config_parser as parser
 import field
 import client_f
 import pygame
+import math
 from analysis import CAnalysis
 
 
@@ -47,6 +48,8 @@ class CGame:
 
         self.user_visual = pgCode.CPygame(self.player, self.data['screen_color'], self.data['screen_size'], None)
         if self.online:
+            self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
+                                      self.data['bullet'])
             self.client = client_f.Client(self.data['name'])
             self.player_name = self.data['name']
             self.playing_online()
@@ -86,7 +89,7 @@ class CGame:
 
         while self.run:
             # print fps
-            self.clock.tick()
+            self.clock.tick(30)
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
             # receive data_package from server
@@ -131,27 +134,27 @@ class CGame:
                     for block in delete_block:
                         self.block_list.pop(block)
 
-            for bullet_package in bullet_package_list:
-                if bullet_package[0] == 3:
-                    new_bullet = pl.CBullet(*bullet_package[1:])
-                    self.bullet_list.append(new_bullet)
-                else:
-                    delete_bullet = []
+            # for bullet_package in bullet_package_list:
+            #     if bullet_package[0] == 3:
+            #         new_bullet = pl.CBullet(*bullet_package[1:])
+            #         self.bullet_list.append(new_bullet)
+            #     else:
+            #         delete_bullet = []
+            #
+            #         # find bullet in bullet_list
+            #         for bullet in self.bullet_liыфst:
+            #             if bullet.number == bullet_package[1]:
+            #                 if bullet_package[0] == 4:
+            #                     delete_bullet.append(bullet)
+            #                 else:
+            #                     bullet.update_data(bullet_package)
 
-                    # find bullet in bullet_list
-                    for bullet in self.bullet_list:
-                        if bullet.number == bullet_package[1]:
-                            if bullet_package[0] == 4:
-                                delete_bullet.append(bullet)
-                            else:
-                                bullet.update_data(bullet_package)
-
-                    for bullet in delete_bullet:
-                        self.bullet_list.remove(bullet)
+                    # for bullet in delete_bullet:
+                    #     self.bullet_list.remove(bullet)
 
             self.input_data(self.player_dict[self.player_name], self.block_list)
 
-            self.client.send(self.player_dict[self.player_name].get_data_package(2))
+            self.client.send(self.player_dict[self.player_name].get_data_package(1))
 
             # if block_package_list:
             #     for block_package in block_package_list:
@@ -164,10 +167,7 @@ class CGame:
             #     for number in range(len(bullet_package_list)):
             #         self.bullet_list[number].update_data(bullet_package_list[number])
 
-            # if self.player.way_vector is not None:
-            #     self.player.way_angle = self.field.angle_of_track(self.player.way_vector)
-
-            self.user_visual.draw_screen_online(self.player_dict, self.bullet_list, self.block_list, self.player_name)
+            self.user_visual.draw_screen_online(self.player_dict, bullet_package_list, self.block_list, self.player_name)
             self.analysis.processing()
 
     def exit(self):  # for cancel threads
@@ -188,9 +188,11 @@ class CGame:
 
             if e.type == pygame.MOUSEMOTION:
                 self.mouse_pos = pygame.mouse.get_pos()
+                self.user_visual.mouse_pos = self.mouse_pos
 
             if e.type == pygame.MOUSEBUTTONUP:
-                self.shoot = True
+                self.player_dict[self.player_name].way_angle = self.field.angle_of_track(self.player_dict[self.player_name].way_vector)
+                self.player_dict[self.player_name].shoot = True
 
         keys = pygame.key.get_pressed()
 
