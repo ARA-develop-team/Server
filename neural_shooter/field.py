@@ -17,8 +17,8 @@ def map_creation(screen_size):
               [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
               [1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
               [1, 0, 1, 3, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-              [1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 1, 0, 0, 0, 0, 1],
-              [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+              [1, 0, 0, 0, 0, 0, 1, 0, 3, 0, 1, 0, 0, 0, 0, 1],
+              [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
               [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
               [1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
               [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1],
@@ -66,10 +66,6 @@ class CBlock:
         self.number = number
 
     def draw(self, window):
-        f1 = pygame.font.Font(None, 24)
-        text1 = f1.render('EXIT', True, (219, 215, 210))
-        window.blit(text1, (720, 220))
-
         if self.kind == 2:
             pygame.draw.rect(window, (0, 139, 139), (self.x, self.y, self.width, self.height), 5)
             self.kind = 1
@@ -120,6 +116,9 @@ class CField:
 
         except ZeroDivisionError:
             alfa = 90
+
+        if way_vector[1] < 0:
+            return -alfa
         return alfa
 
     def shot_bullet_creation(self, vector, pos, player_name):  # pos, radius, color, damage, speed, vector

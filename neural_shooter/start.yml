@@ -1,6 +1,6 @@
 # *r = radius
 
-start_point: [200, 200]                 # [x, y]
+start_point: [400, 400]                 # [x, y]
 user_speed: 2
 user_color: 212, 96, 37                 # rgb
 color_lines: 243, 234, 210
