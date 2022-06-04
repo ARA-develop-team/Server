@@ -154,7 +154,7 @@ class Server:
                 player_package_list.append(player_list[0].get_data_package(3))
                 player_list[1].put(new_player.get_data_package(3))
 
-            self.main_field.player_dict[player_name] = [new_player, queue.SimpleQueue()]
+            self.main_field.player_dict[player_name] = [new_player]
             player_package_list.append(new_player.get_data_package(3))
 
             block_package_list = []
@@ -246,7 +246,7 @@ class Server:
             #     for bullet in self.main_field.bullet_list:
             #         bullet_package_list.append(bullet.get_data_package(1))
 
-            send(conn, [updated_list, player_package_list, block_package_list, bullet_package_list])
+            send(conn, [self.main_field.player_dict, self.main_field.block_list, self.main_field.bullet_list])
 
             message = receive(conn)
             if message == "PLAYER DISCONNECT":
@@ -260,17 +260,19 @@ class Server:
             else:
 
                 if name in self.main_field.player_dict.keys():
-                    self.main_field.player_dict[name][0].update_data(message)
+                    self.main_field.move_player(name, message[1])
                 else:
                     player_list_name.remove(name)
                     print(f'player {name} dead')
-            if message[0] == 1 and message[3]:
-                print(f'shoot: {message[3]}')
-                self.main_field.bullet_counter += 1
-                self.main_field.bullet_list.append(pl.CBullet(self.main_field.bullet_counter, self.main_field.player_dict[name][0].pos, 5,
-                                                              (200, 200, 100), 10, 1,
-                                                              message[3],
-                                                              name))
+
+
+            # if message[0] == 1 and message[3]:
+            #     print(f'shoot: {message[3]}')
+            #     self.main_field.bullet_counter += 1
+            #     self.main_field.bullet_list.append(pl.CBullet(self.main_field.bullet_counter, self.main_field.player_dict[name][0].pos, 5,
+            #                                                   (200, 200, 100), 10, 1,
+            #                                                   message[3],
+            #                                                   name))
             # for player in self.main_field.player_dict.values():
             #     if player.name not in player_list_name:
             #         player_list_name.append(player.name)
@@ -291,7 +293,7 @@ class Server:
 
     def game_mechanics(self):
         while True:
-            self.main_field.main()
+            self.main_field.bullets_processing()
 
     def output(self, string):
         if self.VS_run:

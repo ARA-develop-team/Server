@@ -17,14 +17,14 @@ class Player(object):
         self.speed = speed
         self.way_vector = None
         self.way_angle = None
-        self.player_radius = radius
+        self.radius = radius
         self.player_view = view
         self.disconnected_key = []
         self.hp = 100
         self.shoot = False
 
     def draw(self, window):
-        pygame.draw.circle(window, self.color, self.pos, self.player_radius, self.player_radius)
+        pygame.draw.circle(window, self.color, self.pos, self.radius, self.radius)
 
     def draw_lines(self, mouse, window, work_info_font):
         pygame.draw.circle(window, self.color_lines, self.pos, self.player_view, 1)

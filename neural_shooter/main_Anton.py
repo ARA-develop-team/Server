@@ -3,6 +3,7 @@
 import visual_Anton as pgCode
 import player as pl
 import config_parser as parser
+import server_field
 import field
 import client_f
 import pygame
@@ -54,12 +55,16 @@ class CGame:
             self.player_name = self.data['name']
             self.playing_online()
         else:
-            self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
-                                      self.data['bullet'])
+            self.field = server_field.ServerField(self.data['start_vector'], self.data['screen_size'],
+                                                  self.data['user_radius'][0])
             self.user_visual.field = self.field
-            self.player = pl.Player(self.data['start_point'], self.data['user_color'],
-                                    self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                    self.data['user_radius'][0], self.data['user_radius'][1], self.data['name'])
+            self.field.player_dict[self.data['name']] = pl.Player(self.data['start_point'], self.data['user_color'],
+                                                                  self.data['color_lines'], self.data['user_speed'],
+                                                                  self.data['color_info'],
+                                                                  self.data['user_radius'][0],
+                                                                  self.data['user_radius'][1],
+                                                                  self.data['name'])
+            self.player_name = self.data['name']
             self.playing()
 
     def playing(self):
@@ -69,9 +74,14 @@ class CGame:
             self.clock.tick()
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
-            self.input_data(self.player, self.field.block_list)
+            self.input_data(self.field.player_dict[self.player_name], self.field.block_list)
 
-            self.user_visual.draw_screen(self.player)
+            self.field.player_collision_processing(self.player_name)
+            self.field.shooting_processing(self.player_name)
+            self.field.bullets_processing()
+
+            self.user_visual.draw_screen(self.field.player_dict, self.field.bullet_list,
+                                         self.field.block_list, self.player_name)
 
     def playing_online(self):
         # connect to the server and get data (block_list and player_list)
@@ -93,81 +103,13 @@ class CGame:
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
             # receive data_package from server
-            updated_list, player_package_list, block_package_list, bullet_package_list = self.client.receive()
-
-            # unpackage data
-            for player_package in updated_list:
-                if player_package[0] == 3:  # new player
-                    print('new player')
-                    new_player = pl.Player(player_package[2], player_package[4],
-                                           self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                           self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
-                    self.player_dict[player_package[1]] = new_player
-                elif player_package[0] == 4:  # delete player
-                    self.player_dict.pop(player_package[1])
-                # else:  # update player
-                #     print('updated')
-                #     self.player_dict[player_package[1]].update_data(player_package)
-
-            for player_package in player_package_list:
-                self.player_dict[player_package[1]].update_data(player_package)
-
-            for player_package in updated_list:
-                if player_package[0] == 2:
-                    self.player_dict[player_package[1]].update_data(player_package)
-
-            for block_package in block_package_list:
-                if block_package[0] == 3:  # new block
-                    new_block = field.CBlock(*block_package[1:])
-                    self.block_list.append(new_block)
-                else:
-                    delete_block = []
-
-                    # find block in block_list
-                    for block in self.block_list:
-                        if block.number == block_package[1]:
-                            if block_package[0] == 4:
-                                delete_block.append(block.number)
-                            else:
-                                block.update_data(block_package)
-
-                    for block in delete_block:
-                        self.block_list.pop(block)
-
-            # for bullet_package in bullet_package_list:
-            #     if bullet_package[0] == 3:
-            #         new_bullet = pl.CBullet(*bullet_package[1:])
-            #         self.bullet_list.append(new_bullet)
-            #     else:
-            #         delete_bullet = []
-            #
-            #         # find bullet in bullet_list
-            #         for bullet in self.bullet_liыфst:
-            #             if bullet.number == bullet_package[1]:
-            #                 if bullet_package[0] == 4:
-            #                     delete_bullet.append(bullet)
-            #                 else:
-            #                     bullet.update_data(bullet_package)
-
-                    # for bullet in delete_bullet:
-                    #     self.bullet_list.remove(bullet)
+            self.get_data_from_server()
 
             self.input_data(self.player_dict[self.player_name], self.block_list)
 
             self.client.send(self.player_dict[self.player_name].get_data_package(1))
 
-            # if block_package_list:
-            #     for block_package in block_package_list:
-            #         for local_block in self.block_list:
-            #             if block_package[0] == local_block.number:a
-            #                 local_block.update_data(block_package)
-            # for bullet_package in bullet_package_list:
-            #     if bullet_package
-            # if len(bullet_package_list) > 0:
-            #     for number in range(len(bullet_package_list)):
-            #         self.bullet_list[number].update_data(bullet_package_list[number])
-
-            self.user_visual.draw_screen_online(self.player_dict, bullet_package_list, self.block_list, self.player_name)
+            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list, self.player_name)
             self.analysis.processing()
 
     def exit(self):  # for cancel threads
@@ -191,30 +133,77 @@ class CGame:
                 self.user_visual.mouse_pos = self.mouse_pos
 
             if e.type == pygame.MOUSEBUTTONUP:
-                self.player_dict[self.player_name].way_angle = self.field.angle_of_track(self.player_dict[self.player_name].way_vector)
-                self.player_dict[self.player_name].shoot = True
+                player.way_angle = self.field.angle_of_track(
+                    player.way_vector)
+                player.shoot = True
 
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a]:
             player.pos[0] -= player.speed
-            for block in block_list:
-                contact_block_player(player, block)
+            # for block in block_list:
+            #     contact_block_player(player, block)
 
         if keys[pygame.K_d]:
             player.pos[0] += player.speed
-            for block in block_list:
-                contact_block_player(player, block)
+            # for block in block_list:
+            #     contact_block_player(player, block)
 
         if keys[pygame.K_w]:
             player.pos[1] -= player.speed
-            for block in block_list:
-                contact_block_player(player, block)
+            # for block in block_list:
+            #     contact_block_player(player, block)
 
         if keys[pygame.K_s]:
             player.pos[1] += player.speed
-            for block in block_list:
-                contact_block_player(player, block)
+            # for block in block_list:
+            #     contact_block_player(player, block)
+
+    def get_data_from_server(self):
+        # receive data_package from server
+        updated_list, player_package_list, block_package_list, bullet_package_list = self.client.receive()
+
+        # unpackage data
+        for player_package in updated_list:
+            if player_package[0] == 3:  # new player
+                print('new player')
+                new_player = pl.Player(player_package[2], player_package[4],
+                                       self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
+                                       self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
+                self.player_dict[player_package[1]] = new_player
+            elif player_package[0] == 4:  # delete player
+                self.player_dict.pop(player_package[1])
+
+        for player_package in player_package_list:
+            self.player_dict[player_package[1]].update_data(player_package)
+
+        for player_package in updated_list:
+            if player_package[0] == 2:
+                self.player_dict[player_package[1]].update_data(player_package)
+
+        for block_package in block_package_list:
+            if block_package[0] == 3:  # new block
+                new_block = field.CBlock(*block_package[1:])
+                self.block_list.append(new_block)
+            else:
+                delete_block = []
+
+                # find block in block_list
+                for block in self.block_list:
+                    if block.number == block_package[1]:
+                        if block_package[0] == 4:
+                            delete_block.append(block.number)
+                        else:
+                            block.update_data(block_package)
+
+                for block in delete_block:
+                    self.block_list.pop(block)
+
+        self.bullet_list.clear()
+        for bullet_package in bullet_package_list:
+            x = bullet_package[2][0]
+            y = bullet_package[2][1]
+            self.bullet_list.append([x, y])
 
 
 def contact_block_player(player, block):
