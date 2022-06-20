@@ -83,7 +83,9 @@ class ServerField:
         elif event[0] == 1:
             self.shot_bullet_creation(player_name)
 
-    def angle_of_track(self, way_vector):  # way  in radians
+
+
+    def angle_of_track(self, way_vector):  # way in radians
         a, b = self.default_vector, way_vector
 
         scalar_products = (a[0] * b[0]) + (a[1] * b[1])

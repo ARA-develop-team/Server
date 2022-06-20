@@ -77,7 +77,7 @@ class CGame:
             self.input_data(self.field.player_dict[self.player_name], self.field.block_list)
 
             self.field.player_collision_processing(self.player_name)
-            self.field.shooting_processing(self.player_name)
+            self.field.shooting_processing()
             self.field.bullets_processing()
 
             self.user_visual.draw_screen(self.field.player_dict, self.field.bullet_list,
