@@ -1,44 +1,17 @@
 import field
 import math
-import queue
-import time
 import player
 
 
 class ServerField:
-    def __init__(self, start_vector, screen_size, radius):
-        self.default_vector = start_vector
+    def __init__(self, start_vector, screen_size):
+        self.player_dict = {}
         self.block_list, self.width, self.height = field.map_creation(screen_size)
-        self.radius = radius  # radius of player
-        self.player_dict = {}  # dict which contain list of class player and update list
-        # each update list contain new information which client should take.  {player_name: [class pl, update list]}
-
-        self.request_queue = queue.Queue()  # queue which contain data from players that server should process
-
         self.bullet_list = []
-        self.bullet_num_list = []
-        self.block_num_list = []
+
         self.bullet_counter = 0
-
+        self.default_vector = start_vector
         self.spawn_pos = [500, 500]
-
-    def main(self):
-        # while not self.request_queue.empty():
-        #     package = self.request_queue.get()
-        #     print(package)
-        #     self.player_dict[package[1]][0].update_data(package)
-        #     # for block in self.block_list:
-        #     #     self.contact_block_player(self.player_dict[package[1]][0], block)
-        #
-        #     for player_list in self.player_dict.values():
-        #         # print(player_list)
-        #         player_list[1].append(self.player_dict[package[1]][0].get_data_package(2))
-
-        # for player in self.player_dict.keys():
-        #     if self.player_dict[player][0].hp <= 0:
-        #         self.player_dict.pop(player)
-        #
-        time.sleep(0.0001)
 
     def bullets_processing(self):
         for bullet in self.bullet_list:
@@ -49,7 +22,6 @@ class ServerField:
                         block.health -= bullet.damage
                         if block.health <= 0:
                             self.block_list.remove(block)
-                            # self.block_num_list.remove(block.number)
                     if bullet in self.bullet_list:
                         self.bullet_list.remove(bullet)
 
@@ -59,31 +31,33 @@ class ServerField:
                     if player.hp <= 0:
                         player.pos = self.spawn_pos
                         player.hp = 100
-                        # self.player_dict[player.name][1].put(player.get_data_package(2))
                     self.bullet_list.remove(bullet)
 
     def player_collision_processing(self, player_name):
+        collision = [0, 0]
+
         for block in self.block_list:
-            ejection = contact_block_player(self.player_dict[player_name], block)
-            self.player_dict[player_name].pos[0] += ejection[0]
-            self.player_dict[player_name].pos[1] += ejection[1]
+            side = count_sides(self.player_dict[player_name], block)
+            if contact_block_player(side):
+                ejection = ejection_count(side)
+                collision[0] += ejection[0]
+                collision[1] += ejection[1]
+                self.player_dict[player_name].pos[0] += ejection[0]
+                self.player_dict[player_name].pos[1] += ejection[1]
+
+        return collision
 
     def shooting_processing(self):
         for player in self.player_dict.keys():
-            self.single_shooting_processing(player)
+            if self.player_dict[player].shoot:
+                self.shot_bullet_creation(player)
+                self.player_dict[player].shoot = False
 
-    def single_shooting_processing(self, player_name):
-        if self.player_dict[player_name].shoot:
-            self.shot_bullet_creation(player_name)
-            self.player_dict[player_name].shoot = False
-
-    def event_processing(self, event):
+    def event_process(self, event):
         if event[0] == 0:
-            self.move_player(event[1], event[2])
+            self.move_player(event[1], event[2], event[3])
         elif event[0] == 1:
-            self.shot_bullet_creation(player_name)
-
-
+            self.shot_bullet_creation(event[1])
 
     def angle_of_track(self, way_vector):  # way in radians
         a, b = self.default_vector, way_vector
@@ -103,39 +77,63 @@ class ServerField:
         return alfa
 
     def shot_bullet_creation(self, player_name):  # pos, radius, color, damage, speed, vector
+        way_angle = self.angle_of_track(self.player_dict[player_name].way_vector)
+
         bullet_pos = self.player_dict[player_name].pos
 
         bullet_vector = [0, 0]
-        bullet_vector[0] = math.cos(self.player_dict[player_name].way_angle)
-        bullet_vector[1] = math.sin(self.player_dict[player_name].way_angle)
+        bullet_vector[0] = math.cos(way_angle)
+        bullet_vector[1] = math.sin(way_angle)
 
         self.bullet_list.append(player.CBullet(self.bullet_counter,
                                                bullet_pos, 5,
-                                               (200, 200, 100), 10, 1,
+                                               (200, 200, 100), 10, 0.01,
                                                bullet_vector,
                                                player_name))
 
-    def move_player(self, player_name, diff_pos):
+    def move_player(self, player_name, diff_pos, way_vector):
         self.player_dict[player_name].pos[0] += diff_pos[0]
         self.player_dict[player_name].pos[1] += diff_pos[1]
+        self.player_dict[player_name].way_vector = way_vector
 
 
-def contact_block_player(player, block):
-    ejection = [0, 0]
-    right_side = player.pos[0] + player.radius - block.x
+def count_sides(player, block):
+    """
+    Count distance that the player should make on a specific side to go out of the block.
+    If one of the sides is negative, the player is out of the block.
+    """
+
+    left_side = player.pos[0] + player.radius - block.x
     up_side = player.pos[1] + player.radius - block.y
-    left_side = block.x + block.width - player.pos[0] + player.radius
+    right_side = block.x + block.width - player.pos[0] + player.radius
     down_side = block.y + block.width - player.pos[1] + player.radius
 
-    if right_side > 0 and up_side > 0 and left_side > 0 and down_side > 0:  # if contact
-        if right_side <= up_side and right_side <= down_side:
-            ejection[0] = -right_side
-        elif left_side <= up_side and left_side <= down_side:
-            ejection[0] = left_side
-        elif up_side < down_side:
-            ejection[1] = -up_side
-        else:
-            ejection[1] = down_side
+    return left_side, up_side, right_side, down_side
+
+
+def contact_block_player(side):
+    if side[0] > 0 and side[1] > 0 and side[2] > 0 and side[3] > 0:
+        return True
+    return False
+
+
+def ejection_count(side):
+    """
+    Find a shortest side in which player should move to go out of the block and count ejection.
+    """
+
+    left_side, up_side, right_side, down_side = side
+    ejection = [0, 0]
+
+    if left_side <= up_side and left_side <= down_side:
+        ejection[0] = -left_side
+    elif right_side <= up_side and right_side <= down_side:
+        ejection[0] = right_side
+    elif up_side < down_side:
+        ejection[1] = -up_side
+    else:
+        ejection[1] = down_side
+
     return ejection
 
 
@@ -143,7 +141,7 @@ def contact_bullet_player(bullet, player):
     if bullet.owner != player.name:
         if distance_between_two_point(player.pos, bullet.pos) < player.radius + bullet.radius:
             return True
-        return False
+    return False
 
 
 def contact_bullet_block(bullet, block):
