@@ -3,7 +3,6 @@
 import socket
 import threading
 import pickle
-import queue
 from multiprocessing import Process
 from typing import List, Any
 
@@ -98,30 +97,30 @@ class Server:
 
     def __init__(self, name):
         self.name = name
-        self.main_field = server_field.ServerField(Server.yml_data2['screen_size'], Server.yml_data2['user_radius'][0])
+        self.main_field = server_field.ServerField(Server.yml_data2['start_vector'], Server.yml_data2['screen_size'])
         self.visual_server = None
 
-    def preparation(self):
-        if self.VS_run:
-            import visual_server
+    def start_with_visual_server(self):
+        """
+        Visual server preparation and start running server.
+        """
 
-            try:
-                deployed_server, deployed_port = visual_server.server_deploy(PORT=self.yml_data1['VPORT'],
-                                                                             extra_PORT=self.yml_data1['extra_VPORT'])
+        import visual_server
 
-                visual_thread = Process(target=self.start, args=(deployed_port, ))
-                visual_thread.start()
-                visual_server.start(IP_PORT=Server.ADDR, SERVER=deployed_server, LOCAL_PORT=deployed_port)
+        try:
+            deployed_server, deployed_port = visual_server.server_deploy(PORT=self.yml_data1['VPORT'],
+                                                                         extra_PORT=self.yml_data1['extra_VPORT'])
 
-            except OSError:
-                raise Exception('PORTS %s and %s are busy. Server could not be deployed' %
-                                (self.yml_data1['VPORT'], self.yml_data1['extra_VPORT']))
+            visual_thread = Process(target=self.start, args=(deployed_port, ))
+            visual_thread.start()
+            visual_server.start(IP_PORT=Server.ADDR, SERVER=deployed_server, LOCAL_PORT=deployed_port)
 
-            else:
-                pass
+        except OSError:
+            raise Exception('PORTS %s and %s are busy. Server could not be deployed' %
+                            (self.yml_data1['VPORT'], self.yml_data1['extra_VPORT']))
 
         else:
-            self.start()
+            pass
 
     def start(self, deployed_port=0):
         if self.VS_run:
@@ -141,6 +140,7 @@ class Server:
 
             player_name = conn.recv(Server.HEADER).decode('utf-8')
             self.output(f"PLAYER NAME - {player_name}")
+
             if self.VS_run:
                 self.visual_server.add(1, player_name)
 
@@ -149,102 +149,16 @@ class Server:
                                    Server.yml_data2['color_info'],
                                    Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
 
-            player_package_list = []
-            for player_list in self.main_field.player_dict.values():
-                player_package_list.append(player_list[0].get_data_package(3))
-                player_list[1].put(new_player.get_data_package(3))
-
-            self.main_field.player_dict[player_name] = [new_player]
-            player_package_list.append(new_player.get_data_package(3))
-
-            block_package_list = []
-            for block in self.main_field.block_list:
-                block_package_list.append(block.get_data_package(3))
-
-            send(conn, [player_package_list, block_package_list])
+            self.main_field.player_dict[player_name] = new_player
 
             self.output(f"[ACTIVE CONNECTIONS] {threading.active_count()}")  # Anton change activeCount --> active_count
             thread = threading.Thread(target=self.handle_client, args=(conn, addr, player_name))
             thread.start()
 
     def handle_client(self, conn, addr, name):  # working with client
-        player_list_name = [name]
-        block_num_list = []
-        bullet_num_list = []
 
         connected = True
         while connected:
-            # for player in self.main_field.player_dict.values():
-            #     print(player.pos)
-
-            player_package_list, block_package_list, bullet_package_list = [], [], []
-
-            for player in self.main_field.player_dict.values():
-                player_package_list.append(player[0].get_data_package(2))
-
-            updated_list = []
-            while not self.main_field.player_dict[name][1].empty():
-                updated_list.append(self.main_field.player_dict[name][1].get())
-
-            # if len(self.main_field.player_dict) == len(player_list_name):
-            #     for player_name in self.main_field.player_dict.keys():
-            #         player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(2))
-            #
-            # elif len(self.main_field.player_dict) > len(player_list_name):
-            #     for player_name in self.main_field.player_dict.keys():
-            #         if player_name not in player_list_name:
-            #             player_list_name.append(player_name)
-            #             player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(3))
-            #         else:
-            #             player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(2))
-            #
-            # else:
-            #     for player_name in player_list_name:
-            #         if player_name not in self.main_field.player_dict.keys():
-            #             player_list_name.remove(player_name)
-            #             player_package_list.append([4, player_name])
-            #         else:
-            #             player_package_list.append(self.main_field.player_dict[player_name][0].get_data_package(2))
-            #
-            # if len(self.main_field.block_list) == len(block_num_list):
-            #     for block in self.main_field.block_list:
-            #         block_package_list.append(block.get_data_package(1))
-            #
-            # elif len(self.main_field.block_list) > len(block_num_list):
-            #     for block in self.main_field.block_list:
-            #         if block.number not in block_num_list:
-            #             block_num_list.append(block.number)
-            #             block_package_list.append(block.get_data_package(3))
-            #         else:
-            #             block_package_list.append(block.get_data_package(1))
-            # else:
-            #     for block_num in block_num_list:
-            #         if block_num not in self.main_field.block_num_list:
-            #             block_num_list.remove(block_num)
-            #             block_package_list.append([4, block_num])
-            #     for block in self.main_field.block_list:
-            #         block_package_list.append(block.get_data_package(1))
-            #
-
-            for bullet in self.main_field.bullet_list:
-                bullet_package_list.append(bullet.get_data_package(3))
-
-            # if len(self.main_field.bullet_list) == len(bullet_num_list):
-            #     for bullet in self.main_field.bullet_list:
-            #         bullet_package_list.append(bullet.get_data_package(1))
-            #
-            # elif len(self.main_field.bullet_list) > len(bullet_num_list):
-            #     for bullet in self.main_field.bullet_list:
-            #         if bullet.number not in bullet_num_list:
-            #             bullet_num_list.append(bullet.number)
-            #             bullet_package_list.append(bullet.get_data_package(3))
-            # else:
-            #     for bullet_num in bullet_num_list:
-            #         if bullet_num not in self.main_field.bullet_num_list:
-            #             bullet_num_list.remove(bullet_num)
-            #             bullet_package_list.append([4, bullet_num])
-            #     for bullet in self.main_field.bullet_list:
-            #         bullet_package_list.append(bullet.get_data_package(1))
 
             send(conn, [self.main_field.player_dict, self.main_field.block_list, self.main_field.bullet_list])
 
@@ -252,42 +166,11 @@ class Server:
             if message == "PLAYER DISCONNECT":
                 self.output(f'[DISCONNECT] player {name} disconnect')
                 connected = False
-                deleted_player = self.main_field.player_dict.pop(name)
-                for player in self.main_field.player_dict.values():
-                    player[1].put(deleted_player[0].get_data_package(4))
+                self.main_field.player_dict.pop(name)
             elif type(message) == "string":
                 print(f'[WARNING] Client: {name} Addr: {addr} send message type string')
             else:
-
-                if name in self.main_field.player_dict.keys():
-                    self.main_field.move_player(name, message[1])
-                else:
-                    player_list_name.remove(name)
-                    print(f'player {name} dead')
-
-
-            # if message[0] == 1 and message[3]:
-            #     print(f'shoot: {message[3]}')
-            #     self.main_field.bullet_counter += 1
-            #     self.main_field.bullet_list.append(pl.CBullet(self.main_field.bullet_counter, self.main_field.player_dict[name][0].pos, 5,
-            #                                                   (200, 200, 100), 10, 1,
-            #                                                   message[3],
-            #                                                   name))
-            # for player in self.main_field.player_dict.values():
-            #     if player.name not in player_list_name:
-            #         player_list_name.append(player.name)
-            #         player_package_list.append(player.get_data_package(3))
-            #     else:
-            #         player_package_list.append(player.get_data_package(2))
-
-            # for block in self.main_field.block_list:
-            #     block_package_list.append(block.get_data_package(1))
-            #
-            # for bullet in self.main_field.bullet_list:
-            #     bullet_package_list.append(bullet.get_data_package())
-            #
-            # if len(block_package_list) == 0:
-            #     block_package_list = None
+                self.main_field.event_process(message)
 
         conn.close()
 
@@ -304,82 +187,7 @@ class Server:
 
 if __name__ == '__main__':
     main_server = Server(__name__)
-    main_server.preparation()
-
-# file_path = 'server.yml'
-# yml_data = parser.getting_socket_data(file_path)
-#
-# HEADER = 64
-# ADDR = (yml_data['IP'], yml_data['PORT'])
-# FORMAT = 'utf-8'
-# DISCONNECT_MESSAGE = "!DISCONNECT"
-#
-# server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# server.bind(ADDR)
-#
-# pos_player = {}
-#
-#
-# def handle_client(conn, addr, number):
-#     print(f"[NEW CONNECTION] {addr} connected.")
-#     connected = True
-#     while connected:
-#         # reception length
-#         msg_length = conn.recv(HEADER).decode(FORMAT)
-#         if msg_length == "PLAYER DISCONNECT":
-#             connected = False
-#             pos_player.pop(number)
-#             print(f'player #{number} disconnect')
-#         elif msg_length == "NEW PLAYER":
-#             pass
-#         else:
-#             msg_length = int(msg_length)
-#             # reception message
-#             msg = conn.recv(msg_length)
-#
-#             # treatment massage
-#             msg = pickle.loads(msg)  # unpacking message
-#             pos_player[number] = msg
-#
-#             # send length
-#             msg = pickle.dumps(pos_player)  # packing message
-#             msg_length = len(msg)
-#             send_length = str(msg_length).encode(FORMAT)
-#             send_length += b' ' * (HEADER - len(send_length))
-#             conn.send(send_length)
-#             # send message
-#             conn.send(msg)
-#
-#     conn.close()
-#
-#
-# def start():
-#     server.listen()
-#     index_player = 0
-#     print(f"[LISTENING] Server is listening on {yml_data['IP']}")
-#     while True:
-#         conn, addr = server.accept()
-#         print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
-#         new_player = player.Player([200, 200], (25, 25, 25))
-#         index_player += 1
-#         pos_player[index_player] = new_player
-#
-#         # send length
-#         msg = pickle.dumps(new_player)  # packing message
-#         msg_length = len(msg)
-#         send_length = str(msg_length).encode(FORMAT)
-#         send_length += b' ' * (HEADER - len(send_length))
-#         conn.send(send_length)
-#
-#         # send message
-#         conn.send(msg)
-#
-#         thread = threading.Thread(target=handle_client, args=(conn, addr, index_player))
-#         thread.start()
-#
-#
-# print("[STARTING] server is starting...")
-# start()
-
-#     os.system("python3 server.py")
-#     quit()
+    if main_server.VS_run:
+        main_server.start_with_visual_server()
+    else:
+        main_server.start()

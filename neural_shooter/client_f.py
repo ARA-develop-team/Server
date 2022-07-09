@@ -23,10 +23,6 @@ class Client:
         name = self.name.encode(Client.FORMAT)
         self.socket.send(name)
 
-        ans = self.receive()
-        print(f'contact: {ans}')
-        return ans
-
     def data_exchange(self, msg):
         player_package_list, block_package_list, bullet_package_list = self.receive()
 
