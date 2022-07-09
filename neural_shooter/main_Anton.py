@@ -7,32 +7,26 @@ import server_field
 import field
 import client_f
 import pygame
-import math
 from analysis import CAnalysis
 
 
 class CGame:
     def __init__(self):
-        self.run = True
         self.file = r"start.yml"  # file with data for config_parser
-        self.player = None  # player in this computer (obj class Player)
-        self.player_name = None
-        self.user_visual = None  # pygame code
         self.data = None  # result of config_parser
-        self.field = None  # object (class field)
+
         self.online = None  # type of game
+        self.run = True
+        self.player_name = None
+
+        self.user_visual = None  # pygame code
+        self.field = None  # object (class field)
         self.client = None  # object (class client), if self.online = True
+
         self.analysis = CAnalysis()
-
-        self.block_list = []
-        self.bullet_list = []
-        self.player_dict = {}
-
-        self.disconnected_key = []
-        self.shoot = False
-        self.mouse_pos = []
-
         self.clock = pygame.time.Clock()
+
+        self.mouse_pos = []
 
     def start(self):
         #  PARSER
