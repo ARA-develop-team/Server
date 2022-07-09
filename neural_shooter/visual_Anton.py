@@ -7,17 +7,13 @@ pygame.font.init()
 
 
 class CPygame:
-    def __init__(self, player, screen_color, screen_size, field):
-        self.field = field
+    def __init__(self, screen_color, screen_size):
         self.window = pygame.display.set_mode(screen_size)
         self.work_info = pygame.font.SysFont('monospace', 16)
         self.screen_color = screen_color
-        self.run = True
-        self.player = player
         self.mouse_pos = None
-        self.disconnected_key = []
 
-    def draw_screen(self, player_dict, bullet_list, block_list, player_name):    # offline broken
+    def draw_screen(self, player_dict, bullet_list, block_list, player_name):
         self.window.fill(self.screen_color)
 
         f1 = pygame.font.Font(None, 24)
