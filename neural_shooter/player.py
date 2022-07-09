@@ -2,26 +2,25 @@
 
 import math
 import pygame
-# pygame.font.init()
 
 
 class Player(object):
 
     def __init__(self, position, color, color_lines, speed, color_info, radius, view, name):
         self.name = name
+        self.speed = speed
+        self.radius = radius
+        self.player_view = view
+
         self.pos = position
+        self.way_vector = None
+        self.way_angle = None
+        self.hp = 100
+        self.shoot = False
+
         self.color = color
         self.color_lines = color_lines
         self.color_info = color_info
-        self.connection_number = False
-        self.speed = speed
-        self.way_vector = None
-        self.way_angle = None
-        self.radius = radius
-        self.player_view = view
-        self.disconnected_key = []
-        self.hp = 100
-        self.shoot = False
 
     def draw(self, window):
         pygame.draw.circle(window, self.color, self.pos, self.radius, self.radius)
