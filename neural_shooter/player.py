@@ -30,7 +30,6 @@ class Player(object):
 
         if mouse:
             pygame.draw.line(window, self.color_lines, self.pos, mouse)
-            self.way_vector = [mouse[0] - self.pos[0], mouse[1] - self.pos[1]]
 
         if self.way_angle:
             way_angle_degrees = math.degrees(self.way_angle)     # radians per degree
@@ -65,27 +64,6 @@ class Player(object):
         else:
             print('WRONG TYPE OF PACKAGE')
 
-    def update_data(self, data_package):
-
-        if data_package[0] == 3:
-            self.name = data_package[1]
-            self.pos = data_package[2]
-            self.hp = data_package[3]
-            self.color = data_package[4]
-        elif data_package[1] == self.name:
-            if data_package[0] == 1:
-                self.pos = data_package[2]
-                if self.way_vector:
-                    self.way_vector = data_package[3]
-            elif data_package[0] == 2:
-                self.pos = data_package[2]
-                self.hp = data_package[3]
-
-            else:
-                print(f'INCORRECT DATA PACKAGE: {data_package[0]}')
-        else:
-            print(f'WRONG NAME:  {self.name}, {data_package[1]}')
-
 
 class CBullet:
     def __init__(self, number, pos, radius, color, damage, speed, vector, owner):
@@ -112,11 +90,5 @@ class CBullet:
         elif type_package == 1:
             data_package = [type_package, self.number, self.pos]
             return data_package
-        else:
-            print("WRONG TYPE")
-
-    def update_data(self, package):
-        if package[0] == 1:
-            self.pos = package[2]
         else:
             print("WRONG TYPE")
