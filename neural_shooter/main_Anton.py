@@ -41,16 +41,14 @@ class CGame:
         self.online = self.data['online']
         print("\033[35m{}".format(f"ONLINE: {self.online}"), "\033[0m".format(""))
 
-        self.user_visual = pgCode.CPygame(self.player, self.data['screen_color'], self.data['screen_size'], None)
+        self.user_visual = pgCode.CPygame(self.data['screen_color'], self.data['screen_size'])
         if self.online:
-            self.field = field.CField(self.data['start_vector'], self.data['screen_size'], self.data['user_radius'][0],
-                                      self.data['bullet'])
+            self.field = server_field.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.client = client_f.Client(self.data['name'])
             self.player_name = self.data['name']
             self.playing_online()
         else:
-            self.field = server_field.ServerField(self.data['start_vector'], self.data['screen_size'],
-                                                  self.data['user_radius'][0])
+            self.field = server_field.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.user_visual.field = self.field
             self.field.player_dict[self.data['name']] = pl.Player(self.data['start_point'], self.data['user_color'],
                                                                   self.data['color_lines'], self.data['user_speed'],
@@ -62,13 +60,13 @@ class CGame:
             self.playing()
 
     def playing(self):
-
         while self.run:
             # print fps
             self.clock.tick()
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
-            self.input_data(self.field.player_dict[self.player_name], self.field.block_list)
+            event = self.input_data(self.field.player_dict[self.player_name])
+            self.field.event_process(event)
 
             self.field.player_collision_processing(self.player_name)
             self.field.shooting_processing()
@@ -78,32 +76,25 @@ class CGame:
                                          self.field.block_list, self.player_name)
 
     def playing_online(self):
-        # connect to the server and get data (block_list and player_list)
-        player_package_list, block_package_list = self.client.connect()
-        for player_package in player_package_list:
-            new_player = pl.Player(player_package[2], player_package[4],
-                                   self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                   self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
-            self.player_dict[player_package[1]] = new_player
-
-        for block in block_package_list:
-            self.block_list.append(field.CBlock(*block[1:]))
+        # connect to the server
+        self.client.connect()
 
         self.analysis.launch()
 
         while self.run:
+
             # print fps
             self.clock.tick(30)
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
             # receive data_package from server
-            self.get_data_from_server()
+            self.field.player_dict, self.field.block_list, self.field.bullet_list = self.client.receive()
 
-            self.input_data(self.player_dict[self.player_name], self.block_list)
+            event = self.input_data(self.field.player_dict[self.player_name])
+            self.client.send(event)
 
-            self.client.send(self.player_dict[self.player_name].get_data_package(1))
-
-            self.user_visual.draw_screen(self.player_dict, self.bullet_list, self.block_list, self.player_name)
+            self.user_visual.draw_screen(self.field.player_dict, self.field.bullet_list,
+                                         self.field.block_list, self.player_name)
             self.analysis.processing()
 
     def exit(self):  # for cancel threads
@@ -115,7 +106,8 @@ class CGame:
         print("-----------END-----------")
         quit()
 
-    def input_data(self, player, block_list):
+    def input_data(self, player):
+        player_way_vector = player.way_vector
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
                 self.run = False
@@ -125,99 +117,34 @@ class CGame:
             if e.type == pygame.MOUSEMOTION:
                 self.mouse_pos = pygame.mouse.get_pos()
                 self.user_visual.mouse_pos = self.mouse_pos
+                player_way_vector = [self.mouse_pos[0] - player.pos[0], self.mouse_pos[1] - player.pos[1]]
 
             if e.type == pygame.MOUSEBUTTONUP:
-                player.way_angle = self.field.angle_of_track(
-                    player.way_vector)
-                player.shoot = True
+                # event shoot
+                return [1, player.name]
 
         keys = pygame.key.get_pressed()
 
+        player_pos_diff = [0, 0]
         if keys[pygame.K_a]:
+            player_pos_diff[0] -= player.speed
             player.pos[0] -= player.speed
-            # for block in block_list:
-            #     contact_block_player(player, block)
-
         if keys[pygame.K_d]:
+            player_pos_diff[0] += player.speed
             player.pos[0] += player.speed
-            # for block in block_list:
-            #     contact_block_player(player, block)
-
         if keys[pygame.K_w]:
+            player_pos_diff[1] -= player.speed
             player.pos[1] -= player.speed
-            # for block in block_list:
-            #     contact_block_player(player, block)
-
         if keys[pygame.K_s]:
+            player_pos_diff[1] += player.speed
             player.pos[1] += player.speed
-            # for block in block_list:
-            #     contact_block_player(player, block)
 
-    def get_data_from_server(self):
-        # receive data_package from server
-        updated_list, player_package_list, block_package_list, bullet_package_list = self.client.receive()
+        collision = self.field.player_collision_processing(player.name)
+        player_pos_diff[0] += collision[0]
+        player_pos_diff[1] += collision[1]
 
-        # unpackage data
-        for player_package in updated_list:
-            if player_package[0] == 3:  # new player
-                print('new player')
-                new_player = pl.Player(player_package[2], player_package[4],
-                                       self.data['color_lines'], self.data['user_speed'], self.data['color_info'],
-                                       self.data['user_radius'][0], self.data['user_radius'][1], player_package[1])
-                self.player_dict[player_package[1]] = new_player
-            elif player_package[0] == 4:  # delete player
-                self.player_dict.pop(player_package[1])
-
-        for player_package in player_package_list:
-            self.player_dict[player_package[1]].update_data(player_package)
-
-        for player_package in updated_list:
-            if player_package[0] == 2:
-                self.player_dict[player_package[1]].update_data(player_package)
-
-        for block_package in block_package_list:
-            if block_package[0] == 3:  # new block
-                new_block = field.CBlock(*block_package[1:])
-                self.block_list.append(new_block)
-            else:
-                delete_block = []
-
-                # find block in block_list
-                for block in self.block_list:
-                    if block.number == block_package[1]:
-                        if block_package[0] == 4:
-                            delete_block.append(block.number)
-                        else:
-                            block.update_data(block_package)
-
-                for block in delete_block:
-                    self.block_list.pop(block)
-
-        self.bullet_list.clear()
-        for bullet_package in bullet_package_list:
-            x = bullet_package[2][0]
-            y = bullet_package[2][1]
-            self.bullet_list.append([x, y])
-
-
-def contact_block_player(player, block):
-    new_pos = player.pos
-    right_side = player.pos[0] + player.player_radius - block.x
-    up_side = player.pos[1] + player.player_radius - block.y
-    left_side = block.x + block.width - player.pos[0] + player.player_radius
-    down_side = block.y + block.width - player.pos[1] + player.player_radius
-
-    if right_side > 0 and up_side > 0 and left_side > 0 and down_side > 0:  # if contact
-        if right_side <= up_side and right_side <= down_side:
-            new_pos[0] = player.pos[0] - right_side
-        elif left_side <= up_side and left_side <= down_side:
-            new_pos[0] = player.pos[0] + left_side
-        elif up_side < down_side:
-            new_pos[1] = player.pos[1] - up_side
-        else:
-            new_pos[1] = player.pos[1] + down_side
-
-        player.pos = new_pos
+        # event move
+        return [0, player.name, player_pos_diff, player_way_vector]
 
 
 if __name__ == "__main__":
@@ -227,27 +154,3 @@ if __name__ == "__main__":
     game.start()
 
     quit()
-
-    # def playing(self):
-    #     self.user.window = self.user_visual.window
-    #     self.analysis.launch()
-    #     dict_obj = {self.data['name']: self.user}  # for player, bots and online players
-    #
-    #     while self.user_visual.run:
-    #         self.field.contact(self.user.pos[0], self.user.pos[1])
-    #         self.user_visual.input_data()  # input in pygame
-    #         if self.user.way_vector is not None:
-    #             self.user.way_angle = self.field.angle_of_track(self.user.way_vector)
-    #         self.user_visual.draw_screen(dict_obj)  # visual output
-    #         self.field.bullets_action()
-    #         self.analysis.processing()
-    #
-    #     self.run = False
-    #     self.exit()
-
-# number_new_blocks = len(block_package_list) - len(self.block_list)
-# for block in range(number_new_blocks):
-#     self.block_list.append(field.CBlock(0, 0, 0, 0, 0))
-#
-# for number in range(len(block_package_list)):
-#     self.block_list[number].update_data(block_package_list[number])
