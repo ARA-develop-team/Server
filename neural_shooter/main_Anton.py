@@ -4,7 +4,6 @@ import visual_Anton as pgCode
 import player as pl
 import config_parser as parser
 import server_field
-import field
 import client_f
 import pygame
 from analysis import CAnalysis
