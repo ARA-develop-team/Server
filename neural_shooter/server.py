@@ -1,6 +1,7 @@
 """game server"""
 
 import socket
+import time
 import threading
 import pickle
 from multiprocessing import Process
@@ -176,6 +177,7 @@ class Server:
 
     def game_mechanics(self):
         while True:
+            time.sleep(0.01)
             self.main_field.bullets_processing()
 
     def output(self, string):

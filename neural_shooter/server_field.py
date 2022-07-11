@@ -12,6 +12,7 @@ class ServerField:
         self.bullet_counter = 0
         self.default_vector = start_vector
         self.spawn_pos = [500, 500]
+        self.bullet_speed = 1
 
     def bullets_processing(self):
         for bullet in self.bullet_list:
@@ -87,7 +88,7 @@ class ServerField:
 
         self.bullet_list.append(player.CBullet(self.bullet_counter,
                                                bullet_pos, 5,
-                                               (200, 200, 100), 10, 0.01,
+                                               (200, 200, 100), 10, self.bullet_speed,
                                                bullet_vector,
                                                player_name))
 
