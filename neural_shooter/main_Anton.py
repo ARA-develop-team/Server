@@ -116,7 +116,6 @@ class CGame:
             if e.type == pygame.MOUSEMOTION:
                 self.mouse_pos = pygame.mouse.get_pos()
                 self.user_visual.mouse_pos = self.mouse_pos
-                player_way_vector = [self.mouse_pos[0] - player.pos[0], self.mouse_pos[1] - player.pos[1]]
 
             if e.type == pygame.MOUSEBUTTONUP:
                 # event shoot
@@ -138,10 +137,7 @@ class CGame:
             player_pos_diff[1] += player.speed
             player.pos[1] += player.speed
 
-        collision = self.field.player_collision_processing(player.name)
-        player_pos_diff[0] += collision[0]
-        player_pos_diff[1] += collision[1]
-
+        player_way_vector = [self.mouse_pos[0] - player.pos[0], self.mouse_pos[1] - player.pos[1]]
         # event move
         return [0, player.name, player_pos_diff, player_way_vector]
 
