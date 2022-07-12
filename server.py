@@ -7,9 +7,10 @@ import pickle
 from multiprocessing import Process
 from typing import List, Any
 
-import config_parser as parser
-import server_field
-import player as pl
+import src
+# import config_parser as parser
+# import server_field
+# import player as pl
 
 print('Hello from ARA-development🦜')
 
@@ -85,8 +86,8 @@ class VisualServer:  # connection with visual server thread
 
 
 class Server:
-    yml_data1 = parser.getting_socket_data(r'server.yml')
-    yml_data2 = parser.getting_start_data(r'start.yml')
+    yml_data1 = src.get_socket_data(r'server.yml')
+    yml_data2 = src.get_start_data(r'start.yml')
 
     VS_run = yml_data2['VS_run']      # run VisualServer or not
     HEADER = 64
@@ -98,7 +99,7 @@ class Server:
 
     def __init__(self, name):
         self.name = name
-        self.main_field = server_field.ServerField(Server.yml_data2['start_vector'], Server.yml_data2['screen_size'])
+        self.main_field = src.ServerField(Server.yml_data2['start_vector'], Server.yml_data2['screen_size'])
         self.visual_server = None
 
     def start_with_visual_server(self):
@@ -145,7 +146,7 @@ class Server:
             if self.VS_run:
                 self.visual_server.add(1, player_name)
 
-            new_player = pl.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
+            new_player = src.Player(Server.yml_data2['start_point'], Server.yml_data2['user_color'],
                                    Server.yml_data2['color_lines'], Server.yml_data2['user_speed'],
                                    Server.yml_data2['color_info'],
                                    Server.yml_data2['user_radius'][0], Server.yml_data2['user_radius'][1], player_name)
