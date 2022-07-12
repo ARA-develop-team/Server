@@ -2,7 +2,7 @@
 
 import math
 import pygame
-from player import CBullet
+from bullet import Bullet
 
 
 # from test import test_img_load
@@ -43,9 +43,9 @@ def map_creation(screen_size):
         obj_x = 0
         for kind in blocks[block]:
             if kind == 1 or kind == 2:
-                obj_list.append(CBlock(block, obj_x, obj_y, obj_width, obj_height, kind))
+                obj_list.append(Block(block, obj_x, obj_y, obj_width, obj_height, kind))
             elif kind == 3:
-                obj_list.append(CBlock(block, obj_x, obj_y, obj_width, obj_height, kind, 100))  # 100 - health (temp)
+                obj_list.append(Block(block, obj_x, obj_y, obj_width, obj_height, kind, 100))  # 100 - health (temp)
             obj_x += obj_width
         obj_y += obj_height
 
@@ -55,7 +55,7 @@ def map_creation(screen_size):
     return obj_list, obj_width, obj_height
 
 
-class CBlock:
+class Block:
     def __init__(self, number, x, y, width, height, kind, health=0):
         self.x = x
         self.y = y
@@ -77,11 +77,11 @@ class CBlock:
     def get_data_package(self, type_package):
         # 1 - update package; 3 - creation package
 
-        if type_package == 3:   # creation
+        if type_package == 3:  # creation
             data_package = [type_package, self.number, self.x, self.y, self.width, self.height, self.kind, self.health]
             return data_package
 
-        elif type_package == 1:     # update package
+        elif type_package == 1:  # update package
             data_package = [type_package, self.number, self.kind]
             return data_package
 
@@ -93,7 +93,7 @@ class CBlock:
             self.kind = package[1]  # = package[0], package[1], package[2]
 
 
-class CField:
+class Field:
     def __init__(self, start_vector, screen_size, radius, bullet_data):
         self.default_vector = start_vector
         self.block_list, self.width, self.height = map_creation(screen_size)
@@ -125,8 +125,8 @@ class CField:
         length_vector = math.sqrt(vector[0] ** 2 + vector[1] ** 2)
         unit_vector = [vector[0] / length_vector, vector[1] / length_vector]
 
-        self.bullet_list.append(CBullet(pos, self.bullet_data[0], self.bullet_data[1], self.bullet_data[2],
-                                        self.bullet_data[3], unit_vector, player_name))
+        self.bullet_list.append(Bullet(pos, self.bullet_data[0], self.bullet_data[1], self.bullet_data[2],
+                                       self.bullet_data[3], unit_vector, player_name))
 
     def bullets_action(self):
         if len(self.bullet_list) != 0:
@@ -176,7 +176,7 @@ class CField:
                 if self.width - 10 < crossing_list[0][0] < self.width and 0 < crossing_list[0][1] < 10:  # [200, 0]
                     self.input.disconnected_key.append('a')
                     self.input.disconnected_key.append('s')
-                if self.width - 10 < crossing_list[0][0] < self.width and self.height - 10 < crossing_list[0][1] <\
+                if self.width - 10 < crossing_list[0][0] < self.width and self.height - 10 < crossing_list[0][1] < \
                         self.height:  # [200, 200]
                     self.input.disconnected_key.append('w')
                     self.input.disconnected_key.append('a')

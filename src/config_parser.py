@@ -3,7 +3,7 @@
 import yaml
 
 
-def getting_start_data(file_name):
+def get_start_data(file_name):
     with open(file_name) as file:
         data_yml = yaml.load(file, yaml.Loader)
         for data in data_yml:
@@ -20,7 +20,7 @@ def getting_start_data(file_name):
         return data_yml
 
 
-def getting_socket_data(file_name):
+def get_socket_data(file_name):
     with open(file_name) as file:
         data = {}
         data_yml = yaml.load(file, yaml.Loader)

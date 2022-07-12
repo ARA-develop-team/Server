@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import time
 
 
-class CAnalysis:
+class Analysis:
     def __init__(self):
         self.fig, self.ax = plt.subplots()
         self.start_time = None
@@ -49,7 +49,7 @@ class CAnalysis:
 
 
 if __name__ == '__main__':
-    analysis = CAnalysis()
+    analysis = Analysis()
     analysis.launch()
     run = True
     while run:

@@ -138,7 +138,7 @@ class Shooter:
 
 
 if __name__ == "__main__":
-    game = CGame()
+    game = Shooter()
 
     print('----------START----------')
     game.start()
