@@ -1,6 +1,7 @@
 """SHOOTER"""
 
 import src
+import ui
 import pygame
 
 
@@ -35,7 +36,7 @@ class Shooter:
         self.online = self.data['online']
         print("\033[35m{}".format(f"ONLINE: {self.online}"), "\033[0m".format(""))
 
-        self.user_visual = pgCode.CPygame(self.data['screen_color'], self.data['screen_size'])
+        self.user_visual = ui.CPygame(self.data['screen_color'], self.data['screen_size'])
         if self.online:
             self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.client = src.Client(self.data['name'])
