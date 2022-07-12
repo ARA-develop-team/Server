@@ -1,15 +1,10 @@
-"""my version"""
+"""SHOOTER"""
 
-import visual_Anton as pgCode
-import player as pl
-import config_parser as parser
-import server_field
-import client_f
+import src
 import pygame
-from analysis import CAnalysis
 
 
-class CGame:
+class Shooter:
     def __init__(self):
         self.file = r"start.yml"  # file with data for config_parser
         self.data = None  # result of config_parser
@@ -22,7 +17,7 @@ class CGame:
         self.field = None  # object (class field)
         self.client = None  # object (class client), if self.online = True
 
-        self.analysis = CAnalysis()
+        self.analysis = src.Analysis()
         self.clock = pygame.time.Clock()
 
         self.mouse_pos = []
@@ -31,7 +26,7 @@ class CGame:
         #  PARSER
         #  get data from start.yml
 
-        self.data = parser.getting_start_data(self.file)
+        self.data = src.get_start_data(self.file)
         if not self.data:
             print('[NO DATA]')
             self.run = False
@@ -42,14 +37,14 @@ class CGame:
 
         self.user_visual = pgCode.CPygame(self.data['screen_color'], self.data['screen_size'])
         if self.online:
-            self.field = server_field.ServerField(self.data['start_vector'], self.data['screen_size'])
-            self.client = client_f.Client(self.data['name'])
+            self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
+            self.client = src.Client(self.data['name'])
             self.player_name = self.data['name']
             self.playing_online()
         else:
-            self.field = server_field.ServerField(self.data['start_vector'], self.data['screen_size'])
+            self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.user_visual.field = self.field
-            self.field.player_dict[self.data['name']] = pl.Player(self.data['start_point'], self.data['user_color'],
+            self.field.player_dict[self.data['name']] = src.Player(self.data['start_point'], self.data['user_color'],
                                                                   self.data['color_lines'], self.data['user_speed'],
                                                                   self.data['color_info'],
                                                                   self.data['user_radius'][0],
