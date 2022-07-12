@@ -1,6 +1,7 @@
-import field
+import src.field as field
+from src.bullet import Bullet
+
 import math
-import player
 
 
 class ServerField:
@@ -86,11 +87,11 @@ class ServerField:
         bullet_vector[0] = math.cos(way_angle)
         bullet_vector[1] = math.sin(way_angle)
 
-        self.bullet_list.append(player.CBullet(self.bullet_counter,
-                                               bullet_pos, 5,
-                                               (200, 200, 100), 10, self.bullet_speed,
-                                               bullet_vector,
-                                               player_name))
+        self.bullet_list.append(Bullet(self.bullet_counter,
+                                       bullet_pos, 5,
+                                       (200, 200, 100), 10, self.bullet_speed,
+                                       bullet_vector,
+                                       player_name))
 
     def move_player(self, player_name, diff_pos, way_vector):
         self.player_dict[player_name].pos[0] += diff_pos[0]
@@ -120,7 +121,7 @@ def contact_block_player(side):
 
 def ejection_count(side):
     """
-    Find a shortest side in which player should move to go out of the block and count ejection.
+    Find the shortest side in which player should move to go out of the block and count ejection.
     """
 
     left_side, up_side, right_side, down_side = side

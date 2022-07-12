@@ -46,11 +46,11 @@ class Shooter:
             self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.user_visual.field = self.field
             self.field.player_dict[self.data['name']] = src.Player(self.data['start_point'], self.data['user_color'],
-                                                                  self.data['color_lines'], self.data['user_speed'],
-                                                                  self.data['color_info'],
-                                                                  self.data['user_radius'][0],
-                                                                  self.data['user_radius'][1],
-                                                                  self.data['name'])
+                                                                   self.data['color_lines'], self.data['user_speed'],
+                                                                   self.data['color_info'],
+                                                                   self.data['user_radius'][0],
+                                                                   self.data['user_radius'][1],
+                                                                   self.data['name'])
             self.player_name = self.data['name']
             self.playing()
 
@@ -77,7 +77,6 @@ class Shooter:
         self.analysis.launch()
 
         while self.run:
-
             # print fps
             self.clock.tick(30)
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")

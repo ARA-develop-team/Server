@@ -2,11 +2,11 @@
 
 import pickle
 import socket
-import config_parser as parser
+from src.config_parser import get_socket_data
 
 
 class Client:
-    yml_data = parser.getting_socket_data(r'client.yml')
+    yml_data = get_socket_data(r'client.yml')
     HEADER = 64
     FORMAT = 'utf-8'
     DISCONNECT_MESSAGE = 'PLAYER DISCONNECT'

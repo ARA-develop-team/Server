@@ -2,8 +2,7 @@
 
 import math
 import pygame
-from bullet import Bullet
-
+from src.bullet import Bullet
 
 # from test import test_img_load
 
