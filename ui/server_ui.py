@@ -41,7 +41,7 @@ Config.set('graphics', 'width', size[FULL_HD][0])
 Config.set('graphics', 'height', size[FULL_HD][1])
 
 try: 
-    test = speedtest.__version__  # (раньше было speedtest.Speedtest)
+    test = speedtest.__version__  # (speedtest.Speedtest was in the past)
 except speedtest.SpeedtestBestServerFailure:
     print("Speedtest do not working!!!")
 
@@ -226,8 +226,6 @@ def server_deploy(HOST='', PORT=9090, extra_PORT=8080):
 
 
 def battery_status(battery=psutil.sensors_battery()):
-    return 6
-
     if 0 < int(battery.percent) < 10:
         status = 0
     elif 10 <= int(battery.percent) < 30:
@@ -242,6 +240,7 @@ def battery_status(battery=psutil.sensors_battery()):
         status = 5
     else:
         status = 6
+
     return status, battery.percent, battery.power_plugged
 
 

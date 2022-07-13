@@ -1,5 +1,4 @@
-
-class Camera():
+class Camera:
     def __init__(self, pos, size, zoom):
         self.pos = pos
         self.size = size

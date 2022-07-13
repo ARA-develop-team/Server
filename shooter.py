@@ -8,7 +8,7 @@ import pygame
 class Shooter:
     def __init__(self):
         self.file = r"start.yml"  # file with data for config_parser
-        self.data = None  # result of config_parser
+        self.data = None  # data from config file
 
         self.online = None  # type of game
         self.run = True
@@ -21,11 +21,13 @@ class Shooter:
         self.analysis = src.Analysis()
         self.clock = pygame.time.Clock()
 
-        self.mouse_pos = []
+        self.mouse_pos = [0, 0]
 
     def start(self):
-        #  PARSER
-        #  get data from start.yml
+        """
+        Get data from config files.
+        Set up online/offline game.
+        """
 
         self.data = src.get_start_data(self.file)
         if not self.data:
@@ -37,13 +39,14 @@ class Shooter:
         print("\033[35m{}".format(f"ONLINE: {self.online}"), "\033[0m".format(""))
 
         self.user_visual = ui.CPygame(self.data['screen_color'], self.data['screen_size'])
+        self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
+        self.player_name = self.data['name']
+
         if self.online:
-            self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.client = src.Client(self.data['name'])
-            self.player_name = self.data['name']
             self.playing_online()
+
         else:
-            self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
             self.user_visual.field = self.field
             self.field.player_dict[self.data['name']] = src.Player(self.data['start_point'], self.data['user_color'],
                                                                    self.data['color_lines'], self.data['user_speed'],
@@ -51,13 +54,12 @@ class Shooter:
                                                                    self.data['user_radius'][0],
                                                                    self.data['user_radius'][1],
                                                                    self.data['name'])
-            self.player_name = self.data['name']
             self.playing()
 
     def playing(self):
         while self.run:
             # print fps
-            self.clock.tick()
+            self.clock.tick(30)
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
             event = self.input_data(self.field.player_dict[self.player_name])
@@ -91,16 +93,21 @@ class Shooter:
                                          self.field.block_list, self.player_name)
             self.analysis.processing()
 
-    def exit(self):  # for cancel threads
+    def exit(self):  # cancel threads
         if self.user_visual is not None:
             self.user_visual.run = False
+
         if self.online:
             self.client.signing_off()
             self.analysis.result()
+
         print("-----------END-----------")
         quit()
 
     def input_data(self, player):
+        # TODO - ask about moving input_data to shooter.
+        # TODO - clean this peace of code.
+
         player_way_vector = player.way_vector
         for e in pygame.event.get():
             if e.type == pygame.QUIT:
@@ -113,8 +120,7 @@ class Shooter:
                 self.user_visual.mouse_pos = self.mouse_pos
 
             if e.type == pygame.MOUSEBUTTONUP:
-                # event shoot
-                return [1, player.name]
+                return [1, player.name]     # event shoot
 
         keys = pygame.key.get_pressed()
 
@@ -122,12 +128,15 @@ class Shooter:
         if keys[pygame.K_a]:
             player_pos_diff[0] -= player.speed
             player.pos[0] -= player.speed
+
         if keys[pygame.K_d]:
             player_pos_diff[0] += player.speed
             player.pos[0] += player.speed
+
         if keys[pygame.K_w]:
             player_pos_diff[1] -= player.speed
             player.pos[1] -= player.speed
+
         if keys[pygame.K_s]:
             player_pos_diff[1] += player.speed
             player.pos[1] += player.speed
@@ -142,5 +151,6 @@ if __name__ == "__main__":
 
     print('----------START----------')
     game.start()
+    print("-----------END-----------")
 
     quit()

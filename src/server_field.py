@@ -78,7 +78,7 @@ class ServerField:
             return -alfa
         return alfa
 
-    def shot_bullet_creation(self, player_name):  # pos, radius, color, damage, speed, vector
+    def shot_bullet_creation(self, player_name):
         way_angle = self.angle_of_track(self.player_dict[player_name].way_vector)
 
         bullet_pos = self.player_dict[player_name].pos
