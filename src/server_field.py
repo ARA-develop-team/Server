@@ -36,18 +36,16 @@ class ServerField:
                     self.bullet_list.remove(bullet)
 
     def player_collision_processing(self, player_name):
-        collision = [0, 0]
+        ejection = [0, 0]
 
         for block in self.block_list:
             side = count_sides(self.player_dict[player_name], block)
             if contact_block_player(side):
                 ejection = ejection_count(side)
-                collision[0] += ejection[0]
-                collision[1] += ejection[1]
                 self.player_dict[player_name].pos[0] += ejection[0]
                 self.player_dict[player_name].pos[1] += ejection[1]
 
-        return collision
+        return ejection
 
     def shooting_processing(self):
         for player in self.player_dict.keys():
