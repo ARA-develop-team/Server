@@ -38,7 +38,7 @@ class Shooter:
         self.online = self.data['online']
         print("\033[35m{}".format(f"ONLINE: {self.online}"), "\033[0m".format(""))
 
-        self.user_visual = ui.CPygame(self.data['screen_color'], self.data['screen_size'])
+        self.user_visual = ui.CPygame(self.data['screen_color'], self.data['screen_size'], self.data['name'])
         self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
         self.player_name = self.data['name']
 
@@ -62,8 +62,8 @@ class Shooter:
             self.clock.tick(30)
             pygame.display.set_caption(f"FPS: {self.clock.get_fps()}")
 
-            event = self.user_visual.input_data(self.field.player_dict[self.player_name])
-            self.field.event_process(event)
+            self.user_visual.input_data()
+            self.field.event_process(self.user_visual.status)
 
             self.field.player_collision_processing(self.player_name)
             self.field.shooting_processing()
@@ -86,8 +86,8 @@ class Shooter:
             # receive data_package from server
             self.field.player_dict, self.field.block_list, self.field.bullet_list = self.client.receive()
 
-            event = self.user_visual.input_data(self.field.player_dict[self.player_name])
-            self.client.send(event)
+            self.user_visual.input_data()
+            self.client.send(self.user_visual.status)
 
             self.user_visual.draw_screen(self.field.player_dict, self.field.bullet_list,
                                          self.field.block_list, self.player_name)

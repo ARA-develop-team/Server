@@ -53,11 +53,16 @@ class ServerField:
                 self.shot_bullet_creation(player)
                 self.player_dict[player].shoot = False
 
-    def event_process(self, event):
-        if event[0] == 0:
-            self.move_player(event[1], event[2], event[3])
-        elif event[0] == 1:
-            self.shot_bullet_creation(event[1])
+    def event_process(self, player_status):
+        diff_pos = [player_status.player_movement[0] * self.player_dict[player_status.name].speed,
+                    player_status.player_movement[1] * self.player_dict[player_status.name].speed]
+
+        player_way_vector = [player_status.mouse_pos[0] - self.player_dict[player_status.name].pos[0],
+                             player_status.mouse_pos[1] - self.player_dict[player_status.name].pos[1]]
+
+        self.move_player(player_status.name, diff_pos, player_way_vector)
+        if player_status.shoot:
+            self.shot_bullet_creation(player_status.name)
 
     def angle_of_track(self, way_vector):  # way in radians
         a, b = self.default_vector, way_vector
