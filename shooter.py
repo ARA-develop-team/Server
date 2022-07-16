@@ -11,7 +11,6 @@ class Shooter:
         self.data = None  # data from config file
 
         self.online = None  # type of game
-        self.run = True
         self.player_name = None
 
         self.user_visual = None  # pygame code
@@ -32,7 +31,7 @@ class Shooter:
         self.data = src.get_start_data(self.file)
         if not self.data:
             print('[NO DATA]')
-            self.run = False
+            self.user_visual.run = False
             self.exit()
 
         self.online = self.data['online']

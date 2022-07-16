@@ -38,12 +38,17 @@ class ServerField:
     def player_collision_processing(self, player_name):
         ejection = [0, 0]
 
+        sides = []
         for block in self.block_list:
             side = count_sides(self.player_dict[player_name], block)
             if contact_block_player(side):
-                ejection = ejection_count(side)
-                self.player_dict[player_name].pos[0] += ejection[0]
-                self.player_dict[player_name].pos[1] += ejection[1]
+                sides.append(side)
+
+        if sides:
+            ejection = ejection_count(sides)
+            self.player_dict[player_name].pos[0] += ejection[0]
+            self.player_dict[player_name].pos[1] += ejection[1]
+            self.player_collision_processing(player_name)
 
         return ejection
 
@@ -122,17 +127,17 @@ def contact_block_player(side):
     return False
 
 
-def ejection_count(side):
+def ejection_count(sides):
     """
     Find the shortest side in which player should move to go out of the block and count ejection.
     """
 
-    left_side, up_side, right_side, down_side = side
+    left_side, up_side, right_side, down_side = sides[0]
     ejection = [0, 0]
 
     if left_side <= up_side and left_side <= down_side:
         ejection[0] = -left_side
-    elif right_side <= up_side and right_side <= down_side:
+    elif right_side <= up_side and right_side <= down_side and not double_horizontal_contact(sides):
         ejection[0] = right_side
     elif up_side < down_side:
         ejection[1] = -up_side
@@ -140,6 +145,13 @@ def ejection_count(side):
         ejection[1] = down_side
 
     return ejection
+
+
+def double_horizontal_contact(sides):
+    if len(sides) >= 2:
+        if abs(sides[0][0] - sides[1][2]) < abs(sides[0][1] - sides[1][3]):
+            return True
+    return False
 
 
 def contact_bullet_player(bullet, player):
