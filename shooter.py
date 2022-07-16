@@ -86,6 +86,7 @@ class Shooter:
             self.field.player_dict, self.field.block_list, self.field.bullet_list = self.client.receive()
 
             self.user_visual.input_data()
+            self.user_visual.status.collision = self.field.player_collision_processing(self.player_name)
             self.client.send(self.user_visual.status)
 
             self.user_visual.draw_screen(self.field.player_dict, self.field.bullet_list,

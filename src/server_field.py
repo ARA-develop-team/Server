@@ -59,8 +59,10 @@ class ServerField:
                 self.player_dict[player].shoot = False
 
     def event_process(self, player_status):
-        diff_pos = [player_status.player_movement[0] * self.player_dict[player_status.name].speed,
-                    player_status.player_movement[1] * self.player_dict[player_status.name].speed]
+        diff_pos = [(player_status.player_movement[0] * self.player_dict[player_status.name].speed) +
+                    player_status.collision[0],
+                    (player_status.player_movement[1] * self.player_dict[player_status.name].speed) +
+                    player_status.collision[1]]
 
         player_way_vector = [player_status.mouse_pos[0] - self.player_dict[player_status.name].pos[0],
                              player_status.mouse_pos[1] - self.player_dict[player_status.name].pos[1]]

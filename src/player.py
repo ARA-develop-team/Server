@@ -66,8 +66,9 @@ class Player(object):
 
 
 class PlayerStatus:
-    def __int__(self, player_name, ff):
+    def __init__(self, player_name):
         self.name = player_name
         self.mouse_pos = [0, 0]
         self.shoot = False
         self.player_movement = [0, 0]
+        self.collision = [0, 0]

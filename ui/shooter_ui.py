@@ -14,8 +14,7 @@ class CPygame:
         self.screen_color = screen_color
 
         self.run = True
-        self.status = PlayerStatus()
-        self.status.name = player_name
+        self.status = PlayerStatus(player_name)
 
     def draw_screen(self, player_dict, bullet_list, block_list, player_name):
         self.window.fill(self.screen_color)
