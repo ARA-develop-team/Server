@@ -13,7 +13,6 @@ class ServerField:
         self.bullet_counter = 0
         self.default_vector = start_vector
         self.spawn_pos = [500, 500]
-        self.bullet_speed = 1
 
     def bullets_processing(self):
         for bullet in self.bullet_list:
@@ -97,11 +96,7 @@ class ServerField:
         bullet_vector[0] = math.cos(way_angle)
         bullet_vector[1] = math.sin(way_angle)
 
-        self.bullet_list.append(Bullet(self.bullet_counter,
-                                       bullet_pos, 5,
-                                       (200, 200, 100), 10, self.bullet_speed,
-                                       bullet_vector,
-                                       player_name))
+        self.bullet_list.append(Bullet(self.bullet_counter, bullet_pos, bullet_vector, player_name))
 
     def move_player(self, player_name, diff_pos, way_vector):
         self.player_dict[player_name].pos[0] += diff_pos[0]

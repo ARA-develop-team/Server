@@ -2,12 +2,13 @@ import pygame
 
 
 class Bullet:
-    def __init__(self, number, pos, radius, color, damage, speed, vector, owner):
+    speed = 0
+    radius = 0
+    color = 0
+    damage = 0
+
+    def __init__(self, number, pos, vector, owner):
         self.pos = pos
-        self.radius = radius
-        self.color = color
-        self.damage = damage
-        self.speed = speed
         self.vector = vector
         self.owner = owner
         self.number = number
@@ -21,7 +22,8 @@ class Bullet:
 
     def get_data_package(self, type_package):
         if type_package == 3:
-            data_package = [type_package, self.number, self.pos, self.radius, self.color, self.damage, self.speed, self.vector, self.owner]
+            data_package = [type_package, self.number, self.pos, self.radius, self.color, self.damage, self.speed,
+                            self.vector, self.owner]
             return data_package
         elif type_package == 1:
             data_package = [type_package, self.number, self.pos]

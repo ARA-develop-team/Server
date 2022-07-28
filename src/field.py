@@ -124,8 +124,7 @@ class Field:
         length_vector = math.sqrt(vector[0] ** 2 + vector[1] ** 2)
         unit_vector = [vector[0] / length_vector, vector[1] / length_vector]
 
-        self.bullet_list.append(Bullet(pos, self.bullet_data[0], self.bullet_data[1], self.bullet_data[2],
-                                       self.bullet_data[3], unit_vector, player_name))
+        self.bullet_list.append(Bullet(pos, unit_vector, player_name, 0))
 
     def bullets_action(self):
         if len(self.bullet_list) != 0:
