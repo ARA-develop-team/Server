@@ -41,11 +41,6 @@ class Shooter:
         self.field = src.ServerField(self.data['start_vector'], self.data['screen_size'])
         self.player_name = self.data['name']
 
-        src.Bullet.radius = self.data['bullet'][0]
-        src.Bullet.color = self.data['bullet'][1]
-        src.Bullet.damage = self.data['bullet'][2]
-        src.Bullet.speed = self.data['bullet'][3]
-
         if self.online:
             self.client = src.Client(self.data['name'])
             self.playing_online()
