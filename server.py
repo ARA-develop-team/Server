@@ -87,11 +87,6 @@ class Server:
     yml_data1 = src.get_socket_data(r'server.yml')
     yml_data2 = src.get_start_data(r'start.yml')
 
-    src.Bullet.radius = yml_data2['bullet'][0]
-    src.Bullet.color = yml_data2['bullet'][1]
-    src.Bullet.damage = yml_data2['bullet'][2]
-    src.Bullet.speed = yml_data2['bullet'][3]
-
     VS_run = yml_data2['VS_run']      # run VisualServer or not
     HEADER = 64
     ADDR = (yml_data1['IP'], yml_data1['PORT'])

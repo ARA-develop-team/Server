@@ -1,11 +1,9 @@
 import pygame
+from src.config_parser import get_data
 
 
 class Bullet:
-    speed = 0
-    radius = 0
-    color = 0
-    damage = 0
+    radius, color, damage, speed = get_data("start.yml", "bullet")
 
     def __init__(self, number, pos, vector, owner):
         self.pos = pos
