@@ -47,7 +47,9 @@ class ServerField:
             ejection = ejection_count(sides)
             self.player_dict[player_name].pos[0] += ejection[0]
             self.player_dict[player_name].pos[1] += ejection[1]
-            self.player_collision_processing(player_name)
+            ejection_extra = self.player_collision_processing(player_name)
+            ejection[0] += ejection_extra[0]
+            ejection[1] += ejection_extra[1]
 
         return ejection
 
