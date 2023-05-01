@@ -50,7 +50,7 @@ def map_creation(screen_size):
 
     # for obj in obj_list:
     #     print(obj_list.index(obj), obj.x, obj.y, obj.kind)
-    print('map created')
+    #print('map created')
     return obj_list, obj_width, obj_height
 
 

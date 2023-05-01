@@ -1,6 +1,6 @@
 from src.player import Player
 from src.bullet import Bullet
-from src.server_field import ServerField
+from src.server_field import ServerField, ejection_count, count_sides
 from src.client import Client
 from src.analysis import Analysis
 
